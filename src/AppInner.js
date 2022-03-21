@@ -18,6 +18,8 @@ import JobPostingDetail from './pages/JobPosting/Detail';
 
 import ProfileDetail from './pages/Profile/Detail';
 
+import 'react-datepicker/dist/react-datepicker.css';
+
 const AppInner = () => {
   return (
     <BrowserRouter>
