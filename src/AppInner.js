@@ -20,9 +20,12 @@ import ProfileDetail from './pages/Profile/Detail';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
+import Header from './components/Ui/Header';
+
 const AppInner = () => {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/main/detail/:id" element={<MainDetail />} />
