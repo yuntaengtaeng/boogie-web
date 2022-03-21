@@ -10,13 +10,13 @@ const StyledHeader = styled.header`
   padding: 0 1rem;
   display: flex;
   align-items: center;
-  justify-content : right;
-  box-sizing : border-box;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  justify-content: right;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 `;
 
 const StyledTitle = styled.h3`
-  margin-right : auto;
+  margin-right: auto;
 `;
 
 const StyledUl = styled.ul`
@@ -29,12 +29,12 @@ const StyledLi = styled.li`
 `;
 
 const StyledLink = styled(Link)`
-    text-decoration: none;
-    color : ${BLACK};
+  text-decoration: none;
+  color: ${BLACK};
 `;
 
 const Header = () => {
-  const { email , nickName } = useSelector(state => state.user);
+  const { email, nickName } = useSelector((state) => state.user);
   const isLoggiend = !!email;
 
   const logoutHandler = () => {
@@ -52,18 +52,20 @@ const Header = () => {
           <StyledLi>
             <StyledLink to="/community">커뮤니티</StyledLink>
           </StyledLi>
-          {isLoggiend ? 
+          {isLoggiend ? (
             <>
               <StyledLi>
-                <StyledLink to={`/profile/detail/${email}`}>{nickName} 님</StyledLink>
-              </StyledLi> 
+                <StyledLink to={`/profile/detail/${email}`}>
+                  {nickName} 님
+                </StyledLink>
+              </StyledLi>
               <StyledLi onClick={logoutHandler}>로그아웃</StyledLi>
             </>
-            :
+          ) : (
             <StyledLi>
               <StyledLink to="/login">로그인/회원가입</StyledLink>
             </StyledLi>
-          }
+          )}
         </StyledUl>
       </nav>
     </StyledHeader>

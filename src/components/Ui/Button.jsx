@@ -1,53 +1,52 @@
 import styled from 'styled-components';
-import PropTypes from "prop-types";
-import { PRIMARY , SECONDARY , WHITE } from '../../constants/color';
+import PropTypes from 'prop-types';
+import { PRIMARY, SECONDARY, WHITE } from '../../constants/color';
 
 export const BUTTON_THEME = {
-    PRIMARY: 'primary',
-    SECONDARY: 'secondary',
+  PRIMARY: 'primary',
+  SECONDARY: 'secondary',
 };
 
 const StyledButton = styled.button`
-    display : flex;
-    align-items : center;
-    justify-content : center;
-    box-sizing: border-box;
-    border: 1px solid transparent;
-    cursor: pointer;
-    touch-action: manipulation;
-    height: 32px;
-    padding: 4px 16px;
-    font-size: 14px;
-    border-radius: 2px;
-    color: ${WHITE};
-    border-color: ${(props) => props.theme === 'primary' ? PRIMARY : SECONDARY};
-    background-color: ${(props) => props.theme === 'primary' ? PRIMARY : SECONDARY};
-    :disabled {
-        opacity: 0.4;
-    }
-    :active {
-        opacity: 0.9;
-    }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+  height: 32px;
+  padding: 4px 16px;
+  font-size: 14px;
+  border-radius: 2px;
+  color: ${WHITE};
+  border-color: ${(props) => (props.theme === 'primary' ? PRIMARY : SECONDARY)};
+  background-color: ${(props) =>
+    props.theme === 'primary' ? PRIMARY : SECONDARY};
+  :disabled {
+    opacity: 0.4;
+  }
+  :active {
+    opacity: 0.9;
+  }
 `;
 
-const Button = ({children, type, theme, ...props}) => {
+const Button = ({ children, type, theme, ...props }) => {
   return (
-      <StyledButton
-          type={type}
-          theme={theme}
-          {...props}
-      >{children}</StyledButton>
-  )
-}
+    <StyledButton type={type} theme={theme} {...props}>
+      {children}
+    </StyledButton>
+  );
+};
 
 Button.propTypes = {
-    children: PropTypes.node.isRequired,
-    type: PropTypes.oneOf(["button", "submit", "reset"]),
-    theme: PropTypes.oneOf(Object.values(BUTTON_THEME)),
+  children: PropTypes.node.isRequired,
+  type: PropTypes.oneOf(['button', 'submit', 'reset']),
+  theme: PropTypes.oneOf(Object.values(BUTTON_THEME)),
 };
 
 Button.defaultProps = {
-    theme: BUTTON_THEME.PRIMARY,
+  theme: BUTTON_THEME.PRIMARY,
 };
 
 export default Button;
