@@ -43,7 +43,9 @@ const Header = () => {
 
   return (
     <StyledHeader>
-      <StyledTitle>Boogie on &#38; on</StyledTitle>
+      <StyledTitle>
+        <StyledLink to="/">Boogie on &#38; on</StyledLink>
+      </StyledTitle>
       <nav>
         <StyledUl>
           <StyledLi>

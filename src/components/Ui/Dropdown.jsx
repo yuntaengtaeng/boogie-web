@@ -37,14 +37,14 @@ const StyledDropdown = styled.select`
 `;
 
 const Dropdown = ({ options, defaultValue, placeholder, ...props }) => {
+  const invalid = !props.value && !!placeholder;
+
   return (
     <SelectBoxWrapper>
-      <StyledDropdown {...{ ...props, invalid: !props.value }}>
-        {placeholder && (
-          <option value="" hidden>
-            {placeholder}
-          </option>
-        )}
+      <StyledDropdown {...{ ...props, invalid }}>
+        <option value="" hidden>
+          {placeholder}
+        </option>
         {options.map((option) => (
           <option
             key={option.value}
