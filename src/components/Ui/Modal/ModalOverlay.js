@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { WHITE } from '../../../constants/color';
 
-import Card from '../card/Card';
+import Card from '../Card/Card';
 
 const ModalOverlay = ({ children }) => {
   return (
