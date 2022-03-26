@@ -17,6 +17,7 @@ const StyledHeader = styled.header`
 
 const StyledTitle = styled.h3`
   margin-right: auto;
+  font-weight: bold;
 `;
 
 const StyledUl = styled.ul`
@@ -26,6 +27,7 @@ const StyledUl = styled.ul`
 
 const StyledLi = styled.li`
   margin-left: 2em;
+  font-size: 1rem;
 `;
 
 const StyledLink = styled(Link)`
@@ -34,7 +36,7 @@ const StyledLink = styled(Link)`
 `;
 
 const Header = () => {
-  const { email, nickName } = useSelector((state) => state.user);
+  const { email, nickName, isAdmin } = useSelector((state) => state.user);
   const isLoggiend = !!email;
 
   const logoutHandler = () => {
@@ -44,7 +46,7 @@ const Header = () => {
   return (
     <StyledHeader>
       <StyledTitle>
-        <StyledLink to="/">Boogie on &#38; on</StyledLink>
+        <StyledLink to="/">졸업 작품 전시회</StyledLink>
       </StyledTitle>
       <nav>
         <StyledUl>
@@ -54,6 +56,11 @@ const Header = () => {
           <StyledLi>
             <StyledLink to="/community">커뮤니티</StyledLink>
           </StyledLi>
+          {isAdmin && (
+            <StyledLi>
+              <StyledLink to="/admin/add">관리자 추가</StyledLink>
+            </StyledLi>
+          )}
           {isLoggiend ? (
             <>
               <StyledLi>

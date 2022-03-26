@@ -18,9 +18,16 @@ import JobPostingDetail from './pages/JobPosting/Detail';
 
 import ProfileDetail from './pages/Profile/Detail';
 
+import AddAdmin from './pages/Admin/Add';
+
+import NoAccess from './pages/NoAccess';
+
 import 'react-datepicker/dist/react-datepicker.css';
 
 import Header from './components/Ui/Header';
+
+import PrivateRoute from './components/Route/PrivateRoute';
+import AdminRoute from './components/Route/AdminRoute';
 
 const AppInner = () => {
   return (
@@ -29,16 +36,26 @@ const AppInner = () => {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/main/detail/:id" element={<MainDetail />} />
-        <Route path="/main/add" element={<MainAdd />} />
+        <Route element={<AdminRoute />}>
+          <Route path="/main/add" element={<MainAdd />} />
+        </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/join" element={<Join />} />
         <Route path="/community" element={<Community />} />
         <Route path="/community/detail/:id" element={<COmmunityDetail />} />
-        <Route path="/community/add" element={<CommunityAdd />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/community/add" element={<CommunityAdd />} />
+        </Route>
         <Route path="/jobposting" element={<JobPosting />} />
         <Route path="/jobposting/detail/:id" element={<JobPostingDetail />} />
-        <Route path="/jobposting/add" element={<JobPostingAdd />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/jobposting/add" element={<JobPostingAdd />} />
+        </Route>
         <Route path="/profile/detail/:id" element={<ProfileDetail />} />
+        <Route element={<AdminRoute />}>
+          <Route path="/admin/add" element={<AddAdmin />} />
+        </Route>
+        <Route path="/noaccess" element={<NoAccess />} />
       </Routes>
     </BrowserRouter>
   );
