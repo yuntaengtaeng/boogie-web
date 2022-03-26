@@ -35,7 +35,7 @@ const Items = styled.li`
   cursor: pointer;
 `;
 
-const SerachSelect = ({ options, placeholder, onSelectItemHandler }) => {
+const SearchSelect = ({ options, placeholder, onSelectItemHandler, style }) => {
   const dropdownRef = useRef(null);
   const [results, setResults] = useState(options);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -90,7 +90,7 @@ const SerachSelect = ({ options, placeholder, onSelectItemHandler }) => {
   }, [dropdownVisible]);
 
   return (
-    <Autocomplete ref={dropdownRef}>
+    <Autocomplete ref={dropdownRef} style={style}>
       <Input
         type="text"
         placeholder={placeholder}
@@ -118,10 +118,10 @@ const SerachSelect = ({ options, placeholder, onSelectItemHandler }) => {
   );
 };
 
-SerachSelect.propTypes = {
+SearchSelect.propTypes = {
   options: PropTypes.array.isRequired,
   placeholder: PropTypes.string,
   onSelectItemHandler: PropTypes.func,
 };
 
-export default SerachSelect;
+export default SearchSelect;
