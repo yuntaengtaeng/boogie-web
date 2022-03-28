@@ -29,9 +29,19 @@ import Header from './components/Ui/Header';
 import PrivateRoute from './components/Route/PrivateRoute';
 import AdminRoute from './components/Route/AdminRoute';
 
+import Loading from './components/Ui/Loading';
+
+import { useSelector } from 'react-redux';
+
+import axios from 'axios';
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+
 const AppInner = () => {
+  const isLoading = useSelector((state) => state.ui.isLoading);
+
   return (
     <BrowserRouter>
+      {isLoading && <Loading />}
       <Header />
       <Routes>
         <Route path="/" element={<Main />} />
