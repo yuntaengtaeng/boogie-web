@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { GRAY, WHITE } from '../../constants/color';
@@ -28,9 +28,9 @@ const StyledInput = styled.input`
   }
 `;
 
-const Input = (props) => {
-  return <StyledInput {...props}></StyledInput>;
-};
+const Input = forwardRef((props, ref) => {
+  return <StyledInput {...props} ref={ref}></StyledInput>;
+});
 
 Input.propTypes = {
   type: PropTypes.oneOf(['text', 'email', 'password', 'tel', 'number', 'url']),

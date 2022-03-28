@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { BLACK } from '../../constants/color';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import userSlice from '../../slices/user';
 
 const StyledHeader = styled.header`
   width: 100%;
@@ -36,11 +37,13 @@ const StyledLink = styled(Link)`
 `;
 
 const Header = () => {
-  const { email, nickName, isAdmin } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { email, nickname, isAdmin } = useSelector((state) => state.user);
   const isLoggiend = !!email;
 
   const logoutHandler = () => {
-    console.log('logoutHandler');
+    localStorage.removeItem('refreshToken');
+    dispatch(userSlice.actions.initUser());
   };
 
   return (
@@ -65,7 +68,7 @@ const Header = () => {
             <>
               <StyledLi>
                 <StyledLink to={`/profile/detail/${email}`}>
-                  {nickName} 님
+                  {nickname} 님
                 </StyledLink>
               </StyledLi>
               <StyledLi onClick={logoutHandler}>로그아웃</StyledLi>

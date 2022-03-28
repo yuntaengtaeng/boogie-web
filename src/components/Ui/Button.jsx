@@ -17,7 +17,7 @@ const StyledButton = styled.button`
   touch-action: manipulation;
   height: 32px;
   padding: 4px 16px;
-  font-size: 14px;
+  font-size: 0.9rem;
   border-radius: 2px;
   color: ${WHITE};
   border-color: ${(props) => (props.theme === 'primary' ? PRIMARY : SECONDARY)};

@@ -13,9 +13,14 @@ const userSlice = createSlice({
   reducers: {
     setUser(state, action) {
       state.email = action.payload.email;
-      state.nickName = action.payload.nickName;
+      state.nickname = action.payload.nickname;
       state.accessToken = action.payload.accessToken;
       state.isAdmin = action.payload.isAdmin;
+    },
+    initUser() {
+      return {
+        ...initialState,
+      };
     },
     setAccessToken(state, action) {
       state.accessToken = action.payload;
