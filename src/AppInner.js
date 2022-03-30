@@ -73,7 +73,7 @@ const AppInner = () => {
                 {},
                 {
                   headers: {
-                    authorization: `Boogie ${refreshToken}`,
+                    authorization: `${process.env.REACT_APP_JWT_KEY} ${refreshToken}`,
                   },
                 }
               );
@@ -81,7 +81,7 @@ const AppInner = () => {
               //새로운 토큰 저장
               dispatch(userSlice.actions.setAccessToken(data));
               //419 요청에 실패했던 요청 새로운 토큰으로 재요청
-              originalRequest.headers.authorization = `Boogie ${data.accessToken}`;
+              originalRequest.headers.authorization = `${process.env.REACT_APP_JWT_KEY} ${data.accessToken}`;
 
               return axios(originalRequest);
             }
@@ -110,7 +110,7 @@ const AppInner = () => {
           {},
           {
             headers: {
-              authorization: `Boogie ${refreshToken}`,
+              authorization: `${process.env.REACT_APP_JWT_KEY} ${refreshToken}`,
             },
           }
         );
@@ -126,7 +126,7 @@ const AppInner = () => {
           {},
           {
             headers: {
-              authorization: `Boogie ${refreshToken}`,
+              authorization: `${process.env.REACT_APP_JWT_KEY} ${refreshToken}`,
             },
           }
         );
