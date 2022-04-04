@@ -38,7 +38,7 @@ const Items = styled.li`
 
 const SearchSelect = ({ options, placeholder, onSelectItemHandler, style }) => {
   const dropdownRef = useRef(null);
-  const [results, setResults] = useState(options);
+  const [results, setResults] = useState([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
   const filterMethod = useCallback((optionList, query) => {
@@ -46,6 +46,10 @@ const SearchSelect = ({ options, placeholder, onSelectItemHandler, style }) => {
       name.toLowerCase().includes(query.toLowerCase())
     );
   }, []);
+
+  useEffect(() => {
+    setResults(options);
+  }, [options]);
 
   const searchList = useCallback(
     (event) => {
