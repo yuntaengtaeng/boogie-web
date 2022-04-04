@@ -17,6 +17,7 @@ const Autocomplete = styled.div`
 
 const Dropdown = styled.div`
   position: absolute;
+  z-index: 1;
   top: 100%;
   left: 0;
   width: 100%;
