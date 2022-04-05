@@ -4,7 +4,7 @@ import { WHITE } from '../../../constants/color';
 
 import Card from '../Card/Card';
 
-const ModalOverlay = ({ children }) => {
+const ModalOverlay = ({ children, style }) => {
   return (
     <Card
       style={{
@@ -15,6 +15,7 @@ const ModalOverlay = ({ children }) => {
         zIndex: '100',
         background: WHITE,
         overflow: 'hidden',
+        ...style,
       }}
     >
       {children}

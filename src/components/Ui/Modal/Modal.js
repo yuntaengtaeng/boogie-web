@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import Backdrop from './Backdrop';
 import ModalOverlay from './ModalOverlay';
 
-const Modal = ({ children }) => {
+const Modal = ({ children, style }) => {
   return (
     <>
       {ReactDOM.createPortal(
@@ -12,7 +12,7 @@ const Modal = ({ children }) => {
         document.getElementById('backdrop-root')
       )}
       {ReactDOM.createPortal(
-        <ModalOverlay>{children}</ModalOverlay>,
+        <ModalOverlay style={style}>{children}</ModalOverlay>,
         document.getElementById('overlay-root')
       )}
     </>
