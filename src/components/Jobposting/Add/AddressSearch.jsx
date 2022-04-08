@@ -1,17 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import Input from '../../Ui/Input';
 import Modal from '../../Ui/Modal/Modal';
+import Header from '../../Ui/Modal/Header';
 import styled from 'styled-components';
-import { VscClose } from 'react-icons/vsc';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-
-const Header = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: right;
-  margin-bottom: 1rem;
-`;
 
 const ItemsContainer = styled.ul`
   padding-top: 1rem;
@@ -60,9 +53,7 @@ const AddressSearch = ({ onSelect, onClose }) => {
   return (
     <>
       <Modal style={{ width: '50vw' }}>
-        <Header>
-          <VscClose onClick={onClose} size={24}></VscClose>
-        </Header>
+        <Header onClose={onClose} />
         <section>
           <Input
             type="text"
