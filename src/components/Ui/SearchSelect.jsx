@@ -23,6 +23,8 @@ const Dropdown = styled.div`
   width: 100%;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   background-color: #fff;
+  max-height: 10rem;
+  overflow-y: scroll;
 `;
 
 const SearchResults = styled.ul`
