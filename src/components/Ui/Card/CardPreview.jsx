@@ -1,90 +1,96 @@
+import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import Card from './Card';
-import Chip from '../Chip';
-import { GRAY } from '../../../constants/color';
+import PropTypes from 'prop-types';
+import { MdRemoveRedEye } from 'react-icons/md';
 
-const IMAGE_MAX_LENGTH = 2;
-
-const StyledTechnologyStackDiv = styled.div`
-  display: flex;
-  align-items: center;
-
-  > div > div {
-    margin-right: 4px;
-  }
-`;
-
-const StyledContainerDiv = styled.div`
+const Wrap = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 0px 12px;
-  flex: 1;
 `;
 
-const StyledImg = styled.img`
-  height: 150px;
-  margin-bottom: 8px;
+const ImgContainer = styled.div`
+  flex: 0.5;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding-top: 0.8rem;
+`;
+
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const Styledp = styled.p`
+  margin-bottom: 0.4rem;
+`;
+
+const Title = styled(Styledp)`
+  font-weight: bold;
+`;
+
+const Bottom = styled.div`
+  flex: 0.5;
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem;
   box-sizing: border-box;
 `;
 
-const StyledDescriptionP = styled.p`
-  word-break: keep-all;
-  font-size: 10px;
-  margin-bottom: 16px;
-`;
-
-const StyledLookupDiv = styled.div`
-  font-size: 8px;
-  text-align: right;
+const ViewCountArea = styled.div`
+  display: flex;
   margin-top: auto;
-  color: ${GRAY};
+  align-self: end;
 `;
 
 const CardPreview = ({
-  previewImg,
+  src,
+  alt,
   title,
+  sub,
   description,
-  technologyStacks,
-  lookup,
+  viewCount,
+  onClick,
 }) => {
-  const technologyStack = [];
-  const etc = technologyStacks.length - IMAGE_MAX_LENGTH;
-  for (let i = 0; i < IMAGE_MAX_LENGTH; i++) {
-    if (!!technologyStacks[i]) {
-      technologyStack.push(<Chip key={i}>{technologyStacks[i]}</Chip>);
-    }
-  }
   return (
     <Card
       style={{
-        height: '280px',
-        padding: '16px 0px',
+        width: '15rem',
+        height: '15rem',
+        margin: '0.625rem',
+        padding: '0',
+        boxSizing: 'border-box',
+        cursor: 'pointer',
         display: 'flex',
-        flexDirection: 'column',
       }}
     >
-      <StyledImg {...previewImg}></StyledImg>
-      <StyledContainerDiv>
-        <div style={{ marginBottom: '16px', fontWeight: 'bold' }}>{title}</div>
-        <StyledDescriptionP>{description}</StyledDescriptionP>
-        {technologyStack.length !== 0 && (
-          <StyledTechnologyStackDiv>
-            <div>{technologyStack}</div>
-            {etc > 0 && <h5 style={{ margin: '0' }}>+{etc}</h5>}
-          </StyledTechnologyStackDiv>
-        )}
-        <StyledLookupDiv>{lookup}</StyledLookupDiv>
-      </StyledContainerDiv>
+      <Wrap onClick={onClick}>
+        <ImgContainer>
+          <Img src={src} alt={alt} />
+        </ImgContainer>
+        <Bottom>
+          <Title>{title}</Title>
+          <Styledp>{sub}</Styledp>
+          <Styledp>{description}</Styledp>
+          <ViewCountArea>
+            <MdRemoveRedEye size={16} /> {viewCount}
+          </ViewCountArea>
+        </Bottom>
+      </Wrap>
     </Card>
   );
 };
 
 CardPreview.propTypes = {
-  technologyStacks: PropTypes.array,
+  src: PropTypes.string,
+  alt: PropTypes.string,
   title: PropTypes.string,
+  sub: PropTypes.string,
   description: PropTypes.string,
-  lookup: PropTypes.number,
+  viewCount: PropTypes.number,
+  onClick: PropTypes.func,
 };
 
 export default CardPreview;
