@@ -48,6 +48,7 @@ const StyledBlock = styled(Block)`
 `;
 
 const initState = {
+  companyName: '',
   title: '',
   content: '',
   address: '',
@@ -112,11 +113,12 @@ const Add = () => {
       const clone = { ...formData };
 
       const body = new FormData();
+      body.append('companyName', clone.companyName);
       body.append('title', clone.title);
       body.append('content', clone.content);
       body.append('address', JSON.stringify(clone.address));
       body.append('deadline', format(clone.deadline, 'yyyyMMdd'));
-      body.append('deadline', clone.positionId);
+      body.append('positionId', clone.positionId);
       body.append('image', clone.image);
 
       dispatch(uiSlce.actions.showLoading());
@@ -154,6 +156,17 @@ const Add = () => {
         </Button>
       </StyledBlock>
       <Section>
+        <StyledInput
+          placeholder="회사명을 입력해주세요."
+          onChange={(event) => {
+            reducerDispatch({
+              type: 'INPUT',
+              name: 'companyName',
+              value: event.target.value,
+            });
+          }}
+        />
+        <Line />
         <StyledInput
           placeholder="제목을 입력해주세요."
           onChange={(event) => {
