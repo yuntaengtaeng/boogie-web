@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Card from './Card';
 import PropTypes from 'prop-types';
-import { MdRemoveRedEye } from 'react-icons/md';
+import { GRAY, BLACK } from '../../../constants/color';
 
 const Wrap = styled.div`
   flex: 1;
@@ -25,10 +25,12 @@ const Img = styled.img`
 
 const Styledp = styled.p`
   margin-bottom: 0.4rem;
+  font-size: 0.8rem;
 `;
 
 const Title = styled(Styledp)`
   font-weight: bold;
+  font-size: 1.1rem;
 `;
 
 const Bottom = styled.div`
@@ -41,8 +43,11 @@ const Bottom = styled.div`
 
 const ViewCountArea = styled.div`
   display: flex;
+  align-items: center;
   margin-top: auto;
   align-self: end;
+  font-size: 0.8rem;
+  color: ${GRAY};
 `;
 
 const CardPreview = ({
@@ -68,14 +73,14 @@ const CardPreview = ({
     >
       <Wrap onClick={onClick}>
         <ImgContainer>
-          <Img src={src} alt={alt} />
+          <Img src={src} alt={alt} loading="lazy" />
         </ImgContainer>
         <Bottom>
           <Title>{title}</Title>
           <Styledp>{sub}</Styledp>
           <Styledp>{description}</Styledp>
           <ViewCountArea>
-            <MdRemoveRedEye size={16} /> {viewCount}
+            <span>{viewCount}</span>
           </ViewCountArea>
         </Bottom>
       </Wrap>
