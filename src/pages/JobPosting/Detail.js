@@ -8,6 +8,10 @@ import Line from '../../components/Ui/Line';
 import { useSelector } from 'react-redux';
 
 import Map from '../../components/Jobposting/Detail/Map';
+import uiSlice from '../../slices/ui';
+import { useDispatch } from 'react-redux';
+import { GRAY } from '../../constants/color';
+import Precautions from '../../components/Jobposting/Detail/Precautions';
 
 const Container = styled.section`
   width: 60%;
@@ -35,14 +39,21 @@ const Title = styled.h2`
 `;
 
 const Sub = styled.div`
-  font-size: 1.4rem;
+  font-size: 1rem;
   margin-bottom: 1rem;
+  color: ${GRAY};
   * {
     margin-right: 1rem;
+  }
+
+  *:not(:first-child) {
+    padding-left: 1rem;
+    border-left: 1px solid ${GRAY};
   }
 `;
 
 const Pre = styled.pre`
+  margin-top: 2rem;
   margin-bottom: 1rem;
   white-space: break-spaces;
 `;
@@ -105,6 +116,7 @@ const Bottom = styled.div`
 `;
 
 const Detail = () => {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const { accessToken, email } = useSelector((state) => state.user);
   const isLoggiend = !!email;
@@ -115,15 +127,25 @@ const Detail = () => {
 
   useEffect(() => {
     const getDetail = async () => {
-      const { data } = await axios.get(`api/employment?id=${id}`);
+      dispatch(uiSlice.actions.showLoading());
 
-      console.log(data);
+      try {
+        const { data } = await axios.get(`api/employment?id=${id}`);
+        setJobPostingData(data);
+      } catch (error) {
+        if (error.response) {
+          alert(error.response.data.message);
+          return;
+        }
 
-      setJobPostingData(data);
+        alert(error.message);
+      } finally {
+        dispatch(uiSlice.actions.hideLoading());
+      }
     };
 
     getDetail();
-  }, [id]);
+  }, [dispatch, id]);
 
   const getCompanySupportList = useCallback(() => {
     setIsShowingApplicantsModal(true);
@@ -133,6 +155,8 @@ const Detail = () => {
     const body = {
       id,
     };
+
+    dispatch(uiSlice.actions.showLoading());
 
     try {
       const { data: isApplied } = await axios.post(
@@ -148,8 +172,17 @@ const Detail = () => {
       if (isApplied) {
         alert('지원이 완료되었습니다.');
       }
-    } catch (error) {}
-  }, [accessToken, id]);
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message);
+        return;
+      }
+
+      alert(error.message);
+    } finally {
+      dispatch(uiSlice.actions.hideLoading());
+    }
+  }, [accessToken, dispatch, id]);
 
   const address = JSON.parse(jobPostingData?.addressInformation || '{}');
   const marker = {
@@ -173,9 +206,10 @@ const Detail = () => {
         <span>{jobPostingData.region}</span>
         <span>{jobPostingData.position}</span>
       </Sub>
+      <Line />
       <Pre>{jobPostingData.content}</Pre>
       <div>
-        <Line></Line>
+        <Line />
         <AddressInfo>
           <MapContainer>
             <Map
@@ -190,7 +224,7 @@ const Detail = () => {
             </Button>
           </AddressInfoRight>
         </AddressInfo>
-        <Line></Line>
+        <Line />
         <DeadlineInfo>
           <span>마감일자</span>
           <span>{jobPostingData.deadline}</span>
@@ -221,6 +255,8 @@ const Detail = () => {
           }}
         />
       )}
+
+      <Precautions companyName={jobPostingData.companyName} />
     </Container>
   );
 };

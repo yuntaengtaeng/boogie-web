@@ -25,7 +25,7 @@ const JobPostingGroup = ({ list = [], style }) => {
             key={item.id}
             src={item.image}
             title={item.companyName}
-            description={`${item.region} ${item.position}`}
+            description={`${item.region} · ${item.position}`}
             viewCount={item.viewCount}
           />
         ))}

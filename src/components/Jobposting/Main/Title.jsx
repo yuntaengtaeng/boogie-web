@@ -11,6 +11,7 @@ const Wrap = styled.div`
 const TitleText = styled.h1`
   font-size: 2rem;
   margin-bottom: 2rem;
+  font-weight: bold;
 `;
 
 const Sub = styled.div`
