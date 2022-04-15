@@ -6,18 +6,19 @@ import { GRAY } from '../../constants/color';
 const StyledChip = styled.div`
   display: inline-flex;
   align-items: center;
-  border-radius: 16pc;
-  height: 30px;
+  border-radius: 16px;
   border: 1px solid ${GRAY};
+  padding: 0.2rem 0.4rem;
 `;
 
 const StyledContent = styled.span`
-  padding: 0px 12px;
+  padding: 0px 1rem;
+  font-size: 0.8rem;
 `;
 
-const Chip = ({ children, onDeleteHandler }) => {
+const Chip = ({ children, onDeleteHandler, style }) => {
   return (
-    <StyledChip>
+    <StyledChip style={style}>
       <StyledContent>{children}</StyledContent>
       {onDeleteHandler && (
         <VscChromeClose
