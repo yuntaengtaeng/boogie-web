@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 const StyledCardDiv = styled.div`
   width: fit-content;
@@ -10,10 +9,6 @@ const StyledCardDiv = styled.div`
 
 const Card = ({ children, style }) => {
   return <StyledCardDiv style={style}>{children}</StyledCardDiv>;
-};
-
-Card.propTypes = {
-  children: PropTypes.node.isRequired,
 };
 
 export default Card;
