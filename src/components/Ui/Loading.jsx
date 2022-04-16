@@ -28,7 +28,7 @@ const Scrim = styled.div`
 const Loader = styled.div`
   height: 5rem;
   width: 5rem;
-  border: 6px solid #fff;
+  border: 0.375rem solid #fff;
   border-right-color: ${PRIMARY};
   border-top-color: ${PRIMARY};
   border-radius: 100%;

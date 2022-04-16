@@ -6,7 +6,7 @@ import { GRAY } from '../../constants/color';
 const StyledChip = styled.div`
   display: inline-flex;
   align-items: center;
-  border-radius: 16px;
+  border-radius: 1rem;
   border: 1px solid ${GRAY};
   padding: 0.2rem 0.4rem;
 `;

@@ -4,7 +4,7 @@ import { VscDash } from 'react-icons/vsc';
 import { LIGHT_GRAY } from '../../constants/color';
 
 const StyledLable = styled.label`
-  margin-right: 16px;
+  margin-right: 1rem;
 `;
 const StyledDiv = styled.div`
   display: inline-flex;
@@ -12,7 +12,7 @@ const StyledDiv = styled.div`
 
 const StyledCoverSpan = styled.span`
   background-color: ${LIGHT_GRAY};
-  border-radius: 4px;
+  border-radius: 0.25rem;
 `;
 
 const DeleteLavle = ({ children, onDeleteHandler }) => {

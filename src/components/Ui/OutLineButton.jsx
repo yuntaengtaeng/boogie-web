@@ -9,10 +9,10 @@ const StyledOutLineButton = styled.button`
   box-sizing: border-box;
   border: 1px solid transparent;
   cursor: pointer;
-  height: 32px;
-  padding: 4px 16px;
-  font-size: 14px;
-  border-radius: 2px;
+  height: 2rem;
+  padding: 0.25rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 0.125rem;
   color: ${BLACK};
   outline: none;
   border-color: ${(props) => (props.isActive ? BLACK : GRAY)};

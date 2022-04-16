@@ -9,14 +9,14 @@ const StyledInput = styled.input`
   display: inline-block;
   width: 100%;
   min-width: 0;
-  padding: 4px 12px;
+  padding: 0.25rem 0.75rem;
   color: rgba(0, 0, 0, 0.85);
-  font-size: 14px;
+  font-size: 0.875rem;
   background-color: ${WHITE};
   border: 1px solid ${GRAY};
   border-radius: 2px;
   outline: none;
-  height: 32px;
+  height: 2rem;
 
   ::placeholder,
   ::-webkit-input-placeholder {

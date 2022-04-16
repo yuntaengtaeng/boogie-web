@@ -113,13 +113,14 @@ const Add = () => {
       const clone = { ...formData };
 
       const body = new FormData();
-      body.append('companyName', clone.companyName);
-      body.append('title', clone.title);
-      body.append('content', clone.content);
+
+      ['companyName', 'title', 'content', 'positionId', 'image'].forEach(
+        (key) => {
+          body.append(key, clone[key]);
+        }
+      );
       body.append('address', JSON.stringify(clone.address));
       body.append('deadline', format(clone.deadline, 'yyyyMMdd'));
-      body.append('positionId', clone.positionId);
-      body.append('image', clone.image);
 
       dispatch(uiSlce.actions.showLoading());
 

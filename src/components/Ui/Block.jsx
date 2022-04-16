@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const StyledBlock = styled.header`
   width: 100%;
-  height: 56px;
+  height: 3.5rem;
   padding: 0 1rem;
   display: flex;
   align-items: center;

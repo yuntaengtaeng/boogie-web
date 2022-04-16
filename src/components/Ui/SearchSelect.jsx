@@ -10,7 +10,7 @@ const Autocomplete = styled.div`
   display: flex;
 
   .icon {
-    margin-left: -28px;
+    margin-left: -1.75rem;
     align-self: center;
   }
 `;

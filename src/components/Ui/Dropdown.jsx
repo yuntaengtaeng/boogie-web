@@ -7,10 +7,10 @@ const SelectBoxWrapper = styled.div`
   display: flex;
 
   .icon {
-    margin-left: -28px;
+    margin-left: 1.75rem;
     align-self: center;
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
   }
 `;
 
@@ -19,9 +19,9 @@ const StyledDropdown = styled.select`
   min-width: 0;
   display: block;
   width: 100%;
-  padding: 8px 8px;
+  padding: 0.5rem 0.5rem;
   border: 1px solid ${GRAY};
-  border-radius: 4px;
+  border-radius: 0.25rem;
   color: inherit;
   background-color: transparent;
   -webkit-appearance: none;

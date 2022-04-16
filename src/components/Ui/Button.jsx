@@ -15,10 +15,10 @@ const StyledButton = styled.button`
   border: 1px solid transparent;
   cursor: pointer;
   touch-action: manipulation;
-  height: 32px;
-  padding: 4px 16px;
+  height: 2rem;
+  padding: 0.25rem 1rem;
   font-size: 0.9rem;
-  border-radius: 2px;
+  border-radius: 0.125rem;
   color: ${WHITE};
   border-color: ${(props) => (props.theme === 'primary' ? PRIMARY : SECONDARY)};
   background-color: ${(props) =>
