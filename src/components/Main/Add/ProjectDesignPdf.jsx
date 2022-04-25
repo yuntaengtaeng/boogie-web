@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { SECONDARY, WHITE } from '../../../constants/color';
@@ -9,7 +9,7 @@ import DeleteLable from '../../Ui/DeleteLable';
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  margin: 50px 0px;
+  margin: 3.125rem 0;
 `;
 
 const StyledLable = styled.label`
@@ -19,11 +19,11 @@ const StyledLable = styled.label`
   border: 1px solid ${SECONDARY};
   background-color: ${SECONDARY};
   width: fit-content;
-  height: 22px;
-  padding: 4px 16px;
-  margin-top: 16px;
-  font-size: 14px;
-  border-radius: 2px;
+  height: 1.375rem;
+  padding: 0.25rem 1rem;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  border-radius: 0.125rem;
   color: ${WHITE};
   cursor: pointer;
 `;
@@ -31,20 +31,25 @@ const StyledLable = styled.label`
 const StyledSpan = styled.span`
   display: flex;
   align-items: center;
-  margin: 20px 0;
+  margin: 1.25rem 0;
 `;
 
-const ProjectDesignPdf = ({ getPdfFile, isSubmit }) => {
-  const [pdfFile, setPdfFile] = useState();
+const ProjectDesignPdf = ({ onPdfFileHandler, stateEmptying }) => {
+  const [pdfFile, setPdfFile] = useState(null);
   const onDeleteHandler = () => {
-    setPdfFile();
+    setPdfFile(null);
   };
+
+  useEffect(() => {
+    if (pdfFile === null) {
+      stateEmptying('projectDesignPdf');
+    }
+  }, [pdfFile]);
 
   const onHandlerSubmit = (e) => {
     e.preventDefault();
 
-    getPdfFile(pdfFile);
-    isSubmit(4);
+    onPdfFileHandler(pdfFile);
   };
   return (
     <>
@@ -77,21 +82,20 @@ const ProjectDesignPdf = ({ getPdfFile, isSubmit }) => {
         <span>
           <Button
             type="submit"
-            style={{ float: 'right', marginTop: '16px' }}
+            style={{ float: 'right', marginTop: '1rem' }}
             disabled={!pdfFile}
           >
             다음
           </Button>
         </span>
       </StyledForm>
-      <Line styled={{ margin: '16px 0px' }} />
+      <Line styled={{ margin: '1rem 0' }} />
     </>
   );
 };
 
 ProjectDesignPdf.propTypes = {
-  getPdfFile: PropTypes.func,
-  isSubmit: PropTypes.func,
+  onPdfFileHandler: PropTypes.func,
 };
 
 export default ProjectDesignPdf;
