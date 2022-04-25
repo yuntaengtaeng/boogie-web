@@ -1,26 +1,22 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-
 import MemberIntroduction from './MemberIntroduction';
 import ProjectDesign from './ProjectDesign';
 import DemonstrationVideo from './DemonstrationVideo';
 
-const DetailContents = ({ id, selectedIndex }) => {
-  const selectTab = useCallback(
-    (index) => {
-      switch (index) {
-        case 0:
-          return <MemberIntroduction id={id}></MemberIntroduction>;
-        case 1:
-          return <ProjectDesign id={id}></ProjectDesign>;
-        case 2:
-          return <DemonstrationVideo id={id}></DemonstrationVideo>;
-        default:
-          break;
-      }
-    },
-    [id]
-  );
+const DetailContents = ({ selectedIndex }) => {
+  const selectTab = useCallback((index) => {
+    switch (index) {
+      case 0:
+        return <MemberIntroduction></MemberIntroduction>;
+      case 1:
+        return <ProjectDesign></ProjectDesign>;
+      case 2:
+        return <DemonstrationVideo></DemonstrationVideo>;
+      default:
+        return null;
+    }
+  }, []);
 
   const contents = selectTab(selectedIndex);
 
@@ -28,7 +24,6 @@ const DetailContents = ({ id, selectedIndex }) => {
 };
 
 DetailContents.propTypes = {
-  id: PropTypes.string.isRequired,
   selectedIndex: PropTypes.number.isRequired,
 };
 
