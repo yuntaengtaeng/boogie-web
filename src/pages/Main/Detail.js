@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Title from '../../components/Main/Detail/Title';
@@ -10,18 +9,17 @@ const StyledArticle = styled.article`
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin: 50px 0px;
+  margin: 3.125rem 0px;
   height: fit-content;
 `;
 
 const StyledSpan = styled.span`
   display: inline-flex;
-  font-size: 30px;
-  margin-bottom: 50px;
+  font-size: 1.875rem;
+  margin-bottom: 3.125rem;
 `;
 
 const Detail = () => {
-  const { id } = useParams();
   const tapMenu = ['팀원소개', '프로젝트 설계', '프로젝트 발표 및 시연'];
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -41,7 +39,7 @@ const Detail = () => {
         ))}
       </StyledSpan>
       <section>
-        <DetailContents id={id} selectedIndex={selectedIndex}></DetailContents>
+        <DetailContents selectedIndex={selectedIndex}></DetailContents>
       </section>
     </StyledArticle>
   );
