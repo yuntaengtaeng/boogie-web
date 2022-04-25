@@ -1,22 +1,35 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const StyledTitleP = styled.p`
-  font-size: 40px;
-  margin-bottom: 50px;
+  font-size: 2.5rem;
+  margin-bottom: 3.125rem;
 `;
 
-const Title = ({ children }) => {
+const Title = () => {
+  const { id } = useParams();
+  const [groupName, setGroupName] = useState('');
+  useEffect(() => {
+    const getGroupName = async () => {
+      try {
+        const response = await axios.get(
+          `api/senier-project/detail/Group-name?id=${id}`
+        );
+        setGroupName(response.data.groupName);
+      } catch (e) {
+        alert(e.message);
+      }
+    };
+    getGroupName();
+  }, []);
+
   return (
     <>
-      <StyledTitleP>{children}</StyledTitleP>
+      <StyledTitleP>{groupName}</StyledTitleP>
     </>
   );
-};
-
-Title.propTypes = {
-  children: PropTypes.node.isRequired,
 };
 
 export default Title;
