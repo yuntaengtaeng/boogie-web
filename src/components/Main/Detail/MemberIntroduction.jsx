@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -22,7 +22,7 @@ const StyledSpan = styled.span`
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
-  width: 1200px;
+  width: 75rem;
 `;
 
 const StyledLink = styled(Link)`
@@ -31,15 +31,18 @@ const StyledLink = styled(Link)`
   width: fit-content;
 `;
 
-const MemberIntroduction = ({ id }) => {
+const MemberIntroduction = () => {
   const dispatch = useDispatch();
+  const { id } = useParams();
   const [memberList, setMemberList] = useState([]);
 
   useEffect(() => {
     const getMemberList = async () => {
       dispatch(uiSlce.actions.showLoading());
       try {
-        const member = await axios.get(`api/senier-project/member?id=${id}`);
+        const member = await axios.get(
+          `api/senier-project/detail/members?id=${id}`
+        );
         setMemberList(member.data.senierProjectMemberList);
       } catch (e) {
         alert(e.message);
@@ -54,8 +57,8 @@ const MemberIntroduction = ({ id }) => {
   return (
     <StyledDiv>
       {memberList.map((v, i) => (
-        <StyledSpan key={i} style={{ margin: '50px' }} index={i}>
-          <StyledLink to={`/profile/detail/:${i}`}>
+        <StyledSpan key={i} style={{ margin: '3.125rem' }} index={i}>
+          <StyledLink to={!!v.id ? `/profile/detail/${v.id}` : '#'}>
             <CardProfile
               profileImg={v.image}
               name={v.name}
@@ -67,10 +70,6 @@ const MemberIntroduction = ({ id }) => {
       ))}
     </StyledDiv>
   );
-};
-
-MemberIntroduction.propTypes = {
-  id: PropTypes.string.isRequired,
 };
 
 export default MemberIntroduction;
