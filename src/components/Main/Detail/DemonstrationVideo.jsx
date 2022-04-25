@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import uiSlce from '../../../slices/ui';
 
 const StyledIframe = styled.iframe`
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.19),
+    0 0.375rem 0.375rem rgba(0, 0, 0, 0.23);
 `;
 
-const DemonstrationVideo = ({ id }) => {
+const DemonstrationVideo = () => {
   const dispatch = useDispatch();
+  const { id } = useParams();
   const [videoUrl, setVideoUrl] = useState([]);
 
   useEffect(() => {
@@ -18,7 +20,7 @@ const DemonstrationVideo = ({ id }) => {
       dispatch(uiSlce.actions.showLoading());
       try {
         const announced = await axios.get(
-          `api/senier-project/announced?id=${id}`
+          `api/senier-project/detail/announced?id=${id}`
         );
         setVideoUrl(announced.data.link);
       } catch (e) {
@@ -29,7 +31,7 @@ const DemonstrationVideo = ({ id }) => {
     };
 
     getVideoUrl();
-  }, [id]);
+  }, []);
 
   return (
     <>
@@ -45,10 +47,6 @@ const DemonstrationVideo = ({ id }) => {
         ))}
     </>
   );
-};
-
-DemonstrationVideo.propTypes = {
-  id: PropTypes.string.isRequired,
 };
 
 export default DemonstrationVideo;
