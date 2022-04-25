@@ -28,23 +28,23 @@ const StyledMemberDiv = styled.div`
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  margin: 50px 0px;
+  margin: 3.125rem 0;
 `;
 
 const StyledTextarea = styled.textarea`
   resize: none;
   box-sizing: border-box;
   margin: 0;
-  margin-top: 16px;
-  width: 250px;
-  height: 200px;
-  padding: 4px 12px;
+  margin-top: 1rem;
+  width: 15.625rem;
+  height: 12.5rem;
+  padding: 0.25rem 0.75rem;
   color: rgba(0, 0, 0, 0.85);
-  font-size: 14px;
-  border: 1px solid ${GRAY};
-  border-radius: 2px;
+  font-size: 0.875rem;
+  border: 0.063rem solid ${GRAY};
+  border-radius: 0.125rem;
   outline: none;
-  height: 32px;
+  height: 2rem;
 
   ::placeholder,
   ::-webkit-input-placeholder {
@@ -60,22 +60,28 @@ const StyledLable = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid ${BLACK};
+  border: 0.063rem solid ${BLACK};
   width: fit-content;
-  height: 22px;
-  padding: 4px 16px;
-  margin-top: 16px;
-  font-size: 14px;
-  border-radius: 2px;
+  height: 1.375rem;
+  padding: 0.25rem 1rem;
+  margin-top: 1rem;
+  font-size: 0.875arem;
+  border-radius: 0.125rem;
   color: ${BLACK};
   cursor: pointer;
 `;
 
-const TeamInput = ({ getMember, isSubmit, getMemberImage }) => {
+const StyledSpan = styled.span`
+  width: 15.625rem;
+  margin-top: 0.75rem;
+  text-align: right;
+`;
+
+const TeamInput = ({ onMemberInfoHandler, stateEmptying }) => {
   const [name, setName] = useState('');
   const [uniID, setUniId] = useState('');
   const [introduction, setIntroduction] = useState('');
-  const [file, setFile] = useState();
+  const [file, setFile] = useState(null);
   const [postFile, setPostFile] = useState([]);
   const [isEmpty, setIsEmpty] = useState(true);
   const [member, setMember] = useState([]);
@@ -88,14 +94,24 @@ const TeamInput = ({ getMember, isSubmit, getMemberImage }) => {
     }
   }, [member]);
 
+  useEffect(() => {
+    if (member.length === 0 || postFile.length === 0) {
+      stateEmptying('member');
+    }
+  }, [member, postFile]);
+
+  const satisfied = name && uniID && introduction && file;
+
   const createMember = () => {
-    if (name && uniID && introduction && file) {
-      const arr = {
-        name: name,
-        uniID: uniID,
-        introduction: introduction,
-      };
-      setMember([...member, arr]);
+    if (satisfied) {
+      setMember([
+        ...member,
+        {
+          name,
+          uniID,
+          introduction,
+        },
+      ]);
       setPostFile([...postFile, file]);
       setName('');
       setUniId('');
@@ -107,14 +123,18 @@ const TeamInput = ({ getMember, isSubmit, getMemberImage }) => {
   };
 
   const onDeleteHandler = (e) => {
-    setMember(member.filter((v) => v.uniId !== e));
+    const filter = member.filter((v) => v !== e);
+
+    setMember(filter);
   };
 
   const onHandlerSubmit = (e) => {
     e.preventDefault();
-    getMember(member);
-    getMemberImage(postFile);
-    isSubmit(3);
+
+    onMemberInfoHandler({
+      member: member,
+      postFile: postFile,
+    });
   };
   return (
     <>
@@ -123,7 +143,7 @@ const TeamInput = ({ getMember, isSubmit, getMemberImage }) => {
         <StyledContainer>
           <StyledInputField>
             <Input
-              style={{ width: '250px', marginTop: '16px' }}
+              style={{ width: '15.625rem', marginTop: '1rem' }}
               placeholder="이름"
               value={name}
               onChange={(e) => {
@@ -132,9 +152,8 @@ const TeamInput = ({ getMember, isSubmit, getMemberImage }) => {
             />
             <Input
               style={{
-                width: '250px',
-                marginTop: '16px',
-                webkitAppearance: 'none',
+                width: '15.625rem',
+                marginTop: '1rem',
               }}
               type="number"
               placeholder="학번"
@@ -144,7 +163,11 @@ const TeamInput = ({ getMember, isSubmit, getMemberImage }) => {
               }}
             />
             <StyledTextarea
-              style={{ width: '250px', height: '200px', marginTop: '16px' }}
+              style={{
+                width: '15.625rem',
+                height: '12.5rem',
+                marginTop: '1rem',
+              }}
               placeholder="자기 소개"
               value={introduction}
               onChange={(e) => {
@@ -152,15 +175,9 @@ const TeamInput = ({ getMember, isSubmit, getMemberImage }) => {
               }}
             />
             {
-              <span
-                style={{
-                  width: '250px',
-                  marginTop: '12px',
-                  textAlign: 'right',
-                }}
-              >
+              <StyledSpan>
                 {file ? file.name : '사진을 추가해 주세요.'}
-              </span>
+              </StyledSpan>
             }
             <StyledLable htmlFor="chooseFile">사진 추가</StyledLable>
             <input
@@ -172,7 +189,7 @@ const TeamInput = ({ getMember, isSubmit, getMemberImage }) => {
                 setFile(e.target.files[0]);
               }}
             />
-            <span style={{ marginTop: '16px' }}>
+            <span style={{ marginTop: '1rem' }}>
               <Button type="button" onClick={createMember}>
                 추가
               </Button>
@@ -184,7 +201,7 @@ const TeamInput = ({ getMember, isSubmit, getMemberImage }) => {
                 <DeleteLable
                   key={v.uniID}
                   onDeleteHandler={() => {
-                    onDeleteHandler(v.uniID);
+                    onDeleteHandler(v);
                   }}
                 >
                   {v.uniID} {v.name}
@@ -196,22 +213,20 @@ const TeamInput = ({ getMember, isSubmit, getMemberImage }) => {
         <span>
           <Button
             type="submit"
-            style={{ float: 'right', marginTop: '16px' }}
+            style={{ float: 'right', marginTop: '1rme' }}
             disabled={isEmpty}
           >
             다음
           </Button>
         </span>
       </StyledForm>
-      <Line styled={{ margin: '16px 0px' }} />
+      <Line styled={{ margin: '1rme 0' }} />
     </>
   );
 };
 
 TeamInput.propTypes = {
-  getInfo: PropTypes.func,
-  isSubmit: PropTypes.func,
-  getMemberImage: PropTypes.func,
+  onMemberInfoHandler: PropTypes.func,
 };
 
 export default TeamInput;
