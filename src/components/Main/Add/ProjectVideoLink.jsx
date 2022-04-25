@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Button from '../../Ui/Button';
@@ -10,13 +10,13 @@ import OutLineButton from '../../Ui/OutLineButton';
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  margin: 50px 0px;
+  margin: 3.125rem 0;
 `;
 
 const StyledSpan = styled.span`
   display: flex;
   align-items: center;
-  margin: 20px 0;
+  margin: 1.25rem 0;
 `;
 
 const StyledDiv = styled.div`
@@ -24,15 +24,20 @@ const StyledDiv = styled.div`
   flex-direction: column;
 `;
 
-const ProjectVideoLink = ({ getUrl, isSubmit }) => {
+const ProjectVideoLink = ({ onProjectUrlHandler, stateEmptying }) => {
   const [linkUrl, setLinkUrl] = useState('');
   const [urlArr, setUrlArr] = useState([]);
+
+  useEffect(() => {
+    if (urlArr.length === 0) {
+      stateEmptying('projectVideoLink');
+    }
+  }, [urlArr]);
 
   const onHandlerSubmit = (e) => {
     e.preventDefault();
 
-    getUrl(urlArr);
-    isSubmit(5);
+    onProjectUrlHandler(urlArr);
   };
 
   const addUrl = () => {
@@ -54,7 +59,7 @@ const ProjectVideoLink = ({ getUrl, isSubmit }) => {
         <StyledSpan>
           <Input
             type="url"
-            style={{ width: '250px', marginRight: '16px' }}
+            style={{ width: '15.625rem', marginRight: '1rem' }}
             placeholder="URL"
             value={linkUrl}
             onChange={(e) => {
@@ -68,7 +73,7 @@ const ProjectVideoLink = ({ getUrl, isSubmit }) => {
         {urlArr.length !== 0 && (
           <StyledDiv>
             {urlArr.map((v) => (
-              <span style={{ margin: '8px 0' }} key={v}>
+              <span style={{ margin: '0.5rem 0' }} key={v}>
                 <DeleteLable
                   onDeleteHandler={() => {
                     onDeleteHandler(v);
@@ -88,21 +93,20 @@ const ProjectVideoLink = ({ getUrl, isSubmit }) => {
         <span>
           <Button
             type="submit"
-            style={{ float: 'right', marginTop: '16px' }}
+            style={{ float: 'right', marginTop: '1rem' }}
             disabled={urlArr.length === 0}
           >
             다음
           </Button>
         </span>
       </StyledForm>
-      <Line styled={{ margin: '16px 0px' }} />
+      <Line styled={{ margin: '1rem 0' }} />
     </>
   );
 };
 
 ProjectVideoLink.propTypes = {
-  getUrl: PropTypes.func,
-  isSubmit: PropTypes.func,
+  onProjectUrlHandler: PropTypes.func,
 };
 
 export default ProjectVideoLink;
