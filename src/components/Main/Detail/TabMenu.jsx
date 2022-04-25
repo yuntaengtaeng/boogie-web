@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { PRIMARY } from '../../../constants/color';
 
 const StyledDiv = styled.div`
-  margin: 50px;
-  padding-bottom: 20px;
+  margin: 3.125rem;
+  padding-bottom: 1.25rem;
   ${({ tab, selectedTab }) => {
-    return tab === selectedTab ? `box-shadow : 0 4px ${PRIMARY};` : null;
+    return tab === selectedTab ? `box-shadow : 0 0.25rem ${PRIMARY};` : null;
   }};
 `;
 
