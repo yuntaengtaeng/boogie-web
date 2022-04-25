@@ -9,93 +9,99 @@ import Input from '../../Ui/Input';
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  width: 600px;
+  width: 37.5rem;
 `;
 
 const StyledSpan = styled.span`
   display: inline-flex;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 `;
 
 const FilterForm = ({
-  platList,
-  skillList,
-  setFillterOption,
+  plattformList,
+  technologyList,
+  classList,
+  onFilterOptionHandler,
   item,
-  setIsFillterClicked,
+  hideModal,
 }) => {
-  const [userName, setUserName] = useState(item.userName || '');
-  const [platforms, setPlatforms] = useState(item.platforms);
-  const [skills, setSkills] = useState(item.skills);
+  const [name, setName] = useState(item.name || '');
+  const [plattform, setPlattform] = useState(item.plattform);
+  const [technology, setTechnology] = useState(item.technology);
+  const [classID, setClassID] = useState(item.classID);
 
   const onPlatformsItemHandler = (e) => {
-    const find = platforms.find((element) => element.name === e.name);
+    const find = plattform.find((element) => element.name === e.name);
     if (!find) {
-      const item = {
-        value: e.value,
-        name: e.name,
-      };
-      setPlatforms([...platforms, item]);
+      const item = [...plattform, e];
+      setPlattform(item);
     } else {
       alert('중복입니다.');
     }
   };
 
-  const onSkillsItemHandler = (e) => {
-    const find = skills.find((element) => element.value === e.value);
+  const onTechnologysItemHandler = (e) => {
+    const find = technology.find((element) => element.value === e.value);
     if (!find) {
-      const item = {
-        value: e.value,
-        name: e.name,
-      };
-      setSkills([...skills, item]);
+      const item = [...technology, e];
+      setTechnology(item);
     } else {
       alert('중복입니다.');
     }
+  };
+
+  const onClassIdItemHandler = (e) => {
+    setClassID(e);
   };
 
   const onPlatformsDeleteHandler = (e) => {
-    setPlatforms(platforms.filter((v) => v !== e));
+    const filter = plattform.filter((v) => v !== e);
+    setPlattform(filter);
   };
 
-  const onSkillDeleteHandler = (e) => {
-    setSkills(skills.filter((v) => v !== e));
+  const onTechnologyDeleteHandler = (e) => {
+    const filter = technology.filter((v) => v !== e);
+    setTechnology(filter);
+  };
+
+  const onClassIdDeleteHandler = () => {
+    setClassID({});
   };
 
   const onHandlerSubmit = (e) => {
     e.preventDefault();
 
-    setFillterOption({
-      userName: userName,
-      platforms: platforms,
-      skills: skills,
+    onFilterOptionHandler({
+      name,
+      plattform,
+      technology,
+      classID,
     });
-
-    setIsFillterClicked(true);
+    hideModal();
   };
   return (
     <StyledForm onSubmit={onHandlerSubmit}>
       <Input
-        style={{ width: '250px', marginBottom: '100px' }}
+        style={{ width: '250px', marginBottom: '150px' }}
         type="text"
         placeholder="이름"
-        value={userName}
+        value={name}
         onChange={(e) => {
-          setUserName(e.target.value);
+          setName(e.target.value);
         }}
       ></Input>
       <SearchSelect
         style={{
           width: '250px',
-          marginBottom: '100px',
+          marginBottom: '150px',
         }}
         placeholder="플랫폼"
-        options={platList}
+        options={plattformList}
         onSelectItemHandler={onPlatformsItemHandler}
       ></SearchSelect>
-      {platforms && (
+      {plattform && (
         <StyledSpan>
-          {platforms.map((v) => (
+          {plattform.map((v) => (
             <span style={{ marginRight: '8px' }} key={v.name}>
               <Chip onDeleteHandler={() => onPlatformsDeleteHandler(v)}>
                 {v.name}
@@ -107,21 +113,39 @@ const FilterForm = ({
       <SearchSelect
         style={{
           width: '250px',
-          marginBottom: '100px',
+          marginBottom: '150px',
         }}
         placeholder="기술"
-        options={skillList}
-        onSelectItemHandler={onSkillsItemHandler}
+        options={technologyList}
+        onSelectItemHandler={onTechnologysItemHandler}
       ></SearchSelect>
-      {skills && (
+      {technology && (
         <StyledSpan>
-          {skills.map((v) => (
+          {technology.map((v) => (
             <span style={{ marginRight: '8px' }} key={v.name}>
-              <Chip onDeleteHandler={() => onSkillDeleteHandler(v)}>
+              <Chip onDeleteHandler={() => onTechnologyDeleteHandler(v)}>
                 {v.name}
               </Chip>
             </span>
           ))}
+        </StyledSpan>
+      )}
+      <SearchSelect
+        style={{
+          width: '250px',
+          marginBottom: '150px',
+        }}
+        placeholder="반"
+        options={classList}
+        onSelectItemHandler={onClassIdItemHandler}
+      ></SearchSelect>
+      {Object.keys(classID).length !== 0 && (
+        <StyledSpan>
+          <span style={{ marginRight: '8px' }}>
+            <Chip onDeleteHandler={() => onClassIdDeleteHandler()}>
+              {classID.name}
+            </Chip>
+          </span>
         </StyledSpan>
       )}
       <Button type="submit">적용</Button>
@@ -130,11 +154,11 @@ const FilterForm = ({
 };
 
 FilterForm.propTypes = {
-  platList: PropTypes.array,
-  skillList: PropTypes.array,
-  setFillterOption: PropTypes.func,
+  plattformList: PropTypes.array,
+  technologyList: PropTypes.array,
+  onFilterOptionHandler: PropTypes.func,
+  hideModal: PropTypes.func,
   item: PropTypes.object,
-  setIsFillterClicked: PropTypes.func,
 };
 
 export default FilterForm;
