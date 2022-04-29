@@ -16,7 +16,7 @@ const StyledCategoryButton = styled.div`
     `
         border-radius: 5px;
         background-color: #f3f9fe;
-        border: 1px solid #010101;
+        border: 1px solid #e1e2e3;
         color: ${PRIMARY};
     `}
 `;
