@@ -9,12 +9,15 @@ const Title = styled.div`
 
 const BestPickList = styled.div`
   display: flex;
+
+  > div:not(:last-child) {
+    margin-right: 1.25rem;
+  }
 `;
 
 const BestPickItem = styled.div`
   border-radius: 0.625rem;
   padding: 1rem 1.25rem;
-  margin-right: 1.25rem;
   flex: 1;
 
   ${({ index }) => {
@@ -29,6 +32,10 @@ const BestPickItem = styled.div`
         return '';
     }
   }}
+`;
+
+const Container = styled.div`
+  padding: 1.875rem 0rem;
 `;
 
 const BestPickItemTop = styled.div`
@@ -49,7 +56,7 @@ const BestPickItemBottom = styled.div`
 
 const BestPick = ({ title, bestPickData }) => {
   return (
-    <div>
+    <Container>
       <Title>{title}/boogie on &#38; on PICK</Title>
       <BestPickList>
         {bestPickData.map((data, index) => (
@@ -60,7 +67,7 @@ const BestPick = ({ title, bestPickData }) => {
           </BestPickItem>
         ))}
       </BestPickList>
-    </div>
+    </Container>
   );
 };
 
