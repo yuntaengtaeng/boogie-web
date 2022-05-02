@@ -135,10 +135,7 @@ const Comment = ({ commentData = {} }) => {
       <Top>
         <ImgContainer>
           {!!profileImageURL ? (
-            <Img
-              src="https://static.wanted.co.kr/images/avatars/163211/4c0bc036.jpg"
-              alt="프로필 이미지"
-            />
+            <Img src={profileImageURL} alt="프로필 이미지" />
           ) : (
             <DefaultProfile>
               <HiOutlineUser size={24}></HiOutlineUser>
