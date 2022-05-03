@@ -8,7 +8,7 @@ const ToogleButtonContainer = styled.div`
   width: ${(props) => props.size}rem;
   border-radius: ${(props) => props.size}rem;
   padding: 0.125rem;
-  background-color: ${(props) => (props.isOpen ? PRIMARY : GRAY)};
+  background-color: ${(props) => (props.isOn ? PRIMARY : GRAY)};
   cursor: pointer;
 `;
 
