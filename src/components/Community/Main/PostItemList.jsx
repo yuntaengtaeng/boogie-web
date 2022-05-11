@@ -12,7 +12,7 @@ const CommentList = ({ commentList = [] }) => {
   return (
     <Wrap>
       {commentList.map((v) => (
-        <PostItem></PostItem>
+        <PostItem key={v.id} commentData={v}></PostItem>
       ))}
     </Wrap>
   );
