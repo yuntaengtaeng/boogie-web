@@ -63,11 +63,20 @@ const Community = () => {
 
   useEffect(() => {
     const getCommunityCategory = async () => {
-      const {
-        data: { communityList },
-      } = await axios.get('api/category/community');
+      try {
+        const {
+          data: { communityList },
+        } = await axios.get('api/category/community');
 
-      setCategoryData(communityList);
+        setCategoryData(communityList);
+      } catch (error) {
+        if (error.response) {
+          alert(error.response.data.message);
+          return;
+        }
+
+        alert(error.message);
+      }
     };
 
     getCommunityCategory();
@@ -93,7 +102,6 @@ const Community = () => {
       setPageNumbers(clonePages);
 
       const clonePostDatas = { ...postDatas };
-      console.log(contentList);
 
       clonePostDatas[selectedCategory] = [
         ...(clonePostDatas[selectedCategory] || []),
@@ -135,9 +143,7 @@ const Community = () => {
 
   useEffect(() => {
     const getAllData = async () => {
-      //TODO : 서버 에러로 인해 Prmise.all을 사용하지 못 한 이슈가 있음 해결되면 변경하기
-      await getBestPickData();
-      await getPostItem();
+      Promise.all([getBestPickData(), getPostItem()]);
     };
 
     getAllData();
