@@ -38,6 +38,7 @@ const Community = () => {
   const [postDatas, setPostDatas] = useState([]);
 
   const { isLoading } = useSelector((state) => state.ui);
+  const { accessToken } = useSelector((state) => state.user);
 
   const getBestPickData = useCallback(async () => {
     try {
@@ -93,7 +94,14 @@ const Community = () => {
       } = await axios.get(
         `api/community/list?categoryId=${selectedCategory}&page=${
           pageNumbers[selectedCategory] || 1
-        }`
+        }`,
+        {
+          ...(!!accessToken && {
+            headers: {
+              authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
+            },
+          }),
+        }
       );
 
       const clonePages = { ...pageNumbers };
@@ -116,7 +124,7 @@ const Community = () => {
 
       alert(error.message);
     }
-  }, [pageNumbers, postDatas, selectedCategory]);
+  }, [accessToken, pageNumbers, postDatas, selectedCategory]);
 
   const handleScroll = useCallback(async () => {
     const scrollHeight = document.documentElement.scrollHeight;
