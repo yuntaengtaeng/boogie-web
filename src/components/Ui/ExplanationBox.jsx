@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 
-const StyledDiv = styled.div`
+const StyledDiv = styled.ul`
   background-color: #f3f9fe;
   font-size: 1rem;
   width: 100%;
+  list-style-type: disc;
+  list-style-position: inside;
 `;
 
 const StyledLi = styled.li`
