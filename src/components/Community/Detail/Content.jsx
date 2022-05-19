@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { GRAY } from '../../../constants/color';
 import { VscComment, VscThumbsup, VscEllipsis } from 'react-icons/vsc';
-import { HiOutlineUser } from 'react-icons/hi';
+import ProfileImage from '../Common/ProfileImage';
 
 const Container = styled.article`
   box-sizing: border-box;
@@ -14,32 +13,6 @@ const Container = styled.article`
 const Top = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const ImgContainer = styled.div`
-  box-sizing: border-box;
-  width: 2.25rem;
-  height: 2.25rem;
-  border: 1px solid #ececec;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-right: 0.5rem;
-`;
-
-const Img = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
-const DefaultProfile = styled.div`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background-color: ${GRAY};
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const Info = styled.div`
@@ -114,15 +87,7 @@ const Content = ({
   return (
     <Container>
       <Top>
-        <ImgContainer>
-          {!!profileImageURL ? (
-            <Img src={profileImageURL} alt="프로필 이미지" />
-          ) : (
-            <DefaultProfile>
-              <HiOutlineUser size={36}></HiOutlineUser>
-            </DefaultProfile>
-          )}
-        </ImgContainer>
+        <ProfileImage src={profileImageURL} size={36} />
         <Info>
           <Name>{userNickname}</Name>
           <span>·</span>

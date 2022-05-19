@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { VscComment, VscThumbsup } from 'react-icons/vsc';
-import { HiOutlineUser } from 'react-icons/hi';
-import { GRAY } from '../../../constants/color';
 import { useNavigate } from 'react-router-dom';
+import ProfileImage from '../Common/ProfileImage';
 
 const Container = styled.div`
   box-sizing: border-box;
@@ -38,32 +37,6 @@ const TimeStamp = styled.span`
 `;
 
 const Middle = styled.div``;
-
-const ImgContainer = styled.div`
-  box-sizing: border-box;
-  width: 1.75rem;
-  height: 1.75rem;
-  border: 1px solid #ececec;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-right: 0.5rem;
-`;
-
-const Img = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
-const DefaultProfile = styled.div`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background-color: ${GRAY};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 const Title = styled.h3`
   font-size: 1.124rem;
@@ -133,15 +106,7 @@ const Comment = ({ commentData = {} }) => {
   return (
     <Container onClick={onClick}>
       <Top>
-        <ImgContainer>
-          {!!profileImageURL ? (
-            <Img src={profileImageURL} alt="프로필 이미지" />
-          ) : (
-            <DefaultProfile>
-              <HiOutlineUser size={24}></HiOutlineUser>
-            </DefaultProfile>
-          )}
-        </ImgContainer>
+        <ProfileImage src={profileImageURL} size={24} />
         <Name>{userNickname}</Name>
         <span>·</span>
         <TimeStamp>{fromNowWhileAgoPosted}</TimeStamp>
