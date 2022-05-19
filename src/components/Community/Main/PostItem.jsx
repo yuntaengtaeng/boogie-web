@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { VscComment, VscThumbsup } from 'react-icons/vsc';
 import { useNavigate } from 'react-router-dom';
 import ProfileImage from '../Common/ProfileImage';
+import CommentAndLike from '../Common/CommentAndLike';
 
 const Container = styled.div`
   box-sizing: border-box;
@@ -63,22 +63,6 @@ const Content = styled.p`
 
 const Bottom = styled.div`
   display: flex;
-
-  > div:first-child {
-    width: 3.5rem;
-  }
-
-  > div {
-    display: flex;
-    align-items: center;
-  }
-`;
-
-const BottomText = styled.span`
-  font-size: 0.75rem;
-  margin-left: 0.25rem;
-  padding: 0.3em 0 0;
-  font-weight: 700;
 `;
 
 const Comment = ({ commentData = {} }) => {
@@ -116,17 +100,11 @@ const Comment = ({ commentData = {} }) => {
         <Content>{content}</Content>
       </Middle>
       <Bottom>
-        <div>
-          <VscComment size={18}></VscComment>
-          <BottomText>{commentCount}</BottomText>
-        </div>
-        <div>
-          <VscThumbsup
-            size={18}
-            color={isLiked ? 'red' : 'black'}
-          ></VscThumbsup>
-          <BottomText>{likeCount}</BottomText>
-        </div>
+        <CommentAndLike
+          commentCount={commentCount}
+          isLiked={isLiked}
+          likeCount={likeCount}
+        />
       </Bottom>
     </Container>
   );

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { VscComment, VscThumbsup, VscEllipsis } from 'react-icons/vsc';
+import { VscEllipsis } from 'react-icons/vsc';
+import CommentAndLike from '../Common/CommentAndLike';
 import ProfileImage from '../Common/ProfileImage';
 
 const Container = styled.article`
@@ -54,23 +55,6 @@ const Bottom = styled.div`
   display: flex;
   margin-bottom: 2rem;
   justify-content: space-between;
-
-  > div > div:first-child {
-    width: 3.5rem;
-  }
-
-  > div > div,
-  > div {
-    display: flex;
-    align-items: center;
-  }
-`;
-
-const BottomText = styled.span`
-  font-size: 0.75rem;
-  margin-left: 0.25rem;
-  padding: 0.3em 0 0;
-  font-weight: 700;
 `;
 
 const Content = ({
@@ -100,18 +84,12 @@ const Content = ({
       </Middle>
       <Bottom>
         <div>
-          <div>
-            <VscComment size={24}></VscComment>
-            <BottomText>{commentCount}</BottomText>
-          </div>
-          <div>
-            <VscThumbsup
-              size={24}
-              color={isLiked ? 'red' : 'black'}
-              onClick={onLikeClickHandler}
-            />
-            <BottomText>{likeCount}</BottomText>
-          </div>
+          <CommentAndLike
+            commentCount={commentCount}
+            isLiked={isLiked}
+            onLikeClickHandler={onLikeClickHandler}
+            likeCount={likeCount}
+          />
         </div>
         <div>
           <VscEllipsis size={24} />
