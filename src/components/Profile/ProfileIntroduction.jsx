@@ -26,8 +26,8 @@ const StyledTitle = styled.p`
 `;
 
 const ProfileIntroduction = ({ introduction, onIntroductionHandler, isMe }) => {
-  const [text, setText] = useState(introduction ? introduction : '');
-  const explanation = [
+  const [text, setText] = useState(introduction || '');
+  const EXPLANATION = [
     '본인의 업무 경험을 기반으로 핵심역량과 업무 스킬을 간단히작성해주세요.',
     '3~5줄로 요약하여 작성하는 것을 추천합니다!',
   ];
@@ -38,7 +38,7 @@ const ProfileIntroduction = ({ introduction, onIntroductionHandler, isMe }) => {
   return (
     <StyledDiv>
       <StyledTitle>간단 소개글</StyledTitle>
-      {isMe && <ExplanationBox arr={explanation} />}
+      {isMe && <ExplanationBox arr={EXPLANATION} />}
       <StyledTextarea
         readOnly={!isMe}
         value={text}
