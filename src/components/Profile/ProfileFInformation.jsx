@@ -50,14 +50,37 @@ const StyledP = styled.p`
 const ProfileFInformation = ({ info, onProfileInfoHandler }) => {
   const { image, nickname, id, positions, technologies, isMe, isOpen } = info;
   const { accessToken } = useSelector((state) => state.user);
-  const [profileImage, setProfileImage] = useState(image !== '' ? image : null);
-  const [selectedJob, setSelectedJob] = useState(
-    Array.isArray(positions) ? positions : []
-  );
-  const [selectedTchnl, setSelectedTchn] = useState(
-    Array.isArray(technologies) ? technologies : []
-  );
+  const [profileImage, setProfileImage] = useState(image || null);
   const [isOn, setIsOn] = useState(isOpen);
+  const [selectedJob, setSelectedJob] = useState(positions || []);
+  const [selectedTchnl, setSelectedTchn] = useState(technologies || []);
+  const [positionList, setPositionList] = useState([]);
+  const [technologyList, setTechnologyList] = useState([]);
+
+  useEffect(() => {
+    const renameKeys = (arr) => {
+      const rename = arr.map(({ id, name }) => ({
+        value: id,
+        name,
+      }));
+      return rename;
+    };
+
+    const getList = async () => {
+      try {
+        const [job, technology] = await Promise.all([
+          await axios.get('api/category/job'),
+          await axios.get('api/category/technology'),
+        ]);
+
+        setPositionList([...renameKeys(job.data.jobCategoryList)]);
+        setTechnologyList([...renameKeys(technology.data.technologyList)]);
+      } catch (e) {
+        alert(e.message);
+      }
+    };
+    getList();
+  }, []);
 
   const onAddImageHandler = (date) => {
     setProfileImage(date);
@@ -94,7 +117,7 @@ const ProfileFInformation = ({ info, onProfileInfoHandler }) => {
           authorization: accessToken,
         },
       });
-      setIsOn(date);
+      setIsOn(response.data.isOpen);
     } catch (e) {
       alert(e.message);
     }
@@ -123,7 +146,7 @@ const ProfileFInformation = ({ info, onProfileInfoHandler }) => {
       <StyledTitle>프로필</StyledTitle>
       <StyledSpan>
         <AddProfileImage
-          image={image}
+          image={profileImage}
           onAddImageHandler={onAddImageHandler}
           isMe={isMe}
         ></AddProfileImage>
@@ -133,12 +156,19 @@ const ProfileFInformation = ({ info, onProfileInfoHandler }) => {
         </StyledCenterDiv>
         <StyledRightDiv>
           <SelectGroub
-            onTechnologieDeletHandler={onTechnologieDeletHandler}
-            onPositionDeletHandler={onPositionDeletHandler}
-            selectedTchnl={selectedTchnl}
-            selectedJob={selectedJob}
-            onTchnlItemHandler={onTchnlItemHandler}
-            onJobItemHandler={onJobItemHandler}
+            name="직무"
+            onDeleteHandler={onPositionDeletHandler}
+            selectedItems={selectedJob}
+            onSelectItemHandler={onJobItemHandler}
+            options={positionList}
+            isMe={isMe}
+          ></SelectGroub>
+          <SelectGroub
+            name="기술"
+            onDeleteHandler={onTechnologieDeletHandler}
+            selectedItems={selectedTchnl}
+            onSelectItemHandler={onTchnlItemHandler}
+            options={technologyList}
             isMe={isMe}
           ></SelectGroub>
           {isMe && (
