@@ -52,8 +52,8 @@ const AwardsAccolades = ({ awards, onAwardsHandler, isMe }) => {
   const [startDate, setStartDate] = useState(new Date());
   const year = startDate.getFullYear();
   const month = ('00' + (startDate.getMonth() + 1)).slice(-2);
-  const [awardsDate, setAwardsDate] = useState(awards ? awards : []);
-  const explanation = [
+  const [awardsDate, setAwardsDate] = useState(awards || []);
+  const EXPLANATION = [
     '수상 이력, 직무 관련 자격증, 수료한 교육이나 참석한 외부활동 등이 있다면 간략히 작성해주세요.',
     '지원하는 회사에서 요구하는 경우가 아니라면 운전면허증과 같은 자격증은 생략하는 것이 좋습니다!',
   ];
@@ -85,7 +85,7 @@ const AwardsAccolades = ({ awards, onAwardsHandler, isMe }) => {
   return (
     <StyledDiv>
       <StyledTitle>수상 및 기타</StyledTitle>
-      {isMe && <ExplanationBox arr={explanation} />}
+      {isMe && <ExplanationBox arr={EXPLANATION} />}
       <StyledSpan>
         {isMe && (
           <>

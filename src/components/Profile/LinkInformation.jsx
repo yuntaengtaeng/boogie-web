@@ -30,9 +30,9 @@ const StyledDiv = styled.div`
 `;
 
 const LinkInformation = ({ link, onLinkInformationHandler, isMe }) => {
-  const [urlLinkArr, setUrlLinkArr] = useState(Array.isArray(link) ? link : []);
+  const [urlLinkArr, setUrlLinkArr] = useState(link || []);
   const [url, setUrl] = useState('');
-  const explanation = [
+  const EXPLANATION = [
     '깃헙, 노션으로 작성한 포트폴리오, 구글 드라이브 파일 등 업무 성과를 보여줄 수 있는 링크가 있다면 작성해주세요.',
   ];
 
@@ -58,7 +58,7 @@ const LinkInformation = ({ link, onLinkInformationHandler, isMe }) => {
       <StyledTitle>링크</StyledTitle>
       {isMe && (
         <>
-          <ExplanationBox arr={explanation} />
+          <ExplanationBox arr={EXPLANATION} />
           <StyledSpan>
             <Input
               type="text"
