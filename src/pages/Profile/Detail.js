@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
 import NondisclosurePage from '../../components/Profile/NondisclosurePage';
-import ProfileFInformation from '../../components/Profile/ProfileFInformation';
+import ProfileInformation from '../../components/Profile/ProfileInformation';
 import ProfileIntroduction from '../../components/Profile/ProfileIntroduction';
 import AwardsAccolades from '../../components/Profile/AwardsAccolades';
 import LinkInformation from '../../components/Profile/LinkInformation';
@@ -146,10 +146,10 @@ const Detail = () => {
         <NondisclosurePage></NondisclosurePage>
       ) : (
         <StyledForm onSubmit={onHandlerSubmit}>
-          <ProfileFInformation
+          <ProfileInformation
             info={profileData}
             onProfileInfoHandler={onProfileInfoHandler}
-          ></ProfileFInformation>
+          ></ProfileInformation>
 
           <ProfileIntroduction
             introduction={profileData.introduction}

@@ -47,7 +47,7 @@ const StyledP = styled.p`
   margin-right: 1rem;
 `;
 
-const ProfileFInformation = ({ info, onProfileInfoHandler }) => {
+const ProfileInformation = ({ info, onProfileInfoHandler }) => {
   const { image, nickname, id, positions, technologies, isMe, isOpen } = info;
   const { accessToken } = useSelector((state) => state.user);
   const [profileImage, setProfileImage] = useState(image || null);
@@ -193,4 +193,4 @@ const ProfileFInformation = ({ info, onProfileInfoHandler }) => {
   );
 };
 
-export default ProfileFInformation;
+export default ProfileInformation;
