@@ -60,7 +60,7 @@ const MainCardList = ({ filterOption, year }) => {
       }
     };
     getMainCardInfo();
-  }, [filterOption]);
+  }, [dispatch, filterOption, year]);
   return (
     <StyledCardDiv>
       {cardInfo.map((v) => (
