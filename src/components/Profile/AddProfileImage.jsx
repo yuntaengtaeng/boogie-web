@@ -48,24 +48,21 @@ const File = styled.input`
 
 const AddProfileImage = ({ image, onAddImageHandler, isMe }) => {
   const [userImage, setUserImage] = useState(null);
-  const [previewImage, setPreviewImage] = useState(image !== '' ? image : '');
+  const [previewImage, setPreviewImage] = useState(image || '');
 
   const onchange = (e) => {
     setUserImage(e);
 
     const reader = new FileReader();
     reader.readAsDataURL(e);
-    return new Promise((resolve) => {
-      reader.onload = () => {
-        setPreviewImage(reader.result);
-        resolve();
-      };
-    });
+    reader.onload = () => {
+      setPreviewImage(reader.result);
+    };
   };
 
   useEffect(() => {
     onAddImageHandler(userImage);
-  }, [userImage]);
+  }, [onAddImageHandler, userImage]);
 
   return (
     <StyledDiv>
