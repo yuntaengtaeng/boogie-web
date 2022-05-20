@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
@@ -28,8 +28,7 @@ const Detail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { accessToken } = useSelector((state) => state.user);
-  const [profileDate, setProfileDate] = useState({});
-  const [changedData, setChangedData] = useState({});
+  const [profileData, setProfileData] = useState({});
   const [isSatisfied, setIsSatisfied] = useState(true);
 
   useEffect(() => {
@@ -58,7 +57,7 @@ const Detail = () => {
           response.data.profileInfo.technologies
         );
 
-        setProfileDate(response.data.profileInfo);
+        setProfileData(response.data.profileInfo);
         setIsSatisfied(
           !(response.data.profileInfo.isMe || response.data.profileInfo.isOpen)
         );
@@ -69,118 +68,75 @@ const Detail = () => {
       }
     };
     getProfileDate();
-  }, []);
-
-  const comparison = useCallback((arr, compareArr) => {
-    let isDifferent = arr?.length !== compareArr?.length;
-
-    if (!isDifferent) {
-      arr.map((e) => {
-        const find = compareArr.find((v) => v === e);
-        if (!find) {
-          return (isDifferent = true);
-        }
-        return false;
-      });
-    }
-    return isDifferent;
-  }, []);
+  }, [accessToken, dispatch, id]);
 
   const onProfileInfoHandler = (e) => {
-    const clone = changedData;
+    const clone = { ...profileData };
 
-    if (e.profileImage) {
+    if (e.profileImage !== null) {
       clone.image = e.profileImage;
-    } else if (clone.image) {
-      delete clone.image;
     }
 
-    if (comparison(e.selectedJob, profileDate.positions)) {
-      clone.positions = e.selectedJob.map((v) => {
-        return v.value;
-      });
-    } else if (clone.positions) {
-      delete clone.positions;
-    }
+    clone.positions = e.selectedJob.map((v) => {
+      return v.value;
+    });
 
-    if (comparison(e.selectedTchnl, profileDate.technologies)) {
-      clone.technologies = e.selectedTchnl.map((v) => {
-        return v.value;
-      });
-    } else if (clone.technologies) {
-      delete clone.technologies;
-    }
-    setChangedData(clone);
+    clone.technologies = e.selectedTchnl.map((v) => {
+      return v.value;
+    });
+    setProfileData(clone);
   };
 
   const onIntroductionHandler = (e) => {
-    const clone = changedData;
+    const clone = { ...profileData };
+    clone.introduction = e;
 
-    if (e !== profileDate.introduction) {
-      clone.introduction = e;
-    } else if (clone.introduction) {
-      delete clone.introduction;
-    }
-
-    setChangedData(clone);
+    setProfileData(clone);
   };
 
   const onAwardsHandler = (e) => {
-    const clone = changedData;
+    const clone = { ...profileData };
+    clone.awards = e;
 
-    if (comparison(e, profileDate.awards)) {
-      clone.awards = e;
-    } else if (clone.awards) {
-      delete clone.awards;
-    }
-
-    setChangedData(clone);
+    setProfileData(clone);
   };
 
   const onLinkInformationHandler = (e) => {
-    const clone = changedData;
+    const clone = { ...profileData };
+    clone.links = e;
 
-    if (comparison(e, profileDate.links)) {
-      clone.links = e;
-    } else if (clone.introduction) {
-      delete clone.introduction;
-    }
-
-    setChangedData(clone);
+    setProfileData(clone);
   };
 
-  const onHandlerSubmit = (e) => {
+  const onHandlerSubmit = async (e) => {
     e.preventDefault();
 
-    if (Object.keys(changedData).length !== 0) {
-      const formData = new FormData();
+    const formData = new FormData();
 
-      Object.keys(changedData).forEach((v) => {
-        const key = `${v}`;
-        const value = Array.isArray(changedData[`${v}`])
-          ? JSON.stringify(changedData[`${v}`])
-          : changedData[`${v}`];
+    console.log(profileData);
 
-        formData.append(key, value);
+    Object.keys(profileData).forEach((v) => {
+      const key = `${v}`;
+      const value = Array.isArray(profileData[`${v}`])
+        ? JSON.stringify(profileData[`${v}`])
+        : profileData[`${v}`];
+      console.log(v);
+      console.log(value);
+      formData.append(key, value);
+    });
+
+    dispatch(uiSlce.actions.showLoading());
+    try {
+      await axios.patch('api/profile', formData, {
+        headers: {
+          authorization: accessToken,
+          'Content-Type': 'multipart/form-data',
+        },
       });
-
-      const patchProfileInfo = async () => {
-        dispatch(uiSlce.actions.showLoading());
-        try {
-          const resfones = await axios.patch('api/profile', formData, {
-            headers: {
-              authorization: accessToken,
-              'Content-Type': 'multipart/form-data',
-            },
-          });
-        } catch (e) {
-          alert(e.message);
-        } finally {
-          dispatch(uiSlce.actions.hideLoading());
-        }
-      };
-
-      patchProfileInfo();
+    } catch (e) {
+      alert(e.message);
+    } finally {
+      dispatch(uiSlce.actions.hideLoading());
     }
   };
 
@@ -191,31 +147,31 @@ const Detail = () => {
       ) : (
         <StyledForm onSubmit={onHandlerSubmit}>
           <ProfileFInformation
-            info={profileDate}
+            info={profileData}
             onProfileInfoHandler={onProfileInfoHandler}
           ></ProfileFInformation>
 
           <ProfileIntroduction
-            introduction={profileDate.introduction}
+            introduction={profileData.introduction}
             onIntroductionHandler={onIntroductionHandler}
-            isMe={profileDate.isMe}
+            isMe={profileData.isMe}
           ></ProfileIntroduction>
 
           <AwardsAccolades
-            awards={profileDate.awards}
+            awards={profileData.awards}
             onAwardsHandler={onAwardsHandler}
-            isMe={profileDate.isMe}
+            isMe={profileData.isMe}
           ></AwardsAccolades>
 
           <LinkInformation
-            link={profileDate.links}
+            link={profileData.links}
             onLinkInformationHandler={onLinkInformationHandler}
-            isMe={profileDate.isMe}
+            isMe={profileData.isMe}
           ></LinkInformation>
 
-          {profileDate.isMe && (
+          {profileData.isMe && (
             <ButtonSpan>
-              <Button type="submit" disabled={Object.keys(changedData) === 0}>
+              <Button type="submit" disabled={Object.keys(profileData) === 0}>
                 적용
               </Button>
             </ButtonSpan>
