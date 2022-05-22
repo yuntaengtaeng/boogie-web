@@ -7,7 +7,7 @@ const SelectBoxWrapper = styled.div`
   display: flex;
 
   .icon {
-    margin-left: 1.75rem;
+    margin-left: -1.75rem;
     align-self: center;
     width: 1.5rem;
     height: 1.5rem;
