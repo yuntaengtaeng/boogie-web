@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { GRAY } from '../../constants/color';
+import { useNavigate } from 'react-router-dom';
 
 import LoginForm from '../../components/Login/LoginForm';
 
@@ -27,6 +28,12 @@ const SubTitle = styled.p`
 `;
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const successCallback = useCallback(() => {
+    navigate('/');
+  }, [navigate]);
+
   return (
     <Container>
       <Introduce>
@@ -41,7 +48,7 @@ const Login = () => {
           지금 boogie on &#38; on에서 시작하세요.
         </SubTitle>
       </Introduce>
-      <LoginForm />
+      <LoginForm successCallback={successCallback} />
     </Container>
   );
 };

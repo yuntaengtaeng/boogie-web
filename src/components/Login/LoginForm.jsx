@@ -35,7 +35,7 @@ const StyledDiv = styled.div`
   margin-bottom: 1rem;
 `;
 
-const LoginForm = () => {
+const LoginForm = ({ successCallback }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -73,7 +73,7 @@ const LoginForm = () => {
         dispatch(userSlice.actions.setUser(rest));
         localStorage.setItem('refreshToken', refreshToken);
 
-        navigate('/');
+        successCallback();
       } catch (error) {
         if (error.response) {
           alert(error.response.data.message);
