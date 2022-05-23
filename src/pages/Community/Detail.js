@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { LIGHT_GRAY, WHITE } from '../../constants/color';
 import { VscChevronLeft } from 'react-icons/vsc';
 import Card from '../../components/Ui/Card/Card';
+import LoginModal from '../../components/Login/LoginModal';
 
 import Content from '../../components/Community/Detail/Content';
 import CommentList from '../../components/Community/Detail/CommentList';
@@ -25,11 +26,14 @@ const Container = styled.section`
 const Detail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { accessToken } = useSelector((state) => state.user);
+  const { accessToken, email } = useSelector((state) => state.user);
   const { id } = useParams();
   const [data, setData] = useState({});
   const [commentData, setCommentData] = useState([]);
   const [text, setText] = useState('');
+  const [isShowingLoginModal, setIsShowingLoginModal] = useState(false);
+
+  const isLoggiend = !!email;
 
   useEffect(() => {
     const getDetailData = async () => {
@@ -78,8 +82,13 @@ const Detail = () => {
     getAllData();
   }, [dispatch, id]);
 
+  const successCallback = () => {
+    setIsShowingLoginModal(false);
+  };
+
   const reqeustLike = useCallback(async () => {
-    if (!accessToken) {
+    if (!isLoggiend) {
+      setIsShowingLoginModal(true);
       return;
     }
 
@@ -110,7 +119,7 @@ const Detail = () => {
     } finally {
       dispatch(uiSlce.actions.hideLoading());
     }
-  }, [accessToken, data, id, dispatch]);
+  }, [isLoggiend, dispatch, id, accessToken, data]);
 
   const moveCommunityMain = useCallback(() => {
     navigate('/community');
@@ -120,7 +129,12 @@ const Detail = () => {
     async (event) => {
       event.preventDefault();
 
-      if (!text || !accessToken) {
+      if (!text) {
+        return;
+      }
+
+      if (!isLoggiend) {
+        setIsShowingLoginModal(true);
         return;
       }
 
@@ -155,11 +169,21 @@ const Detail = () => {
         dispatch(uiSlce.actions.hideLoading());
       }
     },
-    [text, accessToken, dispatch, id]
+    [text, isLoggiend, dispatch, id, accessToken]
   );
+
+  const closeLoginModal = useCallback(() => {
+    setIsShowingLoginModal(false);
+  }, []);
 
   return (
     <Container>
+      {isShowingLoginModal && (
+        <LoginModal
+          successCallback={successCallback}
+          onCloseHandler={closeLoginModal}
+        />
+      )}
       <Card
         style={{
           backgroundColor: WHITE,

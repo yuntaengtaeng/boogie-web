@@ -1,11 +1,12 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import userSlice from '../../../slices/user';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { WHITE } from '../../../constants/color';
 import { VscEdit } from 'react-icons/vsc';
+
+import LoginModal from '../../Login/LoginModal';
 
 const Wrap = styled.div`
   box-sizing: border-box;
@@ -36,19 +37,34 @@ const Box = styled.div`
 const PostWrite = () => {
   const navigate = useNavigate();
   const { email } = useSelector((state) => state.user);
+  const [isShowingLoginModal, setIsShowingLoginModal] = useState(false);
   const isLoggiend = !!email;
 
   const movePostWrite = useCallback(() => {
     if (!isLoggiend) {
-      navigate('/login');
+      setIsShowingLoginModal(true);
       return;
     }
 
     navigate('/community/add');
   }, [isLoggiend, navigate]);
 
+  const closeLoginModal = useCallback(() => {
+    setIsShowingLoginModal(false);
+  }, []);
+
+  const successCallback = useCallback(() => {
+    setIsShowingLoginModal(false);
+  }, []);
+
   return (
     <Wrap>
+      {isShowingLoginModal && (
+        <LoginModal
+          successCallback={successCallback}
+          onCloseHandler={closeLoginModal}
+        />
+      )}
       <Box onClick={movePostWrite}>
         커리어와 라이프스타일에 대해 자유롭게 이야기 해주세요!
         <VscEdit size={24}></VscEdit>

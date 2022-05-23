@@ -85,7 +85,7 @@ const LoginForm = ({ successCallback }) => {
         dispatch(uiSlce.actions.hideLoading());
       }
     },
-    [dispatch, navigate]
+    [dispatch, successCallback]
   );
 
   return (
