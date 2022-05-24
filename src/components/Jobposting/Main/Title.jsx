@@ -3,7 +3,7 @@ import OutLineButton from '../../Ui/OutLineButton';
 import Button, { BUTTON_THEME } from '../../Ui/Button';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import DeletOutLineButton from '../../Ui/DeletOutLineButton';
+import DeleteOutLineButton from '../../Ui/DeleteOutLineButton';
 
 const Wrap = styled.div`
   text-align: center;
@@ -61,12 +61,12 @@ const Title = ({
       <Filter>
         {Object.entries(filterOptions).map(([key, array]) => {
           return array.map(({ value, name }) => (
-            <DeletOutLineButton
+            <DeleteOutLineButton
               key={value}
               onDeleteHandler={onDeleteHandler.bind(this, { key, value })}
             >
               {name}
-            </DeletOutLineButton>
+            </DeleteOutLineButton>
           ));
         })}
       </Filter>

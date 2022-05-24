@@ -9,7 +9,7 @@ import axios from 'axios';
 import uiSlce from '../../slices/ui';
 import { useDispatch } from 'react-redux';
 
-import DeletOutLineButton from '../../components/Ui/DeletOutLineButton';
+import DeleteOutLineButton from '../../components/Ui/DeleteOutLineButton';
 
 const Wrap = styled.section`
   width: 80%;
