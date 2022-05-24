@@ -186,7 +186,7 @@ const TeamInput = ({ onMemberInfoHandler, stateEmptying }) => {
       {member.map((v, i) => {
         return (
           <Tooltip
-            tooltipStyle={{ marginRight: '50ren' }}
+            tooltipStyle={{ marginRight: '25rem' }}
             style={{ marginBottom: '1rem' }}
             key={v.uniID}
             message={<StyledImg src={previewImage[i]}></StyledImg>}
@@ -203,6 +203,7 @@ const TeamInput = ({ onMemberInfoHandler, stateEmptying }) => {
       })}
     </StyledMemberDiv>
   );
+
   return (
     <>
       <StyledForm onSubmit={onHandlerSubmit}>
