@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Card from '../../Ui/Card/Card';
 import { GRAY } from '../../../constants/color';
 import { AiFillEye } from 'react-icons/ai';
+import Tooltip from '../../Ui/Tooltip';
 
 const IMAGE_MAX_LENGTH = 3;
 
@@ -70,19 +71,29 @@ const MainCardPreview = ({
 }) => {
   const technologyStack = [];
   const etc = technologyStacks.length - IMAGE_MAX_LENGTH;
-  for (let i = 0; i < IMAGE_MAX_LENGTH; i++) {
+  var hoverItem = '';
+  for (let i = 0; i < technologyStacks.length; i++) {
     if (!!technologyStacks[i]) {
-      technologyStack.push(
-        <StyledTechnologyDiv key={i}>
-          <StyledImg
-            alt={technologyStacks[i]}
-            src={
-              process.env.PUBLIC_URL + `/asset/stack/${technologyStacks[i]}.png`
-            }
-          />
-          <p style={{ fontSize: '10px' }}>{technologyStacks[i]}</p>
-        </StyledTechnologyDiv>
-      );
+      if (i < IMAGE_MAX_LENGTH) {
+        technologyStack.push(
+          <StyledTechnologyDiv key={i}>
+            <StyledImg
+              alt={technologyStacks[i]}
+              src={
+                process.env.PUBLIC_URL +
+                `/asset/stack/${technologyStacks[i]}.png`
+              }
+            />
+            <p style={{ fontSize: '0.625rem' }}>{technologyStacks[i]}</p>
+          </StyledTechnologyDiv>
+        );
+      } else {
+        if (i !== technologyStacks.length - 1) {
+          hoverItem += `${technologyStacks[i]}, `;
+        } else {
+          hoverItem += `${technologyStacks[i]}`;
+        }
+      }
     }
   }
   return (
@@ -100,7 +111,16 @@ const MainCardPreview = ({
         {technologyStack.length !== 0 && (
           <StyledTechnologyStackDiv>
             {technologyStack}
-            {etc > 0 && <h5 style={{ margin: '0' }}>+{etc}</h5>}
+            {etc > 0 && (
+              <h5 style={{ margin: '0' }}>
+                <Tooltip
+                  tooltipStyle={{ marginTop: '2rem', padding: '0.5rem' }}
+                  message={hoverItem}
+                >
+                  +{etc}
+                </Tooltip>
+              </h5>
+            )}
           </StyledTechnologyStackDiv>
         )}
         <StyledLookupP>
