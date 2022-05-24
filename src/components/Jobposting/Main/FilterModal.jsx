@@ -29,16 +29,12 @@ const ChipsArea = styled.div`
   }
 `;
 
-const FilterModal = ({
-  onClose,
-  onSubmit,
-  selectedPosition,
-  setSelectedPosition,
-  selectedRegion,
-  setSelectedRegion,
-}) => {
+const FilterModal = ({ onClose, onSubmit, options }) => {
+  const { position, region } = options;
   const [positionData, setPositionData] = useState([]);
   const [regionData, setRegionData] = useState([]);
+  const [selectedPosition, setSelectedPosition] = useState(position || []);
+  const [selectedRegion, setSelectedRegion] = useState(region || []);
 
   useEffect(() => {
     const getDropdownData = async (url, key) => {

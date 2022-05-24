@@ -9,6 +9,8 @@ import axios from 'axios';
 import uiSlce from '../../slices/ui';
 import { useDispatch } from 'react-redux';
 
+import DeletOutLineButton from '../../components/Ui/DeletOutLineButton';
+
 const Wrap = styled.section`
   width: 80%;
   margin: 6rem auto;
@@ -18,10 +20,10 @@ const JobPosting = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isShowingFilterModal, setIsShowingFilterModal] = useState(false);
-  const [filterOptionsData, setFilterOptionsData] = useState([]);
+  const [filterOptionsData, setFilterOptionsData] = useState({});
   const [jobPostingDataList, setJobPostingDataList] = useState([]);
-  const [selectedPosition, setSelectedPosition] = useState([]);
-  const [selectedRegion, setSelectedRegion] = useState([]);
+  // const [selectedPosition, setSelectedPosition] = useState([]);
+  // const [selectedRegion, setSelectedRegion] = useState([]);
 
   const moveAddJobPosting = useCallback(() => {
     navigate('/jobposting/add');
@@ -37,6 +39,8 @@ const JobPosting = () => {
 
   const requestJobPostionSearch = useCallback(
     async ({ position = [], region = [] } = {}) => {
+      console.log(position);
+      console.log(region);
       const regionQueries = region.map(({ value }) => `region=${value}`);
       const positionQueries = position.map(({ value }) => `position=${value}`);
 
@@ -56,7 +60,10 @@ const JobPosting = () => {
         } = await axios.get(URL);
 
         setJobPostingDataList(jobPostingList);
-        setFilterOptionsData([...selectedPosition, ...selectedRegion]);
+        setFilterOptionsData({
+          position,
+          region: region,
+        });
       } catch (error) {
         if (error.response) {
           alert(error.response.data.message);
@@ -68,7 +75,7 @@ const JobPosting = () => {
         dispatch(uiSlce.actions.hideLoading());
       }
     },
-    [dispatch, selectedPosition, selectedRegion]
+    [dispatch]
   );
 
   const filterSubmit = useCallback(
@@ -77,6 +84,21 @@ const JobPosting = () => {
       hideFilterModal();
     },
     [hideFilterModal, requestJobPostionSearch]
+  );
+
+  const onDeleteHandler = useCallback(
+    ({ key, value }) => {
+      let { position, region } = { ...filterOptionsData };
+
+      if (key === 'position') {
+        position = position.filter((option) => option.value !== value);
+      } else if (key === 'region') {
+        region = region.filter((option) => option.value !== value);
+      }
+
+      requestJobPostionSearch({ position, region });
+    },
+    [filterOptionsData, requestJobPostionSearch]
   );
 
   useEffect(() => {
@@ -89,6 +111,7 @@ const JobPosting = () => {
         leftButtonOnClickHandler={showFilterModal}
         rightButtonOnClickHandler={moveAddJobPosting}
         filterOptions={filterOptionsData}
+        onDeleteHandler={onDeleteHandler}
       />
       <JobPostingGroup
         style={{ marginTop: '5rem' }}
@@ -98,10 +121,7 @@ const JobPosting = () => {
         <FilterModal
           onClose={hideFilterModal}
           onSubmit={filterSubmit}
-          selectedPosition={selectedPosition}
-          setSelectedPosition={setSelectedPosition}
-          selectedRegion={selectedRegion}
-          setSelectedRegion={setSelectedRegion}
+          options={filterOptionsData}
         />
       )}
     </Wrap>
