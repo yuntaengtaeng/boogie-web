@@ -9,7 +9,7 @@ import { GRAY } from '../../../constants/color';
 import Input from '../../Ui/Input';
 import Button from '../../Ui/Button';
 import Line from '../../Ui/Line';
-import SearchSelect from '../../Ui/SearchSelect';
+import Dropdown from '../../Ui/Dropdown';
 
 const StyledForm = styled.form`
   display: flex;
@@ -20,7 +20,7 @@ const StyledForm = styled.form`
 const StyleDatePicker = styled(DatePicker)`
   width: 14.75rem;
   height: 1.875rem;
-  margin-top: 1rem;
+  margin: 1rem 0;
   padding: 0;
   padding-left: 0.75rem;
   border: 0.063rem solid ${GRAY};
@@ -30,10 +30,8 @@ const GroupInfoInput = ({ onGroupInfoHandler, stateEmptying }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [name, setGroutName] = useState('');
   const [classList, setClassList] = useState([]);
-  const [className, setClassName] = useState({});
-  const satisfied =
-    name === '' || Object.keys(className).length === 0 || startDate === null;
-
+  const [classId, setClassId] = useState(null);
+  const satisfied = name === '' || classId === null || startDate === null;
   useEffect(() => {
     const renameKeys = (arr) => {
       const rename = arr.map(({ id, name }) => ({
@@ -56,12 +54,7 @@ const GroupInfoInput = ({ onGroupInfoHandler, stateEmptying }) => {
   }, []);
 
   const onClassNameItemHandler = (e) => {
-    const item = {
-      id: e.value,
-      name: e.name,
-    };
-
-    setClassName(item);
+    setClassId(e);
   };
 
   const onHandlerSubmit = (e) => {
@@ -70,7 +63,7 @@ const GroupInfoInput = ({ onGroupInfoHandler, stateEmptying }) => {
     onGroupInfoHandler({
       groupName: name,
       year: startDate.getFullYear(),
-      classID: className.id,
+      classID: classId,
     });
   };
 
@@ -78,7 +71,7 @@ const GroupInfoInput = ({ onGroupInfoHandler, stateEmptying }) => {
     if (satisfied) {
       stateEmptying('groupInfo');
     }
-  }, [name, className, startDate]);
+  }, [name, classId, startDate]);
 
   return (
     <>
@@ -98,21 +91,20 @@ const GroupInfoInput = ({ onGroupInfoHandler, stateEmptying }) => {
           showYearPicker
           dateFormat="yyyy"
         />
-        <SearchSelect
+        <Dropdown
+          value={classId || ''}
           options={classList}
-          placeholder={!className.name ? '반' : className.name}
-          onSelectItemHandler={onClassNameItemHandler}
-          style={{
-            width: '15.625rem',
-            marginTop: '1.25rem',
-            marginBottom: '6.25rem',
+          placeholder="반"
+          onChange={(e) => {
+            onClassNameItemHandler(e.target.value);
           }}
-        ></SearchSelect>
+          style={{ width: '15.625rem' }}
+        />
         <span>
           <Button
             type="submit"
             style={{ float: 'right', marginTop: '1rme' }}
-            disabled={name === '' || !className.name}
+            disabled={name === '' || classId === null}
           >
             다음
           </Button>
