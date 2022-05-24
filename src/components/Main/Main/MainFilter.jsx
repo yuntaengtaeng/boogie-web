@@ -145,7 +145,7 @@ const MainFilter = ({ filterOption, onFilterOptionHandler }) => {
                     onDeletePlattformHandler(v);
                   }}
                 >
-                  {v.name}{' '}
+                  {v.name}
                 </DeleteOutLineButton>
               ))}
             {filterOption.technology.length !== 0 &&
@@ -156,7 +156,7 @@ const MainFilter = ({ filterOption, onFilterOptionHandler }) => {
                     onDeleteTechnologyHandler(v);
                   }}
                 >
-                  {v.name}{' '}
+                  {v.name}
                 </DeleteOutLineButton>
               ))}
           </FilterOptionDiv>
