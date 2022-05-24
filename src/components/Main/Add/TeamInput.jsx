@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { GRAY, BLACK } from '../../../constants/color';
@@ -6,6 +6,7 @@ import Input from '../../Ui/Input';
 import Button from '../../Ui/Button';
 import Line from '../../Ui/Line';
 import DeleteLable from '../../Ui/DeleteLable';
+import Tooltip from '../../Ui/Tooltip';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -77,6 +78,17 @@ const StyledSpan = styled.span`
   text-align: right;
 `;
 
+const StyledDeleteLable = styled(DeleteLable)`
+  &:hover > .tooltip {
+    display: block;
+  }
+`;
+
+const StyledImg = styled.img`
+  height: 16rem;
+  width: 12rem;
+`;
+
 const TeamInput = ({ onMemberInfoHandler, stateEmptying }) => {
   const [name, setName] = useState('');
   const [uniID, setUniId] = useState('');
@@ -85,6 +97,7 @@ const TeamInput = ({ onMemberInfoHandler, stateEmptying }) => {
   const [postFile, setPostFile] = useState([]);
   const [isEmpty, setIsEmpty] = useState(true);
   const [member, setMember] = useState([]);
+  const [previewImage, setPreviewImage] = useState([]);
 
   useEffect(() => {
     if (member.length !== 0) {
@@ -98,33 +111,64 @@ const TeamInput = ({ onMemberInfoHandler, stateEmptying }) => {
     if (member.length === 0 || postFile.length === 0) {
       stateEmptying('member');
     }
-  }, [member, postFile]);
+  }, [member, postFile, stateEmptying]);
 
   const satisfied = name && uniID && introduction && file;
 
+  const readerImage = useCallback(
+    (e) => {
+      const length = member.length;
+      const reader = new FileReader();
+      reader.readAsDataURL(e);
+      reader.onload = () => {
+        const clone = [...previewImage];
+        clone[length] = reader.result;
+        setPreviewImage(clone);
+      };
+    },
+    [member.length, previewImage]
+  );
+
   const createMember = () => {
     if (satisfied) {
-      setMember([
-        ...member,
-        {
-          name,
-          uniID,
-          introduction,
-        },
-      ]);
-      setPostFile([...postFile, file]);
-      setName('');
-      setUniId('');
-      setIntroduction('');
-      setFile();
+      if (
+        !postFile.find((e) => e.name === file.name) &&
+        !member.find((e) => e.uniID === uniID)
+      ) {
+        setMember([
+          ...member,
+          {
+            name,
+            uniID,
+            introduction,
+          },
+        ]);
+        setPostFile([...postFile, file]);
+        readerImage(file);
+        setName('');
+        setUniId('');
+        setIntroduction('');
+      } else {
+        alert('사진이 중복입니다.');
+      }
     } else {
       alert('내용을 전부 입력해 주세요.');
     }
+    setFile(null);
   };
 
   const onDeleteHandler = (e) => {
-    const filter = member.filter((v) => v !== e);
+    const findIndex = member.findIndex((v) => v === e);
 
+    const filesFilter = postFile.filter((v) => v !== postFile[findIndex]);
+    setPostFile([...filesFilter]);
+
+    const previewFilter = previewImage.filter(
+      (v) => v !== previewImage[findIndex]
+    );
+    setPreviewImage([...previewFilter]);
+
+    const filter = member.filter((v) => v !== e);
     setMember(filter);
   };
 
@@ -136,6 +180,29 @@ const TeamInput = ({ onMemberInfoHandler, stateEmptying }) => {
       postFile: postFile,
     });
   };
+
+  const memberList = (
+    <StyledMemberDiv>
+      {member.map((v, i) => {
+        return (
+          <Tooltip
+            tooltipStyle={{ marginRight: '50ren' }}
+            style={{ marginBottom: '1rem' }}
+            key={v.uniID}
+            message={<StyledImg src={previewImage[i]}></StyledImg>}
+          >
+            <StyledDeleteLable
+              onDeleteHandler={() => {
+                onDeleteHandler(v);
+              }}
+            >
+              {v.uniID} {v.name}
+            </StyledDeleteLable>
+          </Tooltip>
+        );
+      })}
+    </StyledMemberDiv>
+  );
   return (
     <>
       <StyledForm onSubmit={onHandlerSubmit}>
@@ -195,20 +262,8 @@ const TeamInput = ({ onMemberInfoHandler, stateEmptying }) => {
               </Button>
             </span>
           </StyledInputField>
-          {member.length !== 0 && (
-            <StyledMemberDiv>
-              {member.map((v) => (
-                <DeleteLable
-                  key={v.uniID}
-                  onDeleteHandler={() => {
-                    onDeleteHandler(v);
-                  }}
-                >
-                  {v.uniID} {v.name}
-                </DeleteLable>
-              ))}
-            </StyledMemberDiv>
-          )}
+
+          {member.length !== 0 && memberList}
         </StyledContainer>
         <span>
           <Button
