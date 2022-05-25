@@ -7,6 +7,7 @@ import MainAdd from './pages/Main/Add';
 
 import Login from './pages/Auth/Login';
 import Join from './pages/Auth/Join';
+import ResetPassword from './pages/Auth/ResetPassword';
 
 import Community from './pages/Community/Community';
 import CommunityAdd from './pages/Community/Add';
@@ -155,6 +156,7 @@ const AppInner = () => {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/join" element={<Join />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/community" element={<Community />} />
         <Route path="/community/detail/:id" element={<COmmunityDetail />} />
         <Route element={<PrivateRoute />}>

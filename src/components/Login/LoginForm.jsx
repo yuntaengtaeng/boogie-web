@@ -46,6 +46,10 @@ const LoginForm = ({ successCallback }) => {
     navigate('/join');
   }, [navigate]);
 
+  const moveResetPassword = useCallback(() => {
+    navigate('/reset-password');
+  }, [navigate]);
+
   const onSubmit = useCallback(
     async (event) => {
       event.preventDefault();
@@ -102,7 +106,7 @@ const LoginForm = ({ successCallback }) => {
         로그인
       </StyledButton>
       <StyledDiv onClick={moveJoin}>회원가입</StyledDiv>
-      <StyledDiv>비밀번호 찾기</StyledDiv>
+      <StyledDiv onClick={moveResetPassword}>비밀번호 찾기</StyledDiv>
     </StyledForm>
   );
 };
