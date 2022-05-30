@@ -1,17 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Button, { BUTTON_THEME } from '../../components/Ui/Button';
-import { useParams } from 'react-router-dom';
-import ApplcantsModal from '../../components/Jobposting/Detail/ApplcantsModal';
-import axios from 'axios';
-import Line from '../../components/Ui/Line';
-import { useSelector } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import Map from '../../components/Jobposting/Detail/Map';
 import uiSlice from '../../slices/ui';
-import { useDispatch } from 'react-redux';
-import { GRAY } from '../../constants/color';
+
+import axios from 'axios';
+
+import Button, { BUTTON_THEME } from '../../components/Ui/Button';
+import ApplcantsModal from '../../components/Jobposting/Detail/ApplcantsModal';
+import Line from '../../components/Ui/Line';
+import Map from '../../components/Jobposting/Detail/Map';
 import Precautions from '../../components/Jobposting/Detail/Precautions';
+
+import { GRAY } from '../../constants/color';
 
 const Container = styled.section`
   width: 60%;
@@ -36,6 +38,18 @@ const Title = styled.h2`
   font-weight: bold;
   font-size: 2rem;
   margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  > div {
+    display: flex;
+    align-items: center;
+  }
+
+  > div > button {
+    margin-left: 1rem;
+  }
 `;
 
 const Sub = styled.div`
@@ -109,6 +123,7 @@ const Bottom = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 2rem;
 
   button:first-child {
     margin-right: 1rem;
@@ -117,6 +132,7 @@ const Bottom = styled.div`
 
 const Detail = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { id } = useParams();
   const { accessToken, email } = useSelector((state) => state.user);
   const isLoggiend = !!email;
@@ -125,12 +141,18 @@ const Detail = () => {
   const [isShowingApplicantsModal, setIsShowingApplicantsModal] =
     useState(false);
 
+  console.log(jobPostingData);
+
   useEffect(() => {
     const getDetail = async () => {
       dispatch(uiSlice.actions.showLoading());
 
       try {
-        const { data } = await axios.get(`api/employment?id=${id}`);
+        const { data } = await axios.get(`api/employment?id=${id}`, {
+          headers: {
+            authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
+          },
+        });
         setJobPostingData(data);
       } catch (error) {
         if (error.response) {
@@ -145,7 +167,7 @@ const Detail = () => {
     };
 
     getDetail();
-  }, [dispatch, id]);
+  }, [accessToken, dispatch, id]);
 
   const getCompanySupportList = useCallback(() => {
     setIsShowingApplicantsModal(true);
@@ -197,10 +219,67 @@ const Detail = () => {
     );
   }, [address]);
 
+  const cancelApplication = useCallback(async () => {
+    try {
+      await axios.delete(`api/employment/applicant/${id}`, {
+        headers: {
+          authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
+        },
+      });
+
+      const cloneData = { ...jobPostingData };
+      delete cloneData.isApplied;
+
+      setJobPostingData(cloneData);
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message);
+        return;
+      }
+
+      alert(error.message);
+    } finally {
+      dispatch(uiSlice.actions.hideLoading());
+    }
+  }, [accessToken, dispatch, id, jobPostingData]);
+
+  const deleteJobPosting = useCallback(async () => {
+    dispatch(uiSlice.actions.showLoading());
+
+    try {
+      await axios.delete(`api/employment/${id}`, {
+        headers: {
+          authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
+        },
+      });
+
+      navigate('/jobposting');
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message);
+        return;
+      }
+
+      alert(error.message);
+    } finally {
+      dispatch(uiSlice.actions.hideLoading());
+    }
+  }, [accessToken, dispatch, id, navigate]);
+
   return (
     <Container>
       <Img src={jobPostingData.image} alt="회사 로고" />
-      <Title>{jobPostingData.title}</Title>
+      <Title>
+        {jobPostingData.title}
+        {jobPostingData?.hasAuthority && (
+          <div>
+            <Button theme={BUTTON_THEME.PRIMARY} onClick={deleteJobPosting}>
+              글 삭제
+            </Button>
+            <Button theme={BUTTON_THEME.SECONDARY}>글 수정</Button>
+          </div>
+        )}
+      </Title>
       <Sub>
         <span>{jobPostingData.companyName}</span>
         <span>{jobPostingData.region}</span>
@@ -235,9 +314,13 @@ const Detail = () => {
           <Button
             theme={BUTTON_THEME.PRIMARY}
             type="button"
-            onClick={requestCompanySupport}
+            onClick={
+              jobPostingData?.isApplied
+                ? cancelApplication
+                : requestCompanySupport
+            }
           >
-            지원하기
+            {jobPostingData?.isApplied ? '지원취소' : '지원하기'}
           </Button>
           <Button
             theme={BUTTON_THEME.SECONDARY}
