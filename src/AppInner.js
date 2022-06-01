@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Main from './pages/Main/Main';
 import MainDetail from './pages/Main/Detail';
 import MainAdd from './pages/Main/Add';
+import MainAmend from './pages/Main/Amend';
 
 import Login from './pages/Auth/Login';
 import Join from './pages/Auth/Join';
@@ -11,11 +12,13 @@ import ResetPassword from './pages/Auth/ResetPassword';
 
 import Community from './pages/Community/Community';
 import CommunityAdd from './pages/Community/Add';
-import COmmunityDetail from './pages/Community/Detail';
+import CommunityDetail from './pages/Community/Detail';
+import CommunityAmend from './pages/Community/Amend';
 
 import JobPosting from './pages/JobPosting/JobPosting';
 import JobPostingAdd from './pages/JobPosting/Add';
 import JobPostingDetail from './pages/JobPosting/Detail';
+import JobPostingAmend from './pages/JobPosting/Amend';
 
 import ProfileDetail from './pages/Profile/Detail';
 
@@ -154,18 +157,27 @@ const AppInner = () => {
         <Route element={<AdminRoute />}>
           <Route path="/main/add" element={<MainAdd />} />
         </Route>
+        <Route element={<AdminRoute />}>
+          <Route path="/main/amend/:id" element={<MainAmend />} />
+        </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/join" element={<Join />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/community" element={<Community />} />
-        <Route path="/community/detail/:id" element={<COmmunityDetail />} />
+        <Route path="/community/detail/:id" element={<CommunityDetail />} />
         <Route element={<PrivateRoute />}>
           <Route path="/community/add" element={<CommunityAdd />} />
+        </Route>
+        <Route element={<PrivateRoute />}>
+          <Route path="/community/amend/:id" element={<CommunityAmend />} />
         </Route>
         <Route path="/jobposting" element={<JobPosting />} />
         <Route path="/jobposting/detail/:id" element={<JobPostingDetail />} />
         <Route element={<PrivateRoute />}>
           <Route path="/jobposting/add" element={<JobPostingAdd />} />
+        </Route>
+        <Route element={<PrivateRoute />}>
+          <Route path="/jobposting/amend/:id" element={<JobPostingAmend />} />
         </Route>
         <Route path="/profile/detail/:id" element={<ProfileDetail />} />
         <Route element={<AdminRoute />}>
