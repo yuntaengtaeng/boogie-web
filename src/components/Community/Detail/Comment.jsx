@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import ProfileImage from '../Common/ProfileImage';
+import ProfileImage from '../../Ui/ProfileImage';
 
 const Container = styled.div`
   box-sizing: border-box;

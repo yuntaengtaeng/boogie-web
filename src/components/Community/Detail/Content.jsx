@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { VscEllipsis } from 'react-icons/vsc';
 import CommentAndLike from '../Common/CommentAndLike';
-import ProfileImage from '../Common/ProfileImage';
+import ProfileImage from '../../Ui/ProfileImage';
 
 const Container = styled.article`
   box-sizing: border-box;

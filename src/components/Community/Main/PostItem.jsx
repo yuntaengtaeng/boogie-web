@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import ProfileImage from '../Common/ProfileImage';
+import ProfileImage from '../../Ui/ProfileImage';
 import CommentAndLike from '../Common/CommentAndLike';
 
 const Container = styled.div`

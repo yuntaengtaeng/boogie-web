@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { GRAY } from '../../../constants/color';
+import { GRAY } from '../../constants/color';
 import { HiOutlineUser } from 'react-icons/hi';
 
 const ImgContainer = styled.div`
