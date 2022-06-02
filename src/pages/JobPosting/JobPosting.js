@@ -9,8 +9,6 @@ import axios from 'axios';
 import uiSlce from '../../slices/ui';
 import { useDispatch } from 'react-redux';
 
-import DeleteOutLineButton from '../../components/Ui/DeleteOutLineButton';
-
 const Wrap = styled.section`
   width: 80%;
   margin: 6rem auto;
@@ -22,8 +20,6 @@ const JobPosting = () => {
   const [isShowingFilterModal, setIsShowingFilterModal] = useState(false);
   const [filterOptionsData, setFilterOptionsData] = useState({});
   const [jobPostingDataList, setJobPostingDataList] = useState([]);
-  // const [selectedPosition, setSelectedPosition] = useState([]);
-  // const [selectedRegion, setSelectedRegion] = useState([]);
 
   const moveAddJobPosting = useCallback(() => {
     navigate('/jobposting/add');
@@ -39,8 +35,6 @@ const JobPosting = () => {
 
   const requestJobPostionSearch = useCallback(
     async ({ position = [], region = [] } = {}) => {
-      console.log(position);
-      console.log(region);
       const regionQueries = region.map(({ value }) => `region=${value}`);
       const positionQueries = position.map(({ value }) => `position=${value}`);
 

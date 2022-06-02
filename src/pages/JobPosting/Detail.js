@@ -141,8 +141,6 @@ const Detail = () => {
   const [isShowingApplicantsModal, setIsShowingApplicantsModal] =
     useState(false);
 
-  console.log(jobPostingData);
-
   useEffect(() => {
     const getDetail = async () => {
       dispatch(uiSlice.actions.showLoading());
@@ -153,6 +151,7 @@ const Detail = () => {
             authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
           },
         });
+
         setJobPostingData(data);
       } catch (error) {
         if (error.response) {
@@ -266,6 +265,10 @@ const Detail = () => {
     }
   }, [accessToken, dispatch, id, navigate]);
 
+  const moveAmend = useCallback(() => {
+    navigate(`/jobposting/amend/${id}`);
+  }, [id, navigate]);
+
   return (
     <Container>
       <Img src={jobPostingData.image} alt="회사 로고" />
@@ -276,14 +279,16 @@ const Detail = () => {
             <Button theme={BUTTON_THEME.PRIMARY} onClick={deleteJobPosting}>
               글 삭제
             </Button>
-            <Button theme={BUTTON_THEME.SECONDARY}>글 수정</Button>
+            <Button theme={BUTTON_THEME.SECONDARY} onClick={moveAmend}>
+              글 수정
+            </Button>
           </div>
         )}
       </Title>
       <Sub>
         <span>{jobPostingData.companyName}</span>
         <span>{jobPostingData.region}</span>
-        <span>{jobPostingData.position}</span>
+        <span>{jobPostingData.positionName}</span>
       </Sub>
       <Line />
       <Pre>{jobPostingData.content}</Pre>
