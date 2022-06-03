@@ -36,7 +36,6 @@ import AdminRoute from './components/Route/AdminRoute';
 import Loading from './components/Ui/Loading';
 
 import { useSelector, useDispatch } from 'react-redux';
-import uiSlce from './slices/ui';
 import userSlice from './slices/user';
 
 import axios from 'axios';
@@ -83,7 +82,7 @@ const AppInner = () => {
               );
 
               //새로운 토큰 저장
-              dispatch(userSlice.actions.setUser(data));
+              dispatch(userSlice.actions.setAccessToken(data.accessToken));
               //419 요청에 실패했던 요청 새로운 토큰으로 재요청
               originalRequest.headers.authorization = `${process.env.REACT_APP_JWT_KEY} ${data.accessToken}`;
 
