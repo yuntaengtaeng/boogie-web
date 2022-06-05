@@ -12,7 +12,7 @@ import FilterForm from './FilterForm';
 const FilterDiv = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 1.25rem;
+  margin-bottom: 3rem;
   width: fit-content;
 `;
 

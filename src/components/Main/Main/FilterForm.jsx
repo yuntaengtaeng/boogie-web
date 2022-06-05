@@ -10,11 +10,13 @@ const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   width: 37.5rem;
+  max-height: 80vh;
+  overflow-y: scroll;
 `;
 
 const StyledSpan = styled.span`
   display: inline-flex;
-  margin-bottom: 1.25rem;
+  margin-bottom: 2rem;
 `;
 
 const FilterForm = ({
@@ -82,7 +84,7 @@ const FilterForm = ({
   return (
     <StyledForm onSubmit={onHandlerSubmit}>
       <Input
-        style={{ width: '250px', marginBottom: '150px' }}
+        style={{ width: '250px', marginBottom: '80px' }}
         type="text"
         placeholder="이름"
         value={name}
@@ -93,7 +95,7 @@ const FilterForm = ({
       <SearchSelect
         style={{
           width: '250px',
-          marginBottom: '150px',
+          marginBottom: '80px',
         }}
         placeholder="플랫폼"
         options={plattformList}
@@ -113,7 +115,7 @@ const FilterForm = ({
       <SearchSelect
         style={{
           width: '250px',
-          marginBottom: '150px',
+          marginBottom: '80px',
         }}
         placeholder="기술"
         options={technologyList}
@@ -133,7 +135,7 @@ const FilterForm = ({
       <SearchSelect
         style={{
           width: '250px',
-          marginBottom: '150px',
+          marginBottom: '80px',
         }}
         placeholder="반"
         options={classList}

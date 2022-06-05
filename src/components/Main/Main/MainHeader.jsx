@@ -18,8 +18,7 @@ const StyledStrong = styled.strong`
 
 const StyledP = styled.p`
   margin-top: 1.25rem;
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 1.4rem;
 `;
 
 const MainHeader = () => {
