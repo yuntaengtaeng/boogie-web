@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import Card from './Card';
 import PropTypes from 'prop-types';
-import { GRAY, BLACK } from '../../../constants/color';
+import { GRAY } from '../../../constants/color';
+import HoverTransform from '../HoverTransform';
 
-const Wrap = styled.div`
+const Container = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -60,31 +61,33 @@ const CardPreview = ({
   onClick,
 }) => {
   return (
-    <Card
-      style={{
-        width: '15rem',
-        height: '15rem',
-        margin: '0.625rem',
-        padding: '0',
-        boxSizing: 'border-box',
-        cursor: 'pointer',
-        display: 'flex',
-      }}
-    >
-      <Wrap onClick={onClick}>
-        <ImgContainer>
-          <Img src={src} alt={alt} loading="lazy" />
-        </ImgContainer>
-        <Bottom>
-          <Title>{title}</Title>
-          <Styledp>{sub}</Styledp>
-          <Styledp>{description}</Styledp>
-          <ViewCountArea>
-            <span>{viewCount}</span>
-          </ViewCountArea>
-        </Bottom>
-      </Wrap>
-    </Card>
+    <HoverTransform>
+      <Card
+        style={{
+          width: '15rem',
+          height: '15rem',
+          margin: '0.625rem',
+          padding: '0',
+          boxSizing: 'border-box',
+          cursor: 'pointer',
+          display: 'flex',
+        }}
+      >
+        <Container onClick={onClick}>
+          <ImgContainer>
+            <Img src={src} alt={alt} loading="lazy" />
+          </ImgContainer>
+          <Bottom>
+            <Title>{title}</Title>
+            <Styledp>{sub}</Styledp>
+            <Styledp>{description}</Styledp>
+            <ViewCountArea>
+              <span>{viewCount}</span>
+            </ViewCountArea>
+          </Bottom>
+        </Container>
+      </Card>
+    </HoverTransform>
   );
 };
 

@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Card from '../../Ui/Card/Card';
 import { GRAY } from '../../../constants/color';
-import { AiFillEye } from 'react-icons/ai';
 import Tooltip from '../../Ui/Tooltip';
+import HoverTransform from '../../Ui/HoverTransform';
 
 const IMAGE_MAX_LENGTH = 3;
 
@@ -97,40 +97,39 @@ const MainCardPreview = ({
     }
   }
   return (
-    <Card
-      style={{
-        padding: '16px 0px',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <StyledContainerDiv>
-        <StyledTitleP>{title}</StyledTitleP>
-        <StyledDescriptionP>{description}</StyledDescriptionP>
-        <StyledSpan>{platform}</StyledSpan>
-        {technologyStack.length !== 0 && (
-          <StyledTechnologyStackDiv>
-            {technologyStack}
-            {etc > 0 && (
-              <h5 style={{ margin: '0' }}>
-                <Tooltip
-                  tooltipStyle={{ marginTop: '2rem', padding: '0.5rem' }}
-                  message={hoverItem}
-                >
-                  +{etc}
-                </Tooltip>
-              </h5>
-            )}
-          </StyledTechnologyStackDiv>
-        )}
-        <StyledLookupP>
-          <>
-            <AiFillEye style={{ paddingRight: '4px' }} />
-            {lookup}
-          </>
-        </StyledLookupP>
-      </StyledContainerDiv>
-    </Card>
+    <HoverTransform>
+      <Card
+        style={{
+          padding: '16px 0px',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <StyledContainerDiv>
+          <StyledTitleP>{title}</StyledTitleP>
+          <StyledDescriptionP>{description}</StyledDescriptionP>
+          <StyledSpan>{platform}</StyledSpan>
+          {technologyStack.length !== 0 && (
+            <StyledTechnologyStackDiv>
+              {technologyStack}
+              {etc > 0 && (
+                <h5 style={{ margin: '0' }}>
+                  <Tooltip
+                    tooltipStyle={{ marginTop: '2rem', padding: '0.5rem' }}
+                    message={hoverItem}
+                  >
+                    +{etc}
+                  </Tooltip>
+                </h5>
+              )}
+            </StyledTechnologyStackDiv>
+          )}
+          <StyledLookupP>
+            <>{lookup}</>
+          </StyledLookupP>
+        </StyledContainerDiv>
+      </Card>
+    </HoverTransform>
   );
 };
 
