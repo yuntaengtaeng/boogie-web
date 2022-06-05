@@ -8,12 +8,19 @@ const Wrap = styled.section`
   flex-direction: column;
 `;
 
+const EmptyPostItem = styled.div`
+  margin: 2rem 0rem;
+  text-align: center;
+`;
+
 const CommentList = ({ commentList = [] }) => {
   return (
     <Wrap>
-      {commentList.map((v) => (
-        <PostItem key={v.id} commentData={v}></PostItem>
-      ))}
+      {commentList.length ? (
+        commentList.map((v) => <PostItem key={v.id} commentData={v}></PostItem>)
+      ) : (
+        <EmptyPostItem>게시글이 없습니다.</EmptyPostItem>
+      )}
     </Wrap>
   );
 };

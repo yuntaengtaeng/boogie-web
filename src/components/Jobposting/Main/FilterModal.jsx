@@ -21,7 +21,7 @@ const StyledButton = styled(Button)`
 `;
 
 const ChipsArea = styled.div`
-  padding: 4rem 0rem;
+  padding: 3rem 0rem;
 
   > * {
     margin-right: 1rem;

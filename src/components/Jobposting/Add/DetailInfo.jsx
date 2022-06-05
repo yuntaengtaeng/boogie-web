@@ -15,6 +15,10 @@ const StyledDatePicker = styled(DatePicker)`
   border: 1px solid ${GRAY};
 `;
 
+const Address = styled.div`
+  margin-bottom: 1rem;
+`;
+
 const Sub = styled.div`
   width: 30%;
 
@@ -34,7 +38,7 @@ const DetailInfo = ({ address, position, date }) => {
         <StyledButton type="button" onClick={address?.onClick}>
           주소 검색
         </StyledButton>
-        <span>{address?.address}</span>
+        <Address>{address?.address}</Address>
       </div>
       <Dropdown
         value={position?.positionId || ''}
