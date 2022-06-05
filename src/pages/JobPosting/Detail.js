@@ -192,6 +192,10 @@ const Detail = () => {
 
       if (isApplied) {
         alert('지원이 완료되었습니다.');
+        const cloneData = { ...jobPostingData };
+        cloneData.isApplied = true;
+
+        setJobPostingData(cloneData);
       }
     } catch (error) {
       if (error.response) {
@@ -203,7 +207,7 @@ const Detail = () => {
     } finally {
       dispatch(uiSlice.actions.hideLoading());
     }
-  }, [accessToken, dispatch, id]);
+  }, [accessToken, dispatch, id, jobPostingData]);
 
   const address = JSON.parse(jobPostingData?.addressInformation || '{}');
   const marker = {
