@@ -12,7 +12,7 @@ import axios from 'axios';
 const StyledForm = styled.form`
   margin: auto;
   text-align: center;
-  width: 40%;
+  width: 30vw;
 
   @media all and (max-width: 479px) {
     width: 100%;
@@ -27,6 +27,9 @@ const Label = styled.label`
 
 const StyledButton = styled(Button)`
   margin: 2rem auto;
+  width: 100%;
+  height: 3.5rem;
+  font-size: 1.2rem;
 `;
 
 const StyledDiv = styled.div`

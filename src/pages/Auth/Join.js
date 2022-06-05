@@ -6,10 +6,23 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import uiSlce from '../../slices/ui';
 import { useDispatch } from 'react-redux';
+import { PRIMARY } from '../../constants/color';
+
+const Title = styled.h1`
+  color: ${PRIMARY};
+  text-align: center;
+  font-weight: bold;
+  margin: 2rem;
+  font-size: 3.5rem;
+`;
 
 const Form = styled.form`
   margin: auto;
-  width: 60%;
+  width: 30%;
+
+  @media all and (max-width: 650px) {
+    width: 80%;
+  }
 `;
 
 const Row = styled.div`
@@ -21,15 +34,18 @@ const RaidoRow = styled(Row)`
 `;
 
 const Certification = styled(Button)`
-  min-width: 200px;
+  min-width: 120px;
 
   @media all and (max-width: 479px) {
-    min-width: 100px;
+    min-width: 120px;
   }
 `;
 
 const SubmitButton = styled(Button)`
   margin: 2em auto;
+  width: 100%;
+  height: 3.5rem;
+  font-size: 1.2rem;
 `;
 
 const Label = styled.label`
@@ -181,92 +197,95 @@ const Join = () => {
   );
 
   return (
-    <Form onSubmit={onSubmit}>
-      <Label>아이디(이메일)</Label>
-      <Row>
-        <Input
-          type="text"
-          ref={(el) => (inputRef.current['id'] = el)}
-          disabled={isSendEmail}
-        />
-        <Certification
-          type="button"
-          theme={BUTTON_THEME.PRIMARY}
-          onClick={requestEmailFromServer}
-          disabled={isSendEmail}
-        >
-          이메일 인증
-        </Certification>
-      </Row>
-      <Label>이메일 인증 코드</Label>
-      <Row>
-        <Input
-          type="text"
-          ref={(el) => (inputRef.current['code'] = el)}
-          disabled={isValidEmail}
-        />
-        <Certification
-          type="button"
-          theme={BUTTON_THEME.PRIMARY}
-          onClick={requestAuthEmailFromServer}
-          disabled={isValidEmail}
-        >
-          인증하기
-        </Certification>
-      </Row>
-      <Label>닉네임</Label>
-      <Input type="text" ref={(el) => (inputRef.current['nickname'] = el)} />
-      <Label>비밀번호</Label>
-      <Input
-        type="password"
-        ref={(el) => (inputRef.current['password'] = el)}
-      />
-      <Label>비밀번호 확인</Label>
-      <Input
-        type="password"
-        ref={(el) => (inputRef.current['verifyPassword'] = el)}
-      />
-      <RaidoRow>
-        <label htmlFor="student">
-          학생
-          <input
-            id="student"
-            value="student"
-            name="role"
-            type="radio"
-            checked={role === 'student'}
-            onChange={jobChangeHandler}
-          />
-        </label>
-        <label htmlFor="basic">
-          일반
-          <input
-            id="basic"
-            value="basic"
-            name="role"
-            type="radio"
-            checked={role === 'basic'}
-            onChange={jobChangeHandler}
-          />
-        </label>
-      </RaidoRow>
-      {role === 'student' && (
-        <>
-          <Label>학번</Label>
-          <Input type="text" ref={(el) => (inputRef.current['uniId'] = el)} />
-          <Label>이름</Label>
-          <Input type="text" ref={(el) => (inputRef.current['name'] = el)} />
-          <Label>생년월일(8자리)</Label>
+    <>
+      <Title>Boogie</Title>
+      <Form onSubmit={onSubmit}>
+        <Label>아이디(이메일)</Label>
+        <Row>
           <Input
             type="text"
-            ref={(el) => (inputRef.current['birthday'] = el)}
+            ref={(el) => (inputRef.current['id'] = el)}
+            disabled={isSendEmail}
           />
-        </>
-      )}
-      <SubmitButton type="submit" theme={BUTTON_THEME.PRIMARY}>
-        회원가입
-      </SubmitButton>
-    </Form>
+          <Certification
+            type="button"
+            theme={BUTTON_THEME.PRIMARY}
+            onClick={requestEmailFromServer}
+            disabled={isSendEmail}
+          >
+            이메일 인증
+          </Certification>
+        </Row>
+        <Label>이메일 인증 코드</Label>
+        <Row>
+          <Input
+            type="text"
+            ref={(el) => (inputRef.current['code'] = el)}
+            disabled={isValidEmail}
+          />
+          <Certification
+            type="button"
+            theme={BUTTON_THEME.PRIMARY}
+            onClick={requestAuthEmailFromServer}
+            disabled={isValidEmail}
+          >
+            인증하기
+          </Certification>
+        </Row>
+        <Label>닉네임</Label>
+        <Input type="text" ref={(el) => (inputRef.current['nickname'] = el)} />
+        <Label>비밀번호</Label>
+        <Input
+          type="password"
+          ref={(el) => (inputRef.current['password'] = el)}
+        />
+        <Label>비밀번호 확인</Label>
+        <Input
+          type="password"
+          ref={(el) => (inputRef.current['verifyPassword'] = el)}
+        />
+        <RaidoRow>
+          <label htmlFor="student">
+            학생
+            <input
+              id="student"
+              value="student"
+              name="role"
+              type="radio"
+              checked={role === 'student'}
+              onChange={jobChangeHandler}
+            />
+          </label>
+          <label htmlFor="basic">
+            일반
+            <input
+              id="basic"
+              value="basic"
+              name="role"
+              type="radio"
+              checked={role === 'basic'}
+              onChange={jobChangeHandler}
+            />
+          </label>
+        </RaidoRow>
+        {role === 'student' && (
+          <>
+            <Label>학번</Label>
+            <Input type="text" ref={(el) => (inputRef.current['uniId'] = el)} />
+            <Label>이름</Label>
+            <Input type="text" ref={(el) => (inputRef.current['name'] = el)} />
+            <Label>생년월일(8자리)</Label>
+            <Input
+              type="text"
+              ref={(el) => (inputRef.current['birthday'] = el)}
+            />
+          </>
+        )}
+        <SubmitButton type="submit" theme={BUTTON_THEME.PRIMARY}>
+          회원가입
+        </SubmitButton>
+      </Form>
+    </>
   );
 };
 

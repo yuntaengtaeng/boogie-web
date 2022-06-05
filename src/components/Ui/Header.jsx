@@ -31,6 +31,10 @@ const StyledLi = styled.li`
   font-size: 1rem;
 `;
 
+const Logout = styled(StyledLi)`
+  font-weight: 300;
+`;
+
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: ${BLACK};
@@ -71,7 +75,7 @@ const Header = () => {
                   {nickname} 님
                 </StyledLink>
               </StyledLi>
-              <StyledLi onClick={logoutHandler}>로그아웃</StyledLi>
+              <Logout onClick={logoutHandler}>로그아웃</Logout>
             </>
           ) : (
             <StyledLi>

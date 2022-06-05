@@ -8,8 +8,12 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const Container = styled.section`
-  margin: auto;
-  width: 60%;
+  margin: 3rem auto 0rem auto;
+  width: 30%;
+
+  @media all and (max-width: 650px) {
+    width: 80%;
+  }
 `;
 
 const Row = styled.div`
@@ -23,16 +27,18 @@ const Label = styled.label`
 `;
 
 const Certification = styled(Button)`
-  min-width: 200px;
+  min-width: 120px;
 
   @media all and (max-width: 479px) {
-    min-width: 100px;
+    min-width: 120px;
   }
 `;
 
 const ChangeButton = styled(Button)`
-  margin: 2rem auto 0rem auto;
-  width: 20%;
+  margin: 2em auto;
+  width: 100%;
+  height: 3.5rem;
+  font-size: 1.2rem;
 `;
 
 const ResetPassword = () => {
