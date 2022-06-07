@@ -113,21 +113,18 @@ const Detail = () => {
 
     const formData = new FormData();
 
-    console.log(profileData);
-
     Object.keys(profileData).forEach((v) => {
       const key = `${v}`;
       const value = Array.isArray(profileData[`${v}`])
         ? JSON.stringify(profileData[`${v}`])
         : profileData[`${v}`];
-      console.log(v);
-      console.log(value);
+
       formData.append(key, value);
     });
 
     dispatch(uiSlce.actions.showLoading());
     try {
-      await axios.patch('api/profile', formData, {
+      await axios.put('api/profile', formData, {
         headers: {
           authorization: accessToken,
           'Content-Type': 'multipart/form-data',
