@@ -24,9 +24,14 @@ const StyledDiv = styled.div`
   flex-direction: column;
 `;
 
-const ProjectVideoLink = ({ onProjectUrlHandler, stateEmptying }) => {
+const ProjectVideoLink = ({
+  onProjectUrlHandler,
+  stateEmptying,
+  data,
+  isData,
+}) => {
   const [linkUrl, setLinkUrl] = useState('');
-  const [urlArr, setUrlArr] = useState([]);
+  const [urlArr, setUrlArr] = useState(isData ? data.link : []);
 
   useEffect(() => {
     if (urlArr.length === 0) {
@@ -89,14 +94,13 @@ const ProjectVideoLink = ({ onProjectUrlHandler, stateEmptying }) => {
             ))}
           </StyledDiv>
         )}
-        {/*  */}
         <span>
           <Button
             type="submit"
             style={{ float: 'right', marginTop: '1rem' }}
             disabled={urlArr.length === 0}
           >
-            다음
+            {data ? '수정' : '다음'}
           </Button>
         </span>
       </StyledForm>

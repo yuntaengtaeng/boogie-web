@@ -28,9 +28,11 @@ const StyleDiv = styled.div`
 const PlattformsAndTechnologysSelect = ({
   onPlattformsAndTechnologysHandler,
   stateEmptying,
+  data,
+  isData,
 }) => {
-  const [plattforms, setPlattforms] = useState([]);
-  const [technologys, setTechnologys] = useState([]);
+  const [plattforms, setPlattforms] = useState(isData ? data.plattform : []);
+  const [technologys, setTechnologys] = useState(isData ? data.technology : []);
   const [plattformList, setPlattformList] = useState([]);
   const [technologyList, setTechnologyList] = useState([]);
 
@@ -38,7 +40,7 @@ const PlattformsAndTechnologysSelect = ({
     if (plattforms.length === 0 || technologys.length === 0) {
       stateEmptying('plattformsAndTechnologys');
     }
-  }, [plattforms, technologys]);
+  }, [plattforms, stateEmptying, technologys]);
 
   useEffect(() => {
     const renameKeys = (arr) => {
@@ -158,7 +160,7 @@ const PlattformsAndTechnologysSelect = ({
             style={{ float: 'right', marginTop: '1rem' }}
             disabled={technologys.length === 0 || plattforms.length === 0}
           >
-            다음
+            {data ? '수정' : '다음'}
           </Button>
         </span>
       </StyledForm>

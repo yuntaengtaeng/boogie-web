@@ -34,8 +34,14 @@ const StyledSpan = styled.span`
   margin: 1.25rem 0;
 `;
 
-const ProjectDesignPdf = ({ onPdfFileHandler, stateEmptying }) => {
-  const [pdfFile, setPdfFile] = useState(null);
+const ProjectDesignPdf = ({
+  onPdfFileHandler,
+  stateEmptying,
+  data,
+  isData,
+}) => {
+  const [pdfFile, setPdfFile] = useState(isData ? data.projectDesign : null);
+  const [pdfName, setPdfName] = useState(isData ? data.projectDesign : '');
   const onDeleteHandler = () => {
     setPdfFile(null);
   };
@@ -44,7 +50,12 @@ const ProjectDesignPdf = ({ onPdfFileHandler, stateEmptying }) => {
     if (pdfFile === null) {
       stateEmptying('projectDesignPdf');
     }
-  }, [pdfFile]);
+  }, [pdfFile, stateEmptying]);
+
+  const onChange = (e) => {
+    setPdfFile(e.target.files[0]);
+    setPdfName(e.target.files[0].name);
+  };
 
   const onHandlerSubmit = (e) => {
     e.preventDefault();
@@ -63,7 +74,7 @@ const ProjectDesignPdf = ({ onPdfFileHandler, stateEmptying }) => {
             accept=".pdf"
             style={{ display: 'none' }}
             onChange={(e) => {
-              setPdfFile(e.target.files[0]);
+              onChange(e);
             }}
           ></input>
           {pdfFile && (
@@ -74,7 +85,7 @@ const ProjectDesignPdf = ({ onPdfFileHandler, stateEmptying }) => {
               }}
             >
               <DeleteLable onDeleteHandler={onDeleteHandler}>
-                {pdfFile.name}
+                {pdfName}
               </DeleteLable>
             </span>
           )}
@@ -85,7 +96,7 @@ const ProjectDesignPdf = ({ onPdfFileHandler, stateEmptying }) => {
             style={{ float: 'right', marginTop: '1rem' }}
             disabled={!pdfFile}
           >
-            다음
+            {data ? '수정' : '다음'}
           </Button>
         </span>
       </StyledForm>

@@ -26,12 +26,21 @@ const StyleDatePicker = styled(DatePicker)`
   border: 0.063rem solid ${GRAY};
 `;
 
-const GroupInfoInput = ({ onGroupInfoHandler, stateEmptying }) => {
+const GroupInfoInput = ({
+  onGroupInfoHandler,
+  stateEmptying,
+  data,
+  isData,
+}) => {
   const [startDate, setStartDate] = useState(new Date());
-  const [name, setGroutName] = useState('');
+  const [dateValue, setDateValue] = useState(
+    isData ? data.year : startDate.getFullYear()
+  );
+  const [name, setGroutName] = useState(isData ? data.groupName : '');
   const [classList, setClassList] = useState([]);
-  const [classId, setClassId] = useState(null);
+  const [classId, setClassId] = useState(isData ? data.classInfo.id : null);
   const satisfied = name === '' || classId === null || startDate === null;
+
   useEffect(() => {
     const renameKeys = (arr) => {
       const rename = arr.map(({ id, name }) => ({
@@ -53,6 +62,11 @@ const GroupInfoInput = ({ onGroupInfoHandler, stateEmptying }) => {
     getList();
   }, []);
 
+  const onDateChange = (e) => {
+    setStartDate(e);
+    setDateValue(e.getFullYear());
+  };
+
   const onClassNameItemHandler = (e) => {
     setClassId(e);
   };
@@ -63,7 +77,7 @@ const GroupInfoInput = ({ onGroupInfoHandler, stateEmptying }) => {
     onGroupInfoHandler({
       groupName: name,
       year: startDate.getFullYear(),
-      classID: classId,
+      classId: classId,
     });
   };
 
@@ -71,7 +85,7 @@ const GroupInfoInput = ({ onGroupInfoHandler, stateEmptying }) => {
     if (satisfied) {
       stateEmptying('groupInfo');
     }
-  }, [name, classId, startDate]);
+  }, [name, classId, startDate, satisfied, stateEmptying]);
 
   return (
     <>
@@ -87,9 +101,10 @@ const GroupInfoInput = ({ onGroupInfoHandler, stateEmptying }) => {
         />
         <StyleDatePicker
           selected={startDate}
-          onChange={(date) => setStartDate(date)}
+          onChange={(e) => onDateChange(e)}
           showYearPicker
           dateFormat="yyyy"
+          value={dateValue}
         />
         <Dropdown
           value={classId || ''}
@@ -98,7 +113,7 @@ const GroupInfoInput = ({ onGroupInfoHandler, stateEmptying }) => {
           onChange={(e) => {
             onClassNameItemHandler(e.target.value);
           }}
-          style={{ width: '15.625rem' }}
+          style={{ width: '15.625rem', paddingLeft: '0.75rem' }}
         />
         <span>
           <Button
@@ -106,7 +121,7 @@ const GroupInfoInput = ({ onGroupInfoHandler, stateEmptying }) => {
             style={{ float: 'right', marginTop: '1rme' }}
             disabled={name === '' || classId === null}
           >
-            다음
+            {data ? '수정' : '다음'}
           </Button>
         </span>
       </StyledForm>

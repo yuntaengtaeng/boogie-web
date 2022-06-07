@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { GRAY, BLACK } from '../../../constants/color';
 import Input from '../../Ui/Input';
 import Button from '../../Ui/Button';
 import Line from '../../Ui/Line';
 import DeleteLable from '../../Ui/DeleteLable';
 import Tooltip from '../../Ui/Tooltip';
+import axios from 'axios';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -89,15 +91,22 @@ const StyledImg = styled.img`
   width: 12rem;
 `;
 
-const TeamInput = ({ onMemberInfoHandler, stateEmptying }) => {
+const TeamInput = ({
+  onMemberInfoHandler,
+  stateEmptying,
+  data,
+  isEdit,
+  isData,
+}) => {
+  const { accessToken } = useSelector((state) => state.user);
   const [name, setName] = useState('');
-  const [uniID, setUniId] = useState('');
+  const [uniId, setUniId] = useState('');
   const [introduction, setIntroduction] = useState('');
   const [file, setFile] = useState(null);
   const [postFile, setPostFile] = useState([]);
   const [isEmpty, setIsEmpty] = useState(true);
-  const [member, setMember] = useState([]);
-  const [previewImage, setPreviewImage] = useState([]);
+  const [member, setMember] = useState(isData ? data.teamMember : []);
+  const [previewImage, setPreviewImage] = useState(isData ? data.image : []);
 
   useEffect(() => {
     if (member.length !== 0) {
@@ -108,12 +117,12 @@ const TeamInput = ({ onMemberInfoHandler, stateEmptying }) => {
   }, [member]);
 
   useEffect(() => {
-    if (member.length === 0 || postFile.length === 0) {
+    if (member.length === 0) {
       stateEmptying('member');
     }
-  }, [member, postFile, stateEmptying]);
+  }, [member, stateEmptying]);
 
-  const satisfied = name && uniID && introduction && file;
+  const satisfied = name && uniId && introduction && file;
 
   const readerImage = useCallback(
     (e) => {
@@ -133,13 +142,13 @@ const TeamInput = ({ onMemberInfoHandler, stateEmptying }) => {
     if (satisfied) {
       if (
         !postFile.find((e) => e.name === file.name) &&
-        !member.find((e) => e.uniID === uniID)
+        !member.find((e) => e.uniId === uniId)
       ) {
         setMember([
           ...member,
           {
             name,
-            uniID,
+            uniId,
             introduction,
           },
         ]);
@@ -157,7 +166,25 @@ const TeamInput = ({ onMemberInfoHandler, stateEmptying }) => {
     setFile(null);
   };
 
+  const deleteMember = async (uniId) => {
+    try {
+      const response = await axios.delete(
+        `api/senier-project/member/${uniId}`,
+        {
+          headers: {
+            authorization: accessToken,
+          },
+        }
+      );
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
   const onDeleteHandler = (e) => {
+    if (isEdit) {
+      deleteMember(e.uniId);
+    }
     const findIndex = member.findIndex((v) => v === e);
 
     const filesFilter = postFile.filter((v) => v !== postFile[findIndex]);
@@ -188,7 +215,7 @@ const TeamInput = ({ onMemberInfoHandler, stateEmptying }) => {
           <Tooltip
             tooltipStyle={{ marginRight: '25rem' }}
             style={{ marginBottom: '1rem' }}
-            key={v.uniID}
+            key={v.uniId}
             message={<StyledImg src={previewImage[i]}></StyledImg>}
           >
             <StyledDeleteLable
@@ -196,7 +223,7 @@ const TeamInput = ({ onMemberInfoHandler, stateEmptying }) => {
                 onDeleteHandler(v);
               }}
             >
-              {v.uniID} {v.name}
+              {v.uniId} {v.name}
             </StyledDeleteLable>
           </Tooltip>
         );
@@ -225,7 +252,7 @@ const TeamInput = ({ onMemberInfoHandler, stateEmptying }) => {
               }}
               type="number"
               placeholder="학번"
-              value={uniID}
+              value={uniId}
               onChange={(e) => {
                 setUniId(e.target.value);
               }}
@@ -272,7 +299,7 @@ const TeamInput = ({ onMemberInfoHandler, stateEmptying }) => {
             style={{ float: 'right', marginTop: '1rme' }}
             disabled={isEmpty}
           >
-            다음
+            {data ? '수정' : '다음'}
           </Button>
         </span>
       </StyledForm>
