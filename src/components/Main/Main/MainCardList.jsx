@@ -40,8 +40,8 @@ const MainCardList = ({ filterOption, year }) => {
         URL += `&name=${filterOption.name}`;
       }
 
-      if (Object.keys(filterOption.classID).length !== 0) {
-        URL += `&classID=${filterOption.classID.value}`;
+      if (Object.keys(filterOption.classId).length !== 0) {
+        URL += `&classId=${filterOption.classId.value}`;
       }
 
       if (!!queries) {

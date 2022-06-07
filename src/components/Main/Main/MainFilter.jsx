@@ -50,7 +50,7 @@ const MainFilter = ({ filterOption, onFilterOptionHandler }) => {
 
     const getList = async () => {
       try {
-        const [plattform, technology, classID] = await Promise.all([
+        const [plattform, technology, classId] = await Promise.all([
           await axios.get('api/category/plattform'),
           await axios.get('api/category/technology'),
           await axios.get('api/category/class'),
@@ -58,7 +58,7 @@ const MainFilter = ({ filterOption, onFilterOptionHandler }) => {
 
         setPlattformList([...renameKeys(plattform.data.plattformList)]);
         setTechnologyList([...renameKeys(technology.data.technologyList)]);
-        setClassList([...renameKeys(classID.data.classList)]);
+        setClassList([...renameKeys(classId.data.classList)]);
       } catch (e) {
         alert(e.message);
       }
@@ -75,11 +75,11 @@ const MainFilter = ({ filterOption, onFilterOptionHandler }) => {
     !!filterOption.name ||
     filterOption.plattform.length !== 0 ||
     filterOption.technology.length !== 0 ||
-    Object.keys(filterOption.classID).length !== 0;
+    Object.keys(filterOption.classId).length !== 0;
 
   const onDeleteClassNameHandler = () => {
     const clone = { ...filterOption };
-    clone.classID = {};
+    clone.classId = {};
 
     onFilterOptionHandler(clone);
   };
@@ -119,13 +119,13 @@ const MainFilter = ({ filterOption, onFilterOptionHandler }) => {
         </StyledSpan>
         {filterSatisfied && (
           <FilterOptionDiv>
-            {Object.keys(filterOption.classID).length !== 0 && (
+            {Object.keys(filterOption.classId).length !== 0 && (
               <DeleteOutLineButton
                 onDeleteHandler={() => {
                   onDeleteClassNameHandler();
                 }}
               >
-                {filterOption.classID.name}
+                {filterOption.classId.name}
               </DeleteOutLineButton>
             )}
             {filterOption.name && (

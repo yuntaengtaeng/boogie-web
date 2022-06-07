@@ -41,7 +41,7 @@ const Main = () => {
     name: '',
     plattform: [],
     technology: [],
-    classID: {},
+    classId: {},
   });
 
   const onFilterOptionHandler = (data) => {

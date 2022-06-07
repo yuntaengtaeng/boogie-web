@@ -30,7 +30,7 @@ const FilterForm = ({
   const [name, setName] = useState(item.name || '');
   const [plattform, setPlattform] = useState(item.plattform);
   const [technology, setTechnology] = useState(item.technology);
-  const [classID, setClassID] = useState(item.classID);
+  const [classId, setClassId] = useState(item.classId);
 
   const onPlatformsItemHandler = (e) => {
     const find = plattform.find((element) => element.name === e.name);
@@ -53,7 +53,7 @@ const FilterForm = ({
   };
 
   const onClassIdItemHandler = (e) => {
-    setClassID(e);
+    setClassId(e);
   };
 
   const onPlatformsDeleteHandler = (e) => {
@@ -67,7 +67,7 @@ const FilterForm = ({
   };
 
   const onClassIdDeleteHandler = () => {
-    setClassID({});
+    setClassId({});
   };
 
   const onHandlerSubmit = (e) => {
@@ -77,7 +77,7 @@ const FilterForm = ({
       name,
       plattform,
       technology,
-      classID,
+      classId,
     });
     hideModal();
   };
@@ -141,11 +141,11 @@ const FilterForm = ({
         options={classList}
         onSelectItemHandler={onClassIdItemHandler}
       ></SearchSelect>
-      {Object.keys(classID).length !== 0 && (
+      {Object.keys(classId).length !== 0 && (
         <StyledSpan>
           <span style={{ marginRight: '8px' }}>
             <Chip onDeleteHandler={() => onClassIdDeleteHandler()}>
-              {classID.name}
+              {classId.name}
             </Chip>
           </span>
         </StyledSpan>
