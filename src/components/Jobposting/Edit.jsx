@@ -66,7 +66,6 @@ const formDataReducer = (state, action) => {
 };
 
 const Edit = ({ onSubmitHandler, storedValue, submitButtonText }) => {
-  console.log(submitButtonText);
   const [formData, reducerDispatch] = useReducer(
     formDataReducer,
     initState,
