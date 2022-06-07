@@ -1,30 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
 import styled from 'styled-components';
-import { HiOutlineUser } from 'react-icons/hi';
-import { BLACK, GRAY } from '../../constants/color';
+import { BLACK } from '../../constants/color';
+import ProfileImage from '../Ui/ProfileImage';
 
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const ImageArea = styled.div`
-  height: 10rem;
-  width: 10rem;
-  border-radius: 50%;
-  background-color: ${GRAY};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  margin-bottom: 1rem;
-`;
-
-const StyledImg = styled.img`
-  height: 10rem;
-  width: 10rem;
 `;
 
 const StyledLabel = styled.label`
@@ -66,13 +49,7 @@ const AddProfileImage = ({ image, onAddImageHandler, isMe }) => {
 
   return (
     <StyledDiv>
-      <ImageArea>
-        {previewImage ? (
-          <StyledImg src={previewImage} />
-        ) : (
-          <HiOutlineUser size="5rem" />
-        )}
-      </ImageArea>
+      <ProfileImage src={previewImage} size="160"></ProfileImage>
 
       {isMe && (
         <StyledLabel>
