@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { VscEllipsis } from 'react-icons/vsc';
 import CommentAndLike from '../Common/CommentAndLike';
 import ProfileImage from '../../Ui/ProfileImage';
+import Menu from './Menu';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import uiSlice from '../../../slices/ui';
 
 const Container = styled.article`
   box-sizing: border-box;
@@ -66,8 +70,45 @@ const Content = ({
   commentCount,
   likeCount,
   isLiked,
+  isMe,
+  id,
   onLikeClickHandler,
 }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { accessToken } = useSelector((state) => state.user);
+
+  const moveAmend = useCallback(() => {
+    navigate(`/community/amend/${id}`);
+  }, [id, navigate]);
+
+  const deletePost = useCallback(async () => {
+    if (!accessToken) {
+      return;
+    }
+
+    dispatch(uiSlice.actions.showLoading());
+
+    try {
+      await axios.delete(`api/community/${id}`, {
+        headers: {
+          authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
+        },
+      });
+
+      navigate(-1);
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message);
+        return;
+      }
+
+      alert(error.message);
+    } finally {
+      dispatch(uiSlice.actions.hideLoading());
+    }
+  }, [accessToken, dispatch, id, navigate]);
+
   return (
     <Container>
       <Top>
@@ -92,7 +133,14 @@ const Content = ({
           />
         </div>
         <div>
-          <VscEllipsis size={24} />
+          {isMe && (
+            <Menu
+              menuList={[
+                { title: '글 수정', onClickHandler: moveAmend },
+                { title: '글 삭제', onClickHandler: deletePost },
+              ]}
+            />
+          )}
         </div>
       </Bottom>
     </Container>

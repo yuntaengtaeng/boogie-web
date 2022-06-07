@@ -42,8 +42,13 @@ const Detail = () => {
       try {
         const {
           data: { content },
-        } = await axios.get(`api/community?id=${id}`);
-
+        } = await axios.get(`api/community?id=${id}`, {
+          ...(!!accessToken && {
+            headers: {
+              authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
+            },
+          }),
+        });
         setData(content);
       } catch (error) {
         if (error.response) {
@@ -80,7 +85,7 @@ const Detail = () => {
     };
 
     getAllData();
-  }, [dispatch, id]);
+  }, [accessToken, dispatch, id]);
 
   const successCallback = () => {
     setIsShowingLoginModal(false);
