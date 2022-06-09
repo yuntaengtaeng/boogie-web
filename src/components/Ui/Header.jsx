@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { BLACK } from '../../constants/color';
 import { useSelector, useDispatch } from 'react-redux';
@@ -41,6 +41,8 @@ const StyledLink = styled(Link)`
 `;
 
 const Header = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const { email, nickname, isAdmin } = useSelector((state) => state.user);
   const isLoggiend = !!email;
@@ -48,6 +50,13 @@ const Header = () => {
   const logoutHandler = () => {
     localStorage.removeItem('refreshToken');
     dispatch(userSlice.actions.initUser());
+
+    const { pathname } = location;
+
+    //프로필 상세인 경우에만 로그아웃 시 메인으로 이동
+    if (pathname.includes('/profile/detail/')) {
+      navigate('/');
+    }
   };
 
   return (
