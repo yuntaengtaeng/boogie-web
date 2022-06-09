@@ -144,6 +144,8 @@ const ResetPassword = () => {
       return;
     }
 
+    dispatch(uiSlce.actions.showLoading());
+
     try {
       const resposne = await axios.post('api/auth/join', {
         password: newPassword,

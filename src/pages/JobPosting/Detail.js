@@ -223,6 +223,8 @@ const Detail = () => {
   }, [address]);
 
   const cancelApplication = useCallback(async () => {
+    dispatch(uiSlice.actions.showLoading());
+
     try {
       await axios.delete(`api/employment/applicant/${id}`, {
         headers: {

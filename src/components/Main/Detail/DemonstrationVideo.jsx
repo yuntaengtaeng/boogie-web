@@ -31,7 +31,7 @@ const DemonstrationVideo = () => {
     };
 
     getVideoUrl();
-  }, []);
+  }, [dispatch, id]);
 
   return (
     <>

@@ -25,7 +25,7 @@ const Title = () => {
       }
     };
     getGroupName();
-  }, []);
+  }, [id]);
 
   return (
     <>

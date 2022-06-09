@@ -52,7 +52,7 @@ const MemberIntroduction = () => {
     };
 
     getMemberList();
-  }, []);
+  }, [dispatch, id]);
 
   return (
     <StyledDiv>

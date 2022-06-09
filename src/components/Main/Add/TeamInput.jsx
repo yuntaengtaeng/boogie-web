@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import uiSlice from '../../../slices/ui';
 import { GRAY, BLACK } from '../../../constants/color';
 import Input from '../../Ui/Input';
 import Button from '../../Ui/Button';
@@ -98,6 +99,7 @@ const TeamInput = ({
   isEdit,
   isData,
 }) => {
+  const dispatch = useDispatch();
   const { accessToken } = useSelector((state) => state.user);
   const [name, setName] = useState('');
   const [uniId, setUniId] = useState('');
@@ -167,6 +169,8 @@ const TeamInput = ({
   };
 
   const deleteMember = async (uniId) => {
+    dispatch(uiSlice.actions.showLoading());
+
     try {
       const response = await axios.delete(
         `api/senier-project/member/${uniId}`,
@@ -178,6 +182,8 @@ const TeamInput = ({
       );
     } catch (e) {
       alert(e.message);
+    } finally {
+      dispatch(uiSlice.actions.hideLoading());
     }
   };
 

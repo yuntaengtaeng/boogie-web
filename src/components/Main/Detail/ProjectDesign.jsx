@@ -49,7 +49,7 @@ const ProjectDesign = () => {
     };
 
     getDesignUrl();
-  }, []);
+  }, [dispatch, id]);
 
   const onDocumentLoadSuccess = ({ numPages }) => {
     setTotalPages(numPages);

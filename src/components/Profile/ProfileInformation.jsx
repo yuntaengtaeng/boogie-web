@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { GRAY } from '../../constants/color';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import uiSlice from '../../slices/ui';
 
 import AddProfileImage from './AddProfileImage';
 import SelectGroub from './SelectGroub';
@@ -48,6 +49,8 @@ const StyledP = styled.p`
 `;
 
 const ProfileInformation = ({ info, onProfileInfoHandler }) => {
+  const dispatch = useDispatch();
+
   const { image, nickname, id, positions, technologies, isMe, isOpen } = info;
   const { accessToken } = useSelector((state) => state.user);
   const [profileImage, setProfileImage] = useState(image || null);
@@ -111,6 +114,8 @@ const ProfileInformation = ({ info, onProfileInfoHandler }) => {
       willOpenInformation: date,
     };
 
+    dispatch(uiSlice.actions.showLoading());
+
     try {
       const response = await axios.patch(`api/profile/open`, body, {
         headers: {
@@ -120,6 +125,8 @@ const ProfileInformation = ({ info, onProfileInfoHandler }) => {
       setIsOn(response.data.isOpen);
     } catch (e) {
       alert(e.message);
+    } finally {
+      dispatch(uiSlice.actions.hideLoading());
     }
   };
 
