@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { WHITE } from '../../constants/color';
 import styled from 'styled-components';
@@ -10,6 +11,8 @@ import TabMenu from '../../components/Main/Detail/TabMenu';
 import DetailContents from '../../components/Main/Detail/DetailContents';
 import Button from '../../components/Ui/Button';
 import axios from 'axios';
+
+import uiSlice from '../../slices/ui';
 
 const StyledArticle = styled.article`
   display: flex;
@@ -26,22 +29,29 @@ const StyledSpan = styled.span`
 `;
 
 const Detail = () => {
+  const dispatch = useDispatch();
+  const Navigate = useNavigate();
+
   const { isAdmin, accessToken } = useSelector((state) => state.user);
   const { id } = useParams();
   const tapMenu = ['팀원소개', '프로젝트 설계', '프로젝트 발표 및 시연'];
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const deleteProject = async () => {
+    dispatch(uiSlice.actions.showLoading());
+
     try {
       const response = await axios.delete(`api/senier-project/${id}`, {
         headers: {
           authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
         },
       });
+
+      navigator(-1);
     } catch (e) {
       alert(e.message);
     } finally {
-      window.history.back();
+      dispatch(uiSlice.actions.hideLoading());
     }
   };
 

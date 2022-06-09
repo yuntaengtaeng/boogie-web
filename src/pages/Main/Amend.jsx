@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import uiSlice from '../../slices/ui';
+
 import axios from 'axios';
 
 import Form from '../../components/Main/Form';
 
 const Amend = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { id } = useParams();
   const { accessToken } = useSelector((state) => state.user);
   const [projectData, setProjectData] = useState({});
@@ -50,6 +55,8 @@ const Amend = () => {
   const patchSenierProject = async (formData) => {
     formData.append(`id`, id);
 
+    dispatch(uiSlice.actions.showLoading());
+
     try {
       const senierProject = await axios.patch('api/senier-project', formData, {
         headers: {
@@ -57,10 +64,12 @@ const Amend = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
+
+      navigate(-1);
     } catch (e) {
       alert(e.message);
     } finally {
-      window.history.back();
+      dispatch(uiSlice.actions.hideLoading());
     }
   };
 
