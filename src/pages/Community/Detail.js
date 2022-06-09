@@ -196,7 +196,10 @@ const Detail = () => {
           margin: '3.75rem auto 3.75rem auto',
         }}
       >
-        <Content {...data} onLikeClickHandler={reqeustLike} />
+        <Content
+          {...{ ...data, commentCount: commentData.length }}
+          onLikeClickHandler={reqeustLike}
+        />
         <CommentList comments={commentData} />
         <EditComment
           onSubmitHandler={writeCommnet}
