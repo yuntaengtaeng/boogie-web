@@ -35,7 +35,7 @@ const Detail = () => {
     try {
       const response = await axios.delete(`api/senier-project/${id}`, {
         headers: {
-          authorization: accessToken,
+          authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
         },
       });
     } catch (e) {

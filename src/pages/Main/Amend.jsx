@@ -25,7 +25,7 @@ const Amend = () => {
           `api/senier-project/detail?id=${id}`,
           {
             headers: {
-              authorization: accessToken,
+              authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
               'Content-Type': 'multipart/form-data',
             },
           }
@@ -53,7 +53,7 @@ const Amend = () => {
     try {
       const senierProject = await axios.patch('api/senier-project', formData, {
         headers: {
-          authorization: accessToken,
+          authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
           'Content-Type': 'multipart/form-data',
         },
       });

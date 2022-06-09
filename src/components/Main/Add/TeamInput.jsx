@@ -172,7 +172,7 @@ const TeamInput = ({
         `api/senier-project/member/${uniId}`,
         {
           headers: {
-            authorization: accessToken,
+            authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
           },
         }
       );

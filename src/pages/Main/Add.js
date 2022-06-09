@@ -11,7 +11,7 @@ const Add = () => {
     try {
       const senierProject = await axios.post('api/senier-project', formData, {
         headers: {
-          authorization: accessToken,
+          authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
           'Content-Type': 'multipart/form-data',
         },
       });

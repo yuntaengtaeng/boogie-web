@@ -114,7 +114,7 @@ const ProfileInformation = ({ info, onProfileInfoHandler }) => {
     try {
       const response = await axios.patch(`api/profile/open`, body, {
         headers: {
-          authorization: accessToken,
+          authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
         },
       });
       setIsOn(response.data.isOpen);

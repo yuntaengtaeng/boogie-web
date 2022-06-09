@@ -45,7 +45,7 @@ const Detail = () => {
       try {
         const response = await axios.get(`api/profile?id=${id}`, {
           headers: {
-            authorization: accessToken,
+            authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
           },
         });
 
@@ -126,7 +126,7 @@ const Detail = () => {
     try {
       await axios.put('api/profile', formData, {
         headers: {
-          authorization: accessToken,
+          authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
           'Content-Type': 'multipart/form-data',
         },
       });
