@@ -11,13 +11,15 @@ const StyledTitleP = styled.p`
 const Title = () => {
   const { id } = useParams();
   const [groupName, setGroupName] = useState('');
+  const [year, setYearName] = useState('');
   useEffect(() => {
     const getGroupName = async () => {
       try {
         const response = await axios.get(
-          `api/senier-project/detail/Group-name?id=${id}`
+          `api/senier-project/detail/group?id=${id}`
         );
         setGroupName(response.data.groupName);
+        setYearName(response.data.year);
       } catch (e) {
         alert(e.message);
       }
@@ -27,7 +29,9 @@ const Title = () => {
 
   return (
     <>
-      <StyledTitleP>{groupName}</StyledTitleP>
+      <StyledTitleP>
+        {year} {groupName}
+      </StyledTitleP>
     </>
   );
 };
