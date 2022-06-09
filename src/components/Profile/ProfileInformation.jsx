@@ -18,7 +18,7 @@ const StyledDiv = styled.div`
 const StyledTitle = styled.p`
   font-weight: bold;
   font-size: 1.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 `;
 
 const StyledSpan = styled.span`

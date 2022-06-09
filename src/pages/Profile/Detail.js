@@ -24,12 +24,19 @@ const ButtonSpan = styled.span`
   justify-content: center;
 `;
 
+const SubmitButton = styled(Button)`
+  height: 3rem;
+  font-size: 1rem;
+  width: 10rem;
+`;
+
 const Detail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { accessToken } = useSelector((state) => state.user);
   const [profileData, setProfileData] = useState({});
   const [isSatisfied, setIsSatisfied] = useState(true);
+  const [requestComplete, setRequestComplete] = useState(false);
 
   useEffect(() => {
     const renameKeys = (arr = []) => {
@@ -64,6 +71,7 @@ const Detail = () => {
       } catch (e) {
         alert(e.message);
       } finally {
+        setRequestComplete(true);
         dispatch(uiSlce.actions.hideLoading());
       }
     };
@@ -137,46 +145,55 @@ const Detail = () => {
     }
   };
 
-  return (
-    <>
-      {isSatisfied ? (
-        <NondisclosurePage></NondisclosurePage>
-      ) : (
-        <StyledForm onSubmit={onHandlerSubmit}>
-          <ProfileInformation
-            info={profileData}
-            onProfileInfoHandler={onProfileInfoHandler}
-          ></ProfileInformation>
+  const wrap = (() => {
+    if (!requestComplete) {
+      return null;
+    } else {
+      if (isSatisfied) {
+        return <NondisclosurePage></NondisclosurePage>;
+      } else {
+        return (
+          <StyledForm onSubmit={onHandlerSubmit}>
+            <ProfileInformation
+              info={profileData}
+              onProfileInfoHandler={onProfileInfoHandler}
+            ></ProfileInformation>
 
-          <ProfileIntroduction
-            introduction={profileData.introduction}
-            onIntroductionHandler={onIntroductionHandler}
-            isMe={profileData.isMe}
-          ></ProfileIntroduction>
+            <ProfileIntroduction
+              introduction={profileData.introduction}
+              onIntroductionHandler={onIntroductionHandler}
+              isMe={profileData.isMe}
+            ></ProfileIntroduction>
 
-          <AwardsAccolades
-            awards={profileData.awards}
-            onAwardsHandler={onAwardsHandler}
-            isMe={profileData.isMe}
-          ></AwardsAccolades>
+            <AwardsAccolades
+              awards={profileData.awards}
+              onAwardsHandler={onAwardsHandler}
+              isMe={profileData.isMe}
+            ></AwardsAccolades>
 
-          <LinkInformation
-            link={profileData.links}
-            onLinkInformationHandler={onLinkInformationHandler}
-            isMe={profileData.isMe}
-          ></LinkInformation>
+            <LinkInformation
+              link={profileData.links}
+              onLinkInformationHandler={onLinkInformationHandler}
+              isMe={profileData.isMe}
+            ></LinkInformation>
 
-          {profileData.isMe && (
-            <ButtonSpan>
-              <Button type="submit" disabled={Object.keys(profileData) === 0}>
-                적용
-              </Button>
-            </ButtonSpan>
-          )}
-        </StyledForm>
-      )}
-    </>
-  );
+            {profileData.isMe && (
+              <ButtonSpan>
+                <SubmitButton
+                  type="submit"
+                  disabled={Object.keys(profileData) === 0}
+                >
+                  작성 완료
+                </SubmitButton>
+              </ButtonSpan>
+            )}
+          </StyledForm>
+        );
+      }
+    }
+  })();
+
+  return <>{wrap}</>;
 };
 
 export default Detail;
