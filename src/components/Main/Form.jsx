@@ -111,8 +111,10 @@ const Form = ({ onDataHandler, isEdit, data }) => {
 
     const formData = new FormData();
 
+    const noImageTeamMember = member.filter((data) => !data.image)
+
     memberImage.forEach((v, i) => {
-      formData.append(`profileImage${i + 1}`, v, member[i].name);
+        formData.append(`profileImage${i + 1}`, v, noImageTeamMember[i].name);
     });
 
     formData.append(`groupName`, groupInfo.groupName);
