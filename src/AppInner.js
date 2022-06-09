@@ -1,30 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-import Main from './pages/Main/Main';
-import MainDetail from './pages/Main/Detail';
-import MainAdd from './pages/Main/Add';
-import MainAmend from './pages/Main/Amend';
-
-import Login from './pages/Auth/Login';
-import Join from './pages/Auth/Join';
-import ResetPassword from './pages/Auth/ResetPassword';
-
-import Community from './pages/Community/Community';
-import CommunityAdd from './pages/Community/Add';
-import CommunityDetail from './pages/Community/Detail';
-import CommunityAmend from './pages/Community/Amend';
-
-import JobPosting from './pages/JobPosting/JobPosting';
-import JobPostingAdd from './pages/JobPosting/Add';
-import JobPostingDetail from './pages/JobPosting/Detail';
-import JobPostingAmend from './pages/JobPosting/Amend';
-
-import ProfileDetail from './pages/Profile/Detail';
-
-import AddAdmin from './pages/Admin/Add';
-
-import NoAccess from './pages/NoAccess';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -40,6 +15,31 @@ import userSlice from './slices/user';
 
 import axios from 'axios';
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+
+const Main = React.lazy(() => import('./pages/Main/Main'));
+const MainDetail = React.lazy(() => import('./pages/Main/Detail'));
+const MainAdd = React.lazy(() => import('./pages/Main/Add'));
+const MainAmend = React.lazy(() => import('./pages/Main/Amend'));
+
+const Login = React.lazy(() => import('./pages/Auth/Login'));
+const Join = React.lazy(() => import('./pages/Auth/Join'));
+const ResetPassword = React.lazy(() => import('./pages/Auth/ResetPassword'));
+
+const Community = React.lazy(() => import('./pages/Community/Community'));
+const CommunityAdd = React.lazy(() => import('./pages/Community/Add'));
+const CommunityDetail = React.lazy(() => import('./pages/Community/Detail'));
+const CommunityAmend = React.lazy(() => import('./pages/Community/Amend'));
+
+const JobPosting = React.lazy(() => import('./pages/JobPosting/JobPosting'));
+const JobPostingAdd = React.lazy(() => import('./pages/JobPosting/Add'));
+const JobPostingDetail = React.lazy(() => import('./pages/JobPosting/Detail'));
+const JobPostingAmend = React.lazy(() => import('./pages/JobPosting/Amend'));
+
+const ProfileDetail = React.lazy(() => import('./pages/Profile/Detail'));
+
+const AddAdmin = React.lazy(() => import('./pages/Admin/Add'));
+
+const NoAccess = React.lazy(() => import('./pages/NoAccess'));
 
 const AppInner = () => {
   const isLoading = useSelector((state) => state.ui.isLoading);
@@ -150,40 +150,42 @@ const AppInner = () => {
     <BrowserRouter>
       {isLoading && <Loading />}
       <Header />
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/main/detail/:id" element={<MainDetail />} />
-        <Route element={<AdminRoute />}>
-          <Route path="/main/add" element={<MainAdd />} />
-        </Route>
-        <Route element={<AdminRoute />}>
-          <Route path="/main/amend/:id" element={<MainAmend />} />
-        </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/join" element={<Join />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/community" element={<Community />} />
-        <Route path="/community/detail/:id" element={<CommunityDetail />} />
-        <Route element={<PrivateRoute />}>
-          <Route path="/community/add" element={<CommunityAdd />} />
-        </Route>
-        <Route element={<PrivateRoute />}>
-          <Route path="/community/amend/:id" element={<CommunityAmend />} />
-        </Route>
-        <Route path="/jobposting" element={<JobPosting />} />
-        <Route path="/jobposting/detail/:id" element={<JobPostingDetail />} />
-        <Route element={<PrivateRoute />}>
-          <Route path="/jobposting/add" element={<JobPostingAdd />} />
-        </Route>
-        <Route element={<PrivateRoute />}>
-          <Route path="/jobposting/amend/:id" element={<JobPostingAmend />} />
-        </Route>
-        <Route path="/profile/detail/:id" element={<ProfileDetail />} />
-        <Route element={<AdminRoute />}>
-          <Route path="/admin/add" element={<AddAdmin />} />
-        </Route>
-        <Route path="/noaccess" element={<NoAccess />} />
-      </Routes>
+      <Suspense fallback={<Loading />}>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/main/detail/:id" element={<MainDetail />} />
+          <Route element={<AdminRoute />}>
+            <Route path="/main/add" element={<MainAdd />} />
+          </Route>
+          <Route element={<AdminRoute />}>
+            <Route path="/main/amend/:id" element={<MainAmend />} />
+          </Route>
+          <Route path="/login" element={<Login />} />
+          <Route path="/join" element={<Join />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/community" element={<Community />} />
+          <Route path="/community/detail/:id" element={<CommunityDetail />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/community/add" element={<CommunityAdd />} />
+          </Route>
+          <Route element={<PrivateRoute />}>
+            <Route path="/community/amend/:id" element={<CommunityAmend />} />
+          </Route>
+          <Route path="/jobposting" element={<JobPosting />} />
+          <Route path="/jobposting/detail/:id" element={<JobPostingDetail />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/jobposting/add" element={<JobPostingAdd />} />
+          </Route>
+          <Route element={<PrivateRoute />}>
+            <Route path="/jobposting/amend/:id" element={<JobPostingAmend />} />
+          </Route>
+          <Route path="/profile/detail/:id" element={<ProfileDetail />} />
+          <Route element={<AdminRoute />}>
+            <Route path="/admin/add" element={<AddAdmin />} />
+          </Route>
+          <Route path="/noaccess" element={<NoAccess />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 };
