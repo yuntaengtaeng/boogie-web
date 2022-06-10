@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import ProfileImage from '../../Ui/ProfileImage';
+import Menu from './Menu';
 
 const Container = styled.div`
   box-sizing: border-box;
@@ -16,6 +17,11 @@ const Content = styled.div`
 const Top = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+`;
+
+const TopLeft = styled.div`
+  display: flex;
 `;
 
 const Info = styled.div`
@@ -41,20 +47,40 @@ const Bottom = styled.div`
   word-wrap: break-word;
 `;
 
-const Comment = ({ data }) => {
-  const { userNickname, content, fromNowWhileAgoPosted, profileImageURL } =
-    data;
+const Comment = ({ data, deleteCommentHandler }) => {
+  const {
+    userNickname,
+    content,
+    fromNowWhileAgoPosted,
+    profileImageURL,
+    hasAuthority,
+    id,
+  } = data;
 
   return (
     <Container>
       <Content>
         <Top>
-          <ProfileImage src={profileImageURL} size={36}></ProfileImage>
-          <Info>
-            <Name>{userNickname}</Name>
-            <span>·</span>
-            <TimeStamp>{fromNowWhileAgoPosted}</TimeStamp>
-          </Info>
+          <TopLeft>
+            <ProfileImage src={profileImageURL} size={36}></ProfileImage>
+            <Info>
+              <Name>{userNickname}</Name>
+              <span>·</span>
+              <TimeStamp>{fromNowWhileAgoPosted}</TimeStamp>
+            </Info>
+          </TopLeft>
+          <div>
+            {hasAuthority && (
+              <Menu
+                menuList={[
+                  {
+                    title: '댓글 삭제',
+                    onClickHandler: deleteCommentHandler.bind(this, id),
+                  },
+                ]}
+              />
+            )}
+          </div>
         </Top>
         <Bottom>{content}</Bottom>
       </Content>

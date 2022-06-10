@@ -91,8 +91,6 @@ const Detail = () => {
 
     profileInfo.technologies = renameKeys(profileInfo.technologies);
 
-    console.log(profileInfo);
-
     setProfileData(profileInfo);
     setIsSatisfied(!(profileInfo.isMe || profileInfo.isOpen));
   };

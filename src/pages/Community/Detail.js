@@ -66,7 +66,13 @@ const Detail = () => {
       try {
         const {
           data: { comments },
-        } = await axios.get(`api/community/comments?id=${id}`);
+        } = await axios.get(`api/community/comments?id=${id}`, {
+          ...(!!accessToken && {
+            headers: {
+              authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
+            },
+          }),
+        });
         setCommentData(comments);
       } catch (error) {
         if (error.response) {
@@ -177,6 +183,34 @@ const Detail = () => {
     [text, isLoggiend, dispatch, id, accessToken]
   );
 
+  const deleteComment = useCallback(
+    async (commentId) => {
+      if (!accessToken) {
+        return;
+      }
+
+      try {
+        const {
+          data: { comments },
+        } = await axios.delete(`api/community/comment/${commentId}`, {
+          headers: {
+            authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
+          },
+        });
+
+        setCommentData(comments);
+      } catch (error) {
+        if (error.response) {
+          alert(error.response.data.message);
+          return;
+        }
+
+        alert(error.message);
+      }
+    },
+    [accessToken]
+  );
+
   const closeLoginModal = useCallback(() => {
     setIsShowingLoginModal(false);
   }, []);
@@ -200,7 +234,10 @@ const Detail = () => {
           {...{ ...data, commentCount: commentData.length }}
           onLikeClickHandler={reqeustLike}
         />
-        <CommentList comments={commentData} />
+        <CommentList
+          comments={commentData}
+          deleteCommentHandler={deleteComment}
+        />
         <EditComment
           onSubmitHandler={writeCommnet}
           text={text}

@@ -70,7 +70,7 @@ const Content = ({
   commentCount,
   likeCount,
   isLiked,
-  isMe,
+  hasAuthority,
   id,
   onLikeClickHandler,
 }) => {
@@ -133,7 +133,7 @@ const Content = ({
           />
         </div>
         <div>
-          {isMe && (
+          {hasAuthority && (
             <Menu
               menuList={[
                 { title: '글 수정', onClickHandler: moveAmend },
