@@ -10,7 +10,11 @@ import ProfileInformation from '../../components/Profile/ProfileInformation';
 import ProfileIntroduction from '../../components/Profile/ProfileIntroduction';
 import AwardsAccolades from '../../components/Profile/AwardsAccolades';
 import LinkInformation from '../../components/Profile/LinkInformation';
+import Block from '../../components/Ui/Block';
 import Button from '../../components/Ui/Button';
+
+import { WHITE } from '../../constants/color';
+
 import uiSlce from '../../slices/ui';
 
 const StyledForm = styled.form`
@@ -30,6 +34,42 @@ const SubmitButton = styled(Button)`
   width: 10rem;
 `;
 
+const StyledBlock = styled(Block)`
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  height: 4rem;
+  left: 0;
+  background-color: ${WHITE};
+  box-shadow: 0 -4px 3px rgba(0, 0, 0, 0.12), 0 4px 3px rgba(0, 0, 0, 0.24);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+`;
+
+const StyledBlockLeft = styled.div`
+  display: flex;
+  align-items: center;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+
+  span {
+    margin-left: 0.4rem;
+  }
+
+  p {
+    margin-left: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  progress {
+    height: 2rem;
+  }
+`;
+
 const Detail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -38,36 +78,38 @@ const Detail = () => {
   const [isSatisfied, setIsSatisfied] = useState(true);
   const [requestComplete, setRequestComplete] = useState(false);
 
-  useEffect(() => {
-    const renameKeys = (arr = []) => {
-      const rename = arr.map(({ id, name }) => ({
-        value: id,
-        name,
-      }));
-      return rename;
-    };
+  const renameKeys = (arr = []) => {
+    const rename = arr.map(({ id, name }) => ({
+      value: id,
+      name,
+    }));
+    return rename;
+  };
 
-    const getProfileDate = async () => {
+  const setProfileDataState = (profileInfo) => {
+    profileInfo.positions = renameKeys(profileInfo.positions);
+
+    profileInfo.technologies = renameKeys(profileInfo.technologies);
+
+    console.log(profileInfo);
+
+    setProfileData(profileInfo);
+    setIsSatisfied(!(profileInfo.isMe || profileInfo.isOpen));
+  };
+
+  useEffect(() => {
+    const getProfileData = async () => {
       dispatch(uiSlce.actions.showLoading());
       try {
-        const response = await axios.get(`api/profile?id=${id}`, {
+        const {
+          data: { profileInfo },
+        } = await axios.get(`api/profile?id=${id}`, {
           headers: {
             authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
           },
         });
 
-        response.data.profileInfo.positions = renameKeys(
-          response.data.profileInfo.positions
-        );
-
-        response.data.profileInfo.technologies = renameKeys(
-          response.data.profileInfo.technologies
-        );
-
-        setProfileData(response.data.profileInfo);
-        setIsSatisfied(
-          !(response.data.profileInfo.isMe || response.data.profileInfo.isOpen)
-        );
+        setProfileDataState(profileInfo);
       } catch (e) {
         alert(e.message);
       } finally {
@@ -75,7 +117,7 @@ const Detail = () => {
         dispatch(uiSlce.actions.hideLoading());
       }
     };
-    getProfileDate();
+    getProfileData();
   }, [accessToken, dispatch, id]);
 
   const onProfileInfoHandler = (e) => {
@@ -132,12 +174,16 @@ const Detail = () => {
 
     dispatch(uiSlce.actions.showLoading());
     try {
-      await axios.put('api/profile', formData, {
+      const {
+        data: { profileInfo },
+      } = await axios.put('api/profile', formData, {
         headers: {
           authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
           'Content-Type': 'multipart/form-data',
         },
       });
+
+      setProfileDataState(profileInfo);
     } catch (e) {
       alert(e.message);
     } finally {
@@ -177,16 +223,30 @@ const Detail = () => {
               isMe={profileData.isMe}
             ></LinkInformation>
 
-            {profileData.isMe && (
-              <ButtonSpan>
-                <SubmitButton
-                  type="submit"
-                  disabled={Object.keys(profileData) === 0}
-                >
-                  작성 완료
-                </SubmitButton>
-              </ButtonSpan>
-            )}
+            <StyledBlock>
+              <StyledBlockLeft>
+                <div>
+                  <progress
+                    id="progress"
+                    value={profileData.profileScore}
+                    min="0"
+                    max="100"
+                  ></progress>
+                  <span>{profileData.profileScore}%</span>
+                </div>
+                <p>💪 완성도가 높을 수록 회사에서 더 관심을 가져요!</p>
+              </StyledBlockLeft>
+              {profileData.isMe && (
+                <ButtonSpan>
+                  <SubmitButton
+                    type="submit"
+                    disabled={Object.keys(profileData) === 0}
+                  >
+                    작성 완료
+                  </SubmitButton>
+                </ButtonSpan>
+              )}
+            </StyledBlock>
           </StyledForm>
         );
       }
