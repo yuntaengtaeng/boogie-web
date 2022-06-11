@@ -140,13 +140,9 @@ const Detail = () => {
       clone.image = e.profileImage;
     }
 
-    clone.positions = e.selectedJob.map((v) => {
-      return v.value;
-    });
+    clone.positions = e.selectedJob;
+    clone.technologies = e.selectedTchnl;
 
-    clone.technologies = e.selectedTchnl.map((v) => {
-      return v.value;
-    });
     setProfileData(clone);
   };
 
@@ -176,11 +172,16 @@ const Detail = () => {
 
     const formData = new FormData();
 
-    Object.keys(profileData).forEach((v) => {
+    const cloneData = { ...profileData };
+
+    cloneData.positions = cloneData.positions.map((v) => v.value);
+    cloneData.technologies = cloneData.technologies.map((v) => v.value);
+
+    Object.keys(cloneData).forEach((v) => {
       const key = `${v}`;
-      const value = Array.isArray(profileData[`${v}`])
-        ? JSON.stringify(profileData[`${v}`])
-        : profileData[`${v}`];
+      const value = Array.isArray(cloneData[`${v}`])
+        ? JSON.stringify(cloneData[`${v}`])
+        : cloneData[`${v}`];
 
       formData.append(key, value);
     });
