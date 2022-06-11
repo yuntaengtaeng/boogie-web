@@ -37,10 +37,21 @@ const LinkInformation = ({ link, onLinkInformationHandler, isMe }) => {
   ];
 
   const onclick = () => {
-    const clone = urlLinkArr;
-    const item = [...clone, url];
+    if (!url) {
+      return;
+    }
 
-    setUrlLinkArr(item);
+    const clone = [...urlLinkArr];
+
+    let link = `${url}`;
+
+    const URL_REG_EXP = /(http(s)?:\/\/)/gi;
+
+    if (!URL_REG_EXP.test(url)) {
+      link = 'https://'.concat(link);
+    }
+
+    setUrlLinkArr([...clone, link]);
     setUrl('');
   };
 

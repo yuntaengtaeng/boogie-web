@@ -47,7 +47,15 @@ const ProjectVideoLink = ({
 
   const addUrl = () => {
     if (linkUrl !== '') {
-      setUrlArr([...urlArr, linkUrl]);
+      let link = `${linkUrl}`;
+
+      const URL_REG_EXP = /(http(s)?:\/\/)/gi;
+
+      if (!URL_REG_EXP.test(linkUrl)) {
+        link = 'https://'.concat(link);
+      }
+
+      setUrlArr([...urlArr, link]);
       setLinkUrl('');
     } else {
       alert('Url을 입력해주세요');
