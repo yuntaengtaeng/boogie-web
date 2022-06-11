@@ -5,6 +5,12 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import uiSlce from '../../../slices/ui';
 
+const Wrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const StyledIframe = styled.iframe`
   box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.19),
     0 0.375rem 0.375rem rgba(0, 0, 0, 0.23);
@@ -34,7 +40,7 @@ const DemonstrationVideo = () => {
   }, [dispatch, id]);
 
   return (
-    <>
+    <Wrap>
       {videoUrl.length === 0 ||
         videoUrl.map((v, i) => (
           <StyledIframe
@@ -45,7 +51,7 @@ const DemonstrationVideo = () => {
             frameBorder="0"
           ></StyledIframe>
         ))}
-    </>
+    </Wrap>
   );
 };
 

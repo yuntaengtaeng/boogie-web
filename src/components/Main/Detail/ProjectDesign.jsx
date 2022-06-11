@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux';
 import uiSlce from '../../../slices/ui';
 import OutLineButton from '../../Ui/OutLineButton';
 import { Document, Page, pdfjs } from 'react-pdf';
+import { VscFilePdf } from 'react-icons/vsc';
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const StyledDiv = styled.div`
@@ -24,6 +26,19 @@ const StyledPdfDiv = styled.div`
   margin: 0 3.125rem;
   box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.19),
     0 6px 6px rgba(0, 0, 0, 0.23);
+`;
+
+const DownloadButton = styled(OutLineButton)`
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 0.4rem;
+  }
+`;
+
+const DownLoadTag = styled.a`
+  text-decoration: none;
 `;
 
 const ProjectDesign = () => {
@@ -83,9 +98,12 @@ const ProjectDesign = () => {
             </StyledPdfDiv>
             <OutLineButton onClick={() => nextPage()}>&gt;</OutLineButton>
           </StyledSpan>
-          <a href={projectDesign} download>
-            다운로드
-          </a>
+          <DownLoadTag href={projectDesign} download>
+            <DownloadButton>
+              <VscFilePdf size={16} />
+              PDF 다운로드
+            </DownloadButton>
+          </DownLoadTag>
         </StyledDiv>
       )}
     </>

@@ -9,23 +9,36 @@ import Title from '../../components/Main/Detail/Title';
 import TabMenu from '../../components/Main/Detail/TabMenu';
 import DetailContents from '../../components/Main/Detail/DetailContents';
 import Recommend from '../../components/Main/Detail/Recommend';
-import Button from '../../components/Ui/Button';
+import Button, { BUTTON_THEME } from '../../components/Ui/Button';
 import axios from 'axios';
 
 import uiSlice from '../../slices/ui';
 
 const StyledArticle = styled.article`
   display: flex;
-  align-items: center;
   flex-direction: column;
   margin: 3.125rem 0px;
-  height: fit-content;
 `;
 
-const StyledSpan = styled.span`
-  display: inline-flex;
-  font-size: 1.875rem;
+const TabMenuParent = styled.div`
+  display: flex;
   margin-bottom: 3.125rem;
+  padding: 0 20vw;
+
+  @media all and (max-width: 479px) {
+    padding: 0;
+  }
+`;
+
+const AdminAuthority = styled.div`
+  padding: 1rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+
+  > button:first-child {
+    margin-right: 1rem;
+  }
 `;
 
 const Detail = () => {
@@ -58,8 +71,27 @@ const Detail = () => {
   return (
     <>
       <StyledArticle>
-        <Title>title</Title>
-        <StyledSpan>
+        <Title />
+        {isAdmin && (
+          <AdminAuthority>
+            <Button
+              onClick={() => {
+                deleteProject();
+              }}
+            >
+              글 삭제
+            </Button>
+            <Button theme={BUTTON_THEME.SECONDARY}>
+              <Link
+                style={{ textDecoration: 'none', color: `${WHITE}` }}
+                to={`/main/amend/${id}`}
+              >
+                글 수정
+              </Link>
+            </Button>
+          </AdminAuthority>
+        )}
+        <TabMenuParent>
           {tapMenu.map((v, index) => (
             <TabMenu
               key={index}
@@ -70,27 +102,8 @@ const Detail = () => {
               {v}
             </TabMenu>
           ))}
-          {isAdmin && (
-            <>
-              <Button style={{ marginLeft: 'auto', marginRight: '1rem' }}>
-                <Link
-                  style={{ textDecoration: 'none', color: `${WHITE}` }}
-                  to={`/main/amend/${id}`}
-                >
-                  수정
-                </Link>
-              </Button>
-              <Button
-                style={{ marginLeft: 'auto' }}
-                onClick={() => {
-                  deleteProject();
-                }}
-              >
-                삭제
-              </Button>
-            </>
-          )}
-        </StyledSpan>
+        </TabMenuParent>
+
         <section>
           <DetailContents selectedIndex={selectedIndex}></DetailContents>
         </section>

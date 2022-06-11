@@ -6,6 +6,7 @@ import axios from 'axios';
 const StyledTitleP = styled.p`
   font-size: 2.5rem;
   margin-bottom: 3.125rem;
+  text-align: center;
 `;
 
 const Title = () => {
