@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { WHITE } from '../../constants/color';
@@ -30,6 +30,7 @@ const StyledSpan = styled.span`
 
 const Detail = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { isAdmin, accessToken } = useSelector((state) => state.user);
   const { id } = useParams();
@@ -46,7 +47,7 @@ const Detail = () => {
         },
       });
 
-      navigator(-1);
+      navigate(-1);
     } catch (e) {
       alert(e.message);
     } finally {
