@@ -51,7 +51,16 @@ const StyledP = styled.p`
 const ProfileInformation = ({ info, onProfileInfoHandler }) => {
   const dispatch = useDispatch();
 
-  const { image, nickname, id, positions, technologies, isMe, isOpen } = info;
+  const {
+    image,
+    nickname,
+    id,
+    positions,
+    technologies,
+    isMe,
+    isOpen,
+    isNotStudent,
+  } = info;
   const { accessToken } = useSelector((state) => state.user);
   const [profileImage, setProfileImage] = useState(image || null);
   const [isOn, setIsOn] = useState(isOpen);
@@ -161,23 +170,28 @@ const ProfileInformation = ({ info, onProfileInfoHandler }) => {
           <StyledP style={{ margin: '2rem 0' }}>{nickname}</StyledP>
           <StyledP>{id}</StyledP>
         </StyledCenterDiv>
+
         <StyledRightDiv>
-          <SelectGroub
-            name="직무"
-            onDeleteHandler={onPositionDeletHandler}
-            selectedItems={selectedJob}
-            onSelectItemHandler={onJobItemHandler}
-            options={positionList}
-            isMe={isMe}
-          ></SelectGroub>
-          <SelectGroub
-            name="기술"
-            onDeleteHandler={onTechnologieDeletHandler}
-            selectedItems={selectedTchnl}
-            onSelectItemHandler={onTchnlItemHandler}
-            options={technologyList}
-            isMe={isMe}
-          ></SelectGroub>
+          {!isNotStudent && (
+            <>
+              <SelectGroub
+                name="직무"
+                onDeleteHandler={onPositionDeletHandler}
+                selectedItems={selectedJob}
+                onSelectItemHandler={onJobItemHandler}
+                options={positionList}
+                isMe={isMe}
+              ></SelectGroub>
+              <SelectGroub
+                name="기술"
+                onDeleteHandler={onTechnologieDeletHandler}
+                selectedItems={selectedTchnl}
+                onSelectItemHandler={onTchnlItemHandler}
+                options={technologyList}
+                isMe={isMe}
+              ></SelectGroub>
+            </>
+          )}
           {isMe && (
             <>
               <Span>

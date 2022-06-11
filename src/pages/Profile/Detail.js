@@ -75,7 +75,7 @@ const Detail = () => {
   const dispatch = useDispatch();
   const { accessToken } = useSelector((state) => state.user);
   const [profileData, setProfileData] = useState({});
-  const [isSatisfied, setIsSatisfied] = useState(true);
+  const [isProfileShownPermit, setIsProfileShownPermit] = useState(false);
   const [requestComplete, setRequestComplete] = useState(false);
 
   const renameKeys = (arr = []) => {
@@ -87,12 +87,27 @@ const Detail = () => {
   };
 
   const setProfileDataState = (profileInfo) => {
-    profileInfo.positions = renameKeys(profileInfo.positions);
+    if (!!profileInfo.positions) {
+      profileInfo.positions = renameKeys(profileInfo.positions);
+    }
 
-    profileInfo.technologies = renameKeys(profileInfo.technologies);
+    if (!!profileInfo.technologies) {
+      profileInfo.technologies = renameKeys(profileInfo.technologies);
+    }
 
     setProfileData(profileInfo);
-    setIsSatisfied(!(profileInfo.isMe || profileInfo.isOpen));
+
+    const checkProfileShownPermit = (() => {
+      if (profileInfo.isNotStudent) {
+        return true;
+      } else if (profileInfo.isMe || profileInfo.isOpen) {
+        return true;
+      } else {
+        return false;
+      }
+    })();
+
+    setIsProfileShownPermit(checkProfileShownPermit);
   };
 
   useEffect(() => {
@@ -193,7 +208,7 @@ const Detail = () => {
     if (!requestComplete) {
       return null;
     } else {
-      if (isSatisfied) {
+      if (!isProfileShownPermit) {
         return <NondisclosurePage></NondisclosurePage>;
       } else {
         return (
@@ -203,48 +218,49 @@ const Detail = () => {
               onProfileInfoHandler={onProfileInfoHandler}
             ></ProfileInformation>
 
-            <ProfileIntroduction
-              introduction={profileData.introduction}
-              onIntroductionHandler={onIntroductionHandler}
-              isMe={profileData.isMe}
-            ></ProfileIntroduction>
-
-            <AwardsAccolades
-              awards={profileData.awards}
-              onAwardsHandler={onAwardsHandler}
-              isMe={profileData.isMe}
-            ></AwardsAccolades>
-
-            <LinkInformation
-              link={profileData.links}
-              onLinkInformationHandler={onLinkInformationHandler}
-              isMe={profileData.isMe}
-            ></LinkInformation>
-
-            <StyledBlock>
-              <StyledBlockLeft>
-                <div>
-                  <progress
-                    id="progress"
-                    value={profileData.profileScore}
-                    min="0"
-                    max="100"
-                  ></progress>
-                  <span>{profileData.profileScore}%</span>
-                </div>
-                <p>💪 완성도가 높을 수록 회사에서 더 관심을 가져요!</p>
-              </StyledBlockLeft>
-              {profileData.isMe && (
-                <ButtonSpan>
-                  <SubmitButton
-                    type="submit"
-                    disabled={Object.keys(profileData) === 0}
-                  >
-                    작성 완료
-                  </SubmitButton>
-                </ButtonSpan>
-              )}
-            </StyledBlock>
+            {!profileData.isNotStudent && (
+              <>
+                <ProfileIntroduction
+                  introduction={profileData.introduction}
+                  onIntroductionHandler={onIntroductionHandler}
+                  isMe={profileData.isMe}
+                ></ProfileIntroduction>
+                <AwardsAccolades
+                  awards={profileData.awards}
+                  onAwardsHandler={onAwardsHandler}
+                  isMe={profileData.isMe}
+                ></AwardsAccolades>
+                <LinkInformation
+                  link={profileData.links}
+                  onLinkInformationHandler={onLinkInformationHandler}
+                  isMe={profileData.isMe}
+                ></LinkInformation>
+                <StyledBlock>
+                  <StyledBlockLeft>
+                    <div>
+                      <progress
+                        id="progress"
+                        value={profileData.profileScore}
+                        min="0"
+                        max="100"
+                      ></progress>
+                      <span>{profileData.profileScore}%</span>
+                    </div>
+                    <p>💪 완성도가 높을 수록 회사에서 더 관심을 가져요!</p>
+                  </StyledBlockLeft>
+                  {profileData.isMe && (
+                    <ButtonSpan>
+                      <SubmitButton
+                        type="submit"
+                        disabled={Object.keys(profileData) === 0}
+                      >
+                        작성 완료
+                      </SubmitButton>
+                    </ButtonSpan>
+                  )}
+                </StyledBlock>
+              </>
+            )}
           </StyledForm>
         );
       }
