@@ -35,7 +35,6 @@ const StyledButton = styled(Button)`
 const Add = () => {
   const dispatch = useDispatch();
   const accessToken = useSelector((staet) => staet.user.accessToken);
-  console.log(accessToken);
 
   const idRef = useRef(null);
   const passwordRef = useRef(null);

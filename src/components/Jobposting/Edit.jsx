@@ -79,7 +79,6 @@ const Edit = ({ onSubmitHandler, storedValue, submitButtonText }) => {
     }
   );
 
-  console.log(formData);
   const [isShowingAddressModal, setIsShowingAddressModal] = useState(false);
   const [positionData, setPositionData] = useState([]);
 

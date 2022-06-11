@@ -15,8 +15,6 @@ const Add = () => {
 
   const onSubmit = useCallback(
     async (body) => {
-      console.log(body);
-
       dispatch(uiSlce.actions.showLoading());
 
       try {

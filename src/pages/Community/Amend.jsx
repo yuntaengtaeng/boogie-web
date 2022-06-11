@@ -11,7 +11,6 @@ import Edit from '../../components/Community/Edit';
 const Amend = () => {
   const { id } = useParams();
   const [data, setData] = useState(null);
-  console.log(id);
 
   const { accessToken } = useSelector((state) => state.user);
   const dispatch = useDispatch();
