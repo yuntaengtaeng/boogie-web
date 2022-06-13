@@ -41,6 +41,9 @@ const GroupInfoInput = ({
   const [classId, setClassId] = useState(isData ? data.classInfo.id : null);
   const satisfied = name === '' || classId === null || startDate === null;
 
+  const currentDate = new Date();
+  const maxYear = currentDate.getFullYear() + 1;
+
   useEffect(() => {
     const renameKeys = (arr) => {
       const rename = arr.map(({ id, name }) => ({
@@ -104,6 +107,7 @@ const GroupInfoInput = ({
           onChange={(e) => onDateChange(e)}
           showYearPicker
           dateFormat="yyyy"
+          maxDate={new Date(`01-01-${maxYear}`)}
           value={dateValue}
         />
         <Dropdown

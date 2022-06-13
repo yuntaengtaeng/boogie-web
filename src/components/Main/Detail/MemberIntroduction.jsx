@@ -23,6 +23,7 @@ const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   width: 75rem;
+  margin: 0 auto;
 `;
 
 const StyledLink = styled(Link)`

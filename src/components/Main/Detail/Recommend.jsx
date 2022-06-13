@@ -61,20 +61,24 @@ const Recommend = () => {
 
   return (
     <Wrap>
-      <Title>이런 작품은 어때요?</Title>
-      <StyledCardDiv>
-        {recommendData.map((data) => (
-          <div onClick={moveDetail.bind(this, data.id)} key={data.id}>
-            <MainCardPreview
-              title={`${data.year} / ${data.groupName}`}
-              description={data.teamMember}
-              platform={data.plattform}
-              lookup={data.viewCount}
-              technologyStacks={data.technology}
-            />
-          </div>
-        ))}
-      </StyledCardDiv>
+      {!!recommendData.length && (
+        <>
+          <Title>이런 작품은 어때요?</Title>
+          <StyledCardDiv>
+            {recommendData.map((data) => (
+              <div onClick={moveDetail.bind(this, data.id)} key={data.id}>
+                <MainCardPreview
+                  title={`${data.year} / ${data.groupName}`}
+                  description={data.teamMember}
+                  platform={data.plattform}
+                  lookup={data.viewCount}
+                  technologyStacks={data.technology}
+                />
+              </div>
+            ))}
+          </StyledCardDiv>
+        </>
+      )}
     </Wrap>
   );
 };
