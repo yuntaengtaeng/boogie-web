@@ -216,7 +216,7 @@ const Form = ({ onDataHandler, isEdit, data }) => {
         <StyledDiv>
           <StyledSpan>
             <Button onClick={onsubmit} disabled={isSatisfied}>
-              작성 완료
+              {isEdit ? '수정 완료' : '작성 완료'}
             </Button>
           </StyledSpan>
         </StyledDiv>
