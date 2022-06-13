@@ -87,7 +87,12 @@ const ProjectDesign = () => {
       {projectDesign === '' || (
         <StyledDiv>
           <StyledSpan>
-            <OutLineButton onClick={() => previousPage()}>&lt;</OutLineButton>
+            <OutLineButton
+              onClick={() => previousPage()}
+              disabled={pageNumber === 1}
+            >
+              &lt;
+            </OutLineButton>
             <StyledPdfDiv>
               <Document
                 file={projectDesign}
@@ -96,7 +101,12 @@ const ProjectDesign = () => {
                 <Page pageNumber={pageNumber} />
               </Document>
             </StyledPdfDiv>
-            <OutLineButton onClick={() => nextPage()}>&gt;</OutLineButton>
+            <OutLineButton
+              onClick={() => nextPage()}
+              disabled={pageNumber === totalPages}
+            >
+              &gt;
+            </OutLineButton>
           </StyledSpan>
           <DownLoadTag href={projectDesign} download>
             <DownloadButton>
