@@ -69,18 +69,27 @@ const Form = ({ onDataHandler, isEdit, data }) => {
 
   const onGroupInfoHandler = (e) => {
     setGroupInfo(e);
-    setStep(isEdit ? 6 : 2);
+
+    if (step < 2) {
+      setStep(step + 1);
+    }
   };
 
   const onMemberInfoHandler = (e) => {
     setMember(e.member);
     setMemberImage(e.postFile);
-    setStep(isEdit ? 6 : 3);
+
+    if (step < 3) {
+      setStep(step + 1);
+    }
   };
 
   const onPdfFileHandler = (e) => {
     setPdfFile(e);
-    setStep(isEdit ? 6 : 4);
+
+    if (step < 4) {
+      setStep(step + 1);
+    }
   };
 
   const onProjectUrlHandler = (e) => {
@@ -97,12 +106,18 @@ const Form = ({ onDataHandler, isEdit, data }) => {
     };
 
     setProjectUrl(changeUrl(e));
-    setStep(isEdit ? 6 : 5);
+
+    if (step < 5) {
+      setStep(step + 1);
+    }
   };
 
   const onPlattformsAndTechnologysHandler = (e) => {
     setPlattformsAndTechnologys(e);
-    setStep(6);
+
+    if (step < 6) {
+      setStep(step + 1);
+    }
   };
 
   const isSatisfied =
