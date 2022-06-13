@@ -44,6 +44,9 @@ const Main = () => {
     classId: {},
   });
 
+  const currentDate = new Date();
+  const maxYear = currentDate.getFullYear() + 1;
+
   const onFilterOptionHandler = (data) => {
     setFilterOption(data);
   };
@@ -57,6 +60,7 @@ const Main = () => {
           onChange={(date) => setYear(date)}
           showYearPicker
           dateFormat="yyyy"
+          maxDate={new Date(`01-01-${maxYear}`)}
         />
         <StyledSpan>
           <MainFilter
