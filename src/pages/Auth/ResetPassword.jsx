@@ -139,6 +139,8 @@ const ResetPassword = () => {
 
   const changePassword = useCallback(async () => {
     const { new: newPassword, confirm: confirmPassword } = { ...password };
+    const id = inputRef.current.id.value.trim();
+
     if (newPassword !== confirmPassword) {
       alert('비밀번호가 다릅니다.');
       return;
@@ -147,7 +149,8 @@ const ResetPassword = () => {
     dispatch(uiSlce.actions.showLoading());
 
     try {
-      const resposne = await axios.post('api/auth/join', {
+      const resposne = await axios.post('api/help/password', {
+        id,
         password: newPassword,
         verifyPassword: confirmPassword,
       });
