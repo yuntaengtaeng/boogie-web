@@ -84,7 +84,19 @@ const Form = ({ onDataHandler, isEdit, data }) => {
   };
 
   const onProjectUrlHandler = (e) => {
-    setProjectUrl(e);
+    const changeUrl = (arr) => {
+      const regExp =
+        /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+
+      const result = arr.map((v) => {
+        const urlId = v.match(regExp)[7];
+        return `https://www.youtube.com/embed/${urlId}`;
+      });
+
+      return result;
+    };
+
+    setProjectUrl(changeUrl(e));
     setStep(isEdit ? 6 : 5);
   };
 
@@ -111,10 +123,10 @@ const Form = ({ onDataHandler, isEdit, data }) => {
 
     const formData = new FormData();
 
-    const noImageTeamMember = member.filter((data) => !data.image)
+    const noImageTeamMember = member.filter((data) => !data.image);
 
     memberImage.forEach((v, i) => {
-        formData.append(`profileImage${i + 1}`, v, noImageTeamMember[i].name);
+      formData.append(`profileImage${i + 1}`, v, noImageTeamMember[i].name);
     });
 
     formData.append(`groupName`, groupInfo.groupName);
