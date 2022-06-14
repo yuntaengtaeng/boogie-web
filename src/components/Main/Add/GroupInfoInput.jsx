@@ -32,9 +32,8 @@ const GroupInfoInput = ({
   data,
   isData,
 }) => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [dateValue, setDateValue] = useState(
-    isData ? data.year : startDate.getFullYear()
+  const [startDate, setStartDate] = useState(
+    isData ? new Date(new Date().setFullYear(data.year)) : new Date()
   );
   const [name, setGroutName] = useState(isData ? data.groupName : '');
   const [classList, setClassList] = useState([]);
@@ -67,7 +66,6 @@ const GroupInfoInput = ({
 
   const onDateChange = (e) => {
     setStartDate(e);
-    setDateValue(e.getFullYear());
   };
 
   const onClassNameItemHandler = (e) => {
@@ -108,7 +106,6 @@ const GroupInfoInput = ({
           showYearPicker
           dateFormat="yyyy"
           maxDate={new Date(`01-01-${maxYear}`)}
-          value={dateValue}
         />
         <Dropdown
           value={classId || ''}
