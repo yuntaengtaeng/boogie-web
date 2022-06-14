@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 import GroupInfoInput from '../../components/Main/Add/GroupInfoInput';
@@ -36,6 +36,15 @@ const Form = ({ onDataHandler, isEdit, data }) => {
     technology: isData ? data.technology : [],
   });
   const [step, setStep] = useState(isEdit ? 6 : 1);
+  const scrollRef = useRef();
+
+  useEffect(() => {
+    scrollRef.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+      inline: 'nearest',
+    });
+  }, [step]);
 
   const stateEmptying = useCallback((section) => {
     switch (section) {
@@ -157,7 +166,7 @@ const Form = ({ onDataHandler, isEdit, data }) => {
   };
 
   return (
-    <article>
+    <article ref={scrollRef}>
       <StyledDiv>
         <GroupInfoInput
           onGroupInfoHandler={onGroupInfoHandler}
