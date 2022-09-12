@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { BLACK } from '../../constants/color';
+import { BLACK, WHITE } from '../../constants/color';
 import { useDispatch } from 'react-redux';
 import userSlice from '../../slices/user';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -18,6 +18,10 @@ const StyledHeader = styled.header`
   justify-content: right;
   box-sizing: border-box;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  position: sticky;
+  top: 0;
+  background-color: ${WHITE};
+  z-index: 5;
 `;
 
 const StyledTitle = styled.h3`
