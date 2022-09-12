@@ -60,7 +60,8 @@ const CardProfile = ({ profileImg, name, description, turn }) => {
     text: '펼치기',
   });
 
-  const click = () => {
+  const onClick = (event) => {
+    event.stopPropagation();
     const clone = {
       isOpen: !fold.isOpen,
       text: fold.isOpen ? '펼치기' : '접기',
@@ -82,7 +83,13 @@ const CardProfile = ({ profileImg, name, description, turn }) => {
             {fold.isOpen && (
               <StyledDescriptionP>{description}</StyledDescriptionP>
             )}
-            <StyledButton onClick={click}>{fold.text}</StyledButton>
+            <StyledButton
+              onClick={(event) => {
+                onClick(event);
+              }}
+            >
+              {fold.text}
+            </StyledButton>
           </>
         )}
       </StyledBlock>

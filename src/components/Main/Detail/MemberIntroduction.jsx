@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { BLACK } from '../../../constants/color';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import uiSlce from '../../../slices/ui';
 import CardProfile from '../../Ui/Card/CardProfile';
@@ -26,13 +25,8 @@ const StyledDiv = styled.div`
   margin: 0 auto;
 `;
 
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: ${BLACK};
-  width: fit-content;
-`;
-
 const MemberIntroduction = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
   const [memberList, setMemberList] = useState([]);
@@ -55,18 +49,32 @@ const MemberIntroduction = () => {
     getMemberList();
   }, [dispatch, id]);
 
+  const onClick = (event, id) => {
+    event.stopPropagation();
+    if (!id) {
+      return;
+    }
+
+    navigate(`/profile/detail/${id}`);
+  };
+
   return (
     <StyledDiv>
       {memberList.map((v, i) => (
-        <StyledSpan key={i} style={{ margin: '3.125rem' }} index={i}>
-          <StyledLink to={!!v.id ? `/profile/detail/${v.id}` : '#'}>
-            <CardProfile
-              profileImg={v.image}
-              name={v.name}
-              description={v.introduction}
-              turn={i}
-            ></CardProfile>
-          </StyledLink>
+        <StyledSpan
+          key={i}
+          style={{ margin: '3.125rem' }}
+          index={i}
+          onClick={(event) => {
+            onClick(event, v.id);
+          }}
+        >
+          <CardProfile
+            profileImg={v.image}
+            name={v.name}
+            description={v.introduction}
+            turn={i}
+          ></CardProfile>
         </StyledSpan>
       ))}
     </StyledDiv>
