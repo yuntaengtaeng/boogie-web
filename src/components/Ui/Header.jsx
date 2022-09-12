@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux';
 import userSlice from '../../slices/user';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 
+import { FaUserGraduate } from 'react-icons/fa';
+
 import Web from './Header/Web';
 import Mobile from './Header/Mobile';
 
@@ -32,6 +34,12 @@ const StyledTitle = styled.h3`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: ${BLACK};
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 0.4rem;
+  }
 `;
 
 const Header = () => {
@@ -56,7 +64,10 @@ const Header = () => {
   return (
     <StyledHeader>
       <StyledTitle>
-        <StyledLink to="/">졸업작품전</StyledLink>
+        <StyledLink to="/">
+          <FaUserGraduate size={16} />
+          졸업작품전
+        </StyledLink>
       </StyledTitle>
       {isMobile ? (
         <Mobile onLogoutHandler={logoutHandler} />
