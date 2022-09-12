@@ -21,11 +21,11 @@ const StyledDiv = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 80%;
+    overflow: hidden;
   }
 `;
 
-const StyledSpan = styled.span`
+const StyledArticle = styled.article`
   display: inline-flex;
   margin-bottom: 3.125rem;
   align-items: center;
@@ -36,11 +36,15 @@ const StyledPdfDiv = styled.div`
   box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.19),
     0 6px 6px rgba(0, 0, 0, 0.23);
 
+  @media all and (max-width: 479px) {
+    margin: 0 0.6rem;
+  }
+
   ${({ isMobile }) =>
     isMobile &&
     `
       .react-pdf__Page__canvas{
-        width:80% !important;
+        width:50vw !important;
         height: 100% !important;
       }
     `}
@@ -103,32 +107,30 @@ const ProjectDesign = () => {
 
   return (
     <>
-      {projectDesign === '' || (
+      {!!projectDesign && (
         <StyledDiv>
-          {!isMobile && (
-            <StyledSpan>
-              <OutLineButton
-                onClick={() => previousPage()}
-                disabled={pageNumber === 1}
+          <StyledArticle>
+            <OutLineButton
+              onClick={() => previousPage()}
+              disabled={pageNumber === 1}
+            >
+              &lt;
+            </OutLineButton>
+            <StyledPdfDiv isMobile={isMobile}>
+              <Document
+                file={projectDesign}
+                onLoadSuccess={onDocumentLoadSuccess}
               >
-                &lt;
-              </OutLineButton>
-              <StyledPdfDiv isMobile={isMobile}>
-                <Document
-                  file={projectDesign}
-                  onLoadSuccess={onDocumentLoadSuccess}
-                >
-                  <Page pageNumber={pageNumber} />
-                </Document>
-              </StyledPdfDiv>
-              <OutLineButton
-                onClick={() => nextPage()}
-                disabled={pageNumber === totalPages}
-              >
-                &gt;
-              </OutLineButton>
-            </StyledSpan>
-          )}
+                <Page pageNumber={pageNumber} />
+              </Document>
+            </StyledPdfDiv>
+            <OutLineButton
+              onClick={() => nextPage()}
+              disabled={pageNumber === totalPages}
+            >
+              &gt;
+            </OutLineButton>
+          </StyledArticle>
           <DownLoadTag href={projectDesign} download>
             <DownloadButton>
               <VscFilePdf size={16} />

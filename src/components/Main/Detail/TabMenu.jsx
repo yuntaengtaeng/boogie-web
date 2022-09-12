@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { PRIMARY } from '../../../constants/color';
+import { PRIMARY, WHITE } from '../../../constants/color';
 
 const StyledDiv = styled.div`
   font-size: 1.2rem;
@@ -9,7 +9,7 @@ const StyledDiv = styled.div`
   text-align: center;
   flex: 1;
   ${({ tab, selectedTab }) => {
-    return tab === selectedTab ? `box-shadow : 0 0.25rem ${PRIMARY};` : null;
+    return `border-bottom : 1px solid ${tab === selectedTab ? PRIMARY : WHITE}`;
   }};
 
   @media all and (max-width: 479px) {
