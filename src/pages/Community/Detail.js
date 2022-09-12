@@ -16,6 +16,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import uiSlce from '../../slices/ui';
 
+import useDeviceDetect from '../../hooks/useDeviceDetect';
+
 const Container = styled.section`
   display: flex;
   width: 100vw;
@@ -24,6 +26,7 @@ const Container = styled.section`
 `;
 
 const Detail = () => {
+  const { isMobile } = useDeviceDetect();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { accessToken, email } = useSelector((state) => state.user);
@@ -226,7 +229,7 @@ const Detail = () => {
       <Card
         style={{
           backgroundColor: WHITE,
-          width: '60%',
+          width: `${isMobile ? '80' : '60'}%`,
           margin: '3.75rem auto 3.75rem auto',
         }}
       >

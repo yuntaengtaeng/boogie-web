@@ -12,11 +12,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import Card from '../../components/Ui/Card/Card';
 import uiSlce from '../../slices/ui';
 
+import useDeviceDetect from '../../hooks/useDeviceDetect';
+
 const Section = styled.section`
   display: flex;
   width: 100vw;
   min-height: 100vh;
   background-color: ${LIGHT_GRAY};
+
+  @media all and (max-width: 479px) {
+    flex-direction: column;
+  }
 `;
 
 const Left = styled.div`
@@ -29,6 +35,7 @@ const Right = styled.div`
 `;
 
 const Community = () => {
+  const { isMobile } = useDeviceDetect();
   const dispatch = useDispatch();
 
   const [selectedCategory, setSelectedCategory] = useState(1);
@@ -155,7 +162,7 @@ const Community = () => {
     };
 
     getAllData();
-  }, [selectedCategory]);
+  }, [getBestPickData, getPostItem, selectedCategory]);
 
   const { name: bestPickTitle } =
     [...categoryData].find((data) => data.id === selectedCategory) || {};
@@ -167,7 +174,11 @@ const Community = () => {
           style={{
             backgroundColor: WHITE,
             width: '80%',
-            margin: '3.75rem auto 0 auto',
+            margin: `${isMobile ? '1.75rem ' : '3.75rem '}auto 0 auto`,
+            ...(isMobile && {
+              display: 'flex',
+              alignItems: 'center',
+            }),
           }}
         >
           <CategoryList
@@ -189,7 +200,7 @@ const Community = () => {
             title={bestPickTitle}
             bestPickData={bestPickData}
           ></BestPick>
-          <PostWrite></PostWrite>
+          <PostWrite />
           <PostItemList
             commentList={postDatas[selectedCategory] || []}
           ></PostItemList>
