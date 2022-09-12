@@ -6,6 +6,7 @@ const StyledDiv = styled.ul`
   width: 100%;
   list-style-type: disc;
   list-style-position: inside;
+  line-height: 2rem;
 `;
 
 const StyledLi = styled.li`
