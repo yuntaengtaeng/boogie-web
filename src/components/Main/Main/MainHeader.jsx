@@ -26,17 +26,19 @@ const StyledStrong = styled.strong`
 
 const StyledP = styled.p`
   margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
   font-size: 1.4rem;
   @media all and (max-width: 479px) {
     word-break: keep-all;
-    margin-top: 1.25rem;
     font-size: 1rem;
     line-height: 1.25rem;
-    padding-bottom: 1rem;
   }
 `;
 
 const StyledImg = styled.img`
+  border-radius: 1rem;
+  opacity: 0.8;
+
   @media all and (max-width: 479px) {
     width: 100%;
     height: auto;
@@ -51,7 +53,7 @@ const MainHeader = () => {
         <StyledStrong>졸업 작품과</StyledStrong>
         <StyledStrong>채용 공고를</StyledStrong>
         <StyledStrong>찾는 가장 쉬운 방법</StyledStrong>
-        <StyledP>boogie on &amp; on에서 작품을 구경해보세요.</StyledP>
+        <StyledP>작품을 구경해보세요.</StyledP>
       </StyledDiv>
       <StyledImg
         alt="메인이미지"

@@ -29,10 +29,6 @@ const Row = styled.div`
   display: flex;
 `;
 
-const RaidoRow = styled(Row)`
-  margin: 1rem 0px;
-`;
-
 const Certification = styled(Button)`
   min-width: 120px;
 
@@ -132,10 +128,6 @@ const Join = () => {
     }
   }, [dispatch]);
 
-  const jobChangeHandler = (event) => {
-    setRole(event.target.value);
-  };
-
   const onSubmit = useCallback(
     async (event) => {
       event.preventDefault();
@@ -198,7 +190,7 @@ const Join = () => {
 
   return (
     <>
-      <Title>Boogie</Title>
+      <Title>JOIN</Title>
       <Form onSubmit={onSubmit}>
         <Label>아이디(이메일)</Label>
         <Row>
@@ -244,43 +236,6 @@ const Join = () => {
           type="password"
           ref={(el) => (inputRef.current['verifyPassword'] = el)}
         />
-        <RaidoRow>
-          <label htmlFor="student">
-            학생
-            <input
-              id="student"
-              value="student"
-              name="role"
-              type="radio"
-              checked={role === 'student'}
-              onChange={jobChangeHandler}
-            />
-          </label>
-          <label htmlFor="basic">
-            일반
-            <input
-              id="basic"
-              value="basic"
-              name="role"
-              type="radio"
-              checked={role === 'basic'}
-              onChange={jobChangeHandler}
-            />
-          </label>
-        </RaidoRow>
-        {role === 'student' && (
-          <>
-            <Label>학번</Label>
-            <Input type="text" ref={(el) => (inputRef.current['uniId'] = el)} />
-            <Label>이름</Label>
-            <Input type="text" ref={(el) => (inputRef.current['name'] = el)} />
-            <Label>생년월일(8자리)</Label>
-            <Input
-              type="text"
-              ref={(el) => (inputRef.current['birthday'] = el)}
-            />
-          </>
-        )}
         <SubmitButton type="submit" theme={BUTTON_THEME.PRIMARY}>
           회원가입
         </SubmitButton>

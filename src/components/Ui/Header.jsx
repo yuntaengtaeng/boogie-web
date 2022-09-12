@@ -56,7 +56,7 @@ const Header = () => {
   return (
     <StyledHeader>
       <StyledTitle>
-        <StyledLink to="/">졸업 작품 전시회</StyledLink>
+        <StyledLink to="/">졸업작품전</StyledLink>
       </StyledTitle>
       {isMobile ? (
         <Mobile onLogoutHandler={logoutHandler} />

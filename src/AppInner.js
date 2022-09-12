@@ -41,6 +41,8 @@ const AddAdmin = React.lazy(() => import('./pages/Admin/Add'));
 
 const NoAccess = React.lazy(() => import('./pages/NoAccess'));
 
+const NotFound = React.lazy(() => import('./pages/NotFound'));
+
 const AppInner = () => {
   const isLoading = useSelector((state) => state.ui.isLoading);
   const dispatch = useDispatch();
@@ -184,6 +186,7 @@ const AppInner = () => {
             <Route path="/admin/add" element={<AddAdmin />} />
           </Route>
           <Route path="/noaccess" element={<NoAccess />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </BrowserRouter>
