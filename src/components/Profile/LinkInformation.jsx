@@ -29,6 +29,18 @@ const StyledDiv = styled.div`
   }
 `;
 
+const StyledInput = styled(Input)`
+  @media all and (max-width: 479px) {
+    width: 75%;
+  }
+`;
+
+const StyledButton = styled(Button)`
+  @media all and (max-width: 479px) {
+    width: 25%;
+  }
+`;
+
 const LinkInformation = ({ link, onLinkInformationHandler, isMe }) => {
   const [urlLinkArr, setUrlLinkArr] = useState(link || []);
   const [url, setUrl] = useState('');
@@ -71,18 +83,17 @@ const LinkInformation = ({ link, onLinkInformationHandler, isMe }) => {
         <>
           <ExplanationBox arr={EXPLANATION} />
           <StyledSpan>
-            <Input
+            <StyledInput
               type="text"
-              style={{ width: '15rem' }}
               placeholder="URL"
               value={url}
               onChange={(e) => {
                 setUrl(e.target.value);
               }}
-            ></Input>
-            <Button type="button" onClick={onclick}>
+            ></StyledInput>
+            <StyledButton type="button" onClick={onclick} disabled={url === ''}>
               추가
-            </Button>
+            </StyledButton>
           </StyledSpan>
         </>
       )}

@@ -21,6 +21,13 @@ const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   padding: 6.25rem 9.375rem;
+  @media all and (max-width: 479px) {
+    width: 80%;
+    padding: 0;
+    margin: 3rem auto;
+    margin-bottom: 5rem;
+    height: fit-content;
+  }
 `;
 
 const ButtonSpan = styled.span`
@@ -32,6 +39,12 @@ const SubmitButton = styled(Button)`
   height: 3rem;
   font-size: 1rem;
   width: 10rem;
+
+  @media all and (max-width: 479px) {
+    height: 2.5rem;
+    font-size: 0.8rem;
+    width: 100vw;
+  }
 `;
 
 const StyledBlock = styled(Block)`
@@ -45,6 +58,11 @@ const StyledBlock = styled(Block)`
   display: flex;
   align-items: center;
   justify-content: space-around;
+
+  @media all and (max-width: 479px) {
+    height: fit-content;
+    flex-direction: column;
+  }
 `;
 
 const StyledBlockLeft = styled.div`
@@ -64,9 +82,16 @@ const StyledBlockLeft = styled.div`
     margin-left: 0.4rem;
     font-size: 0.8rem;
     font-weight: 500;
+    @media all and (max-width: 479px) {
+      line-height: 1rem;
+      word-break: keep-all;
+    }
   }
   progress {
     height: 2rem;
+    @media all and (max-width: 479px) {
+      width: 35vw;
+    }
   }
 `;
 

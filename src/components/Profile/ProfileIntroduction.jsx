@@ -13,10 +13,12 @@ const StyledDiv = styled.div`
 const StyledTextarea = styled.textarea`
   resize: none;
   width: 99%;
-  height: 20rem;
+  min-height: 20rem;
   box-sizing: 0;
   margin: 1rem 0;
   float: center;
+  font-size: 1.2rem;
+  word-break: keep-all;
 `;
 
 const StyledTitle = styled.p`

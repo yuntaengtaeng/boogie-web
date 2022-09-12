@@ -13,6 +13,9 @@ import Line from '../Ui/Line';
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
+  @media all and (max-width: 479px) {
+    width: 80vw;
+  }
 `;
 
 const StyledTitle = styled.p`
@@ -23,6 +26,10 @@ const StyledTitle = styled.p`
 
 const StyledSpan = styled.span`
   display: flex;
+
+  @media all and (max-width: 479px) {
+    flex-direction: column;
+  }
 `;
 
 const Span = styled.span`
@@ -35,6 +42,11 @@ const StyledCenterDiv = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 5rem;
+
+  @media all and (max-width: 479px) {
+    font-size: 1rem;
+    margin-left: 2rem;
+  }
 `;
 
 const StyledRightDiv = styled.div`
@@ -46,6 +58,18 @@ const StyledRightDiv = styled.div`
 const StyledP = styled.p`
   font-size: 1.5rem;
   margin-right: 1rem;
+
+  @media all and (max-width: 479px) {
+    font-size: 1rem;
+  }
+`;
+
+const InfoBlock = styled.div`
+  @media all and (max-width: 479px) {
+    display: inline-flex;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+  }
 `;
 
 const ProfileInformation = ({ info, onProfileInfoHandler }) => {
@@ -161,16 +185,17 @@ const ProfileInformation = ({ info, onProfileInfoHandler }) => {
     <StyledDiv>
       <StyledTitle>프로필</StyledTitle>
       <StyledSpan>
-        <AddProfileImage
-          image={profileImage}
-          onAddImageHandler={onAddImageHandler}
-          isMe={isMe}
-        ></AddProfileImage>
-        <StyledCenterDiv>
-          <StyledP style={{ margin: '2rem 0' }}>{nickname}</StyledP>
-          <StyledP>{id}</StyledP>
-        </StyledCenterDiv>
-
+        <InfoBlock>
+          <AddProfileImage
+            image={profileImage}
+            onAddImageHandler={onAddImageHandler}
+            isMe={isMe}
+          ></AddProfileImage>
+          <StyledCenterDiv>
+            <StyledP style={{ margin: '2rem 0' }}>{nickname}</StyledP>
+            <StyledP>{id}</StyledP>
+          </StyledCenterDiv>
+        </InfoBlock>
         <StyledRightDiv>
           {!isNotStudent && (
             <>

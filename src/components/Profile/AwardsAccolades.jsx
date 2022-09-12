@@ -20,8 +20,13 @@ const StyledSpan = styled.span`
   display: inline-flex;
   align-items: flex-start;
   justify-content: flex-start;
-  height: 15rem;
+  min-height: 2rem;
   margin: 1rem 0;
+  height: fit-content;
+
+  @media all and (max-width: 479px) {
+    flex-direction: column;
+  }
 `;
 
 const StyledTitle = styled.p`
@@ -36,15 +41,36 @@ const StyleDatePicker = styled(DatePicker)`
   padding: 0;
   padding-left: 0.75rem;
   border: 1px solid ${GRAY};
+  @media all and (max-width: 479px) {
+    width: 17.9rem;
+  }
 `;
 
 const AwardsDiv = styled.div`
   display: flex;
   flex-direction: column;
-  line-height: 1rem;
   margin-left: 2rem;
   margin-top: 0.5rem;
   gap: 2rem;
+
+  @media all and (max-width: 479px) {
+    margin-top: 0.5rem;
+    margin-left: 0;
+    gap: 1rem;
+  }
+`;
+
+const AwardsInput = styled(Input)`
+  width: 18.75rem;
+  @media all and (max-width: 479px) {
+    width: 18.75rem;
+  }
+`;
+
+const AddButton = styled(Button)`
+  @media all and (max-width: 479px) {
+    width: 18.75rem;
+  }
 `;
 
 const AwardsAccolades = ({ awards, onAwardsHandler, isMe }) => {
@@ -89,15 +115,14 @@ const AwardsAccolades = ({ awards, onAwardsHandler, isMe }) => {
       <StyledSpan>
         {isMe && (
           <>
-            <Input
+            <AwardsInput
               type="text"
-              style={{ width: '15rem' }}
               placeholder="수상내역"
               value={awardsName}
               onChange={(e) => {
                 setAwardsName(e.target.value);
               }}
-            ></Input>
+            ></AwardsInput>
             <span>
               <StyleDatePicker
                 placeholder="YYYY.MM"
@@ -108,15 +133,19 @@ const AwardsAccolades = ({ awards, onAwardsHandler, isMe }) => {
                 showMonthYearPicker
               ></StyleDatePicker>
             </span>
-            <Button type="button" onClick={onclick}>
+            <AddButton
+              type="button"
+              onClick={onclick}
+              disabled={awardsName === ''}
+            >
               추가
-            </Button>
+            </AddButton>
           </>
         )}
 
-        {awardsDate.length !== 0 && (
-          <AwardsDiv>
-            {awardsDate.map((v) => (
+        <AwardsDiv>
+          {awardsDate.length !== 0 &&
+            awardsDate.map((v) => (
               <DeleteLable
                 key={v.name}
                 onDeleteHandler={
@@ -130,8 +159,7 @@ const AwardsAccolades = ({ awards, onAwardsHandler, isMe }) => {
                 {v.name} {v.awardedAt}
               </DeleteLable>
             ))}
-          </AwardsDiv>
-        )}
+        </AwardsDiv>
       </StyledSpan>
 
       <Line styled={{ margin: '1rem 0' }} />

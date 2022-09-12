@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { BLACK } from '../../constants/color';
 import ProfileImage from '../Ui/ProfileImage';
+import useDeviceDetect from '../../hooks/useDeviceDetect';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -32,6 +33,8 @@ const File = styled.input`
 const AddProfileImage = ({ image, onAddImageHandler, isMe }) => {
   const [userImage, setUserImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(image || '');
+  const { isMobile } = useDeviceDetect();
+  const imgSize = isMobile ? '100' : '160';
 
   const onchange = (e) => {
     setUserImage(e);
@@ -49,7 +52,7 @@ const AddProfileImage = ({ image, onAddImageHandler, isMe }) => {
 
   return (
     <StyledDiv>
-      <ProfileImage src={previewImage} size="160"></ProfileImage>
+      <ProfileImage src={previewImage} size={imgSize}></ProfileImage>
 
       {isMe && (
         <StyledLabel>
