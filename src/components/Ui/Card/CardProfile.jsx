@@ -1,11 +1,14 @@
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Card from './Card';
 import useDeviceDetect from '../../../hooks/useDeviceDetect';
 
-const ProfileCard = styled(Card)`
+const StyledBlock = styled.div`
   @media all and (max-width: 479px) {
-    padding: 0;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
   }
 `;
 
@@ -34,23 +37,59 @@ const StyledDescriptionP = styled.p`
   white-space: pre-line;
   padding: 16px 16px;
   margin: 0 16px;
+  @media all and (max-width: 479px) {
+    width: 11rem;
+    padding: 0;
+    margin: 0;
+  }
+`;
+
+const StyledButton = styled.button`
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+  text-align: center;
+  margin: 12px 0;
+  font-size: 0.7rem;
 `;
 
 const CardProfile = ({ profileImg, name, description, turn }) => {
   const { isMobile } = useDeviceDetect();
+  const [fold, setFold] = useState({
+    isOpen: false,
+    text: '펼치기',
+  });
+
+  const click = () => {
+    const clone = {
+      isOpen: !fold.isOpen,
+      text: fold.isOpen ? '펼치기' : '접기',
+    };
+    setFold(clone);
+  };
   return (
-    <ProfileCard style={{ padding: '0px 24px', display: 'flex' }}>
+    <Card style={{ padding: '0px 24px', display: 'flex' }}>
       {isMobile || turn % 2 === 0 || (
         <StyledDescriptionP>{description}</StyledDescriptionP>
       )}
-      <StyledDiv>
-        <StyledImg src={profileImg}></StyledImg>
-        <h4 style={{ marginBottom: '16px' }}>{name}</h4>
-      </StyledDiv>
+      <StyledBlock>
+        <StyledDiv>
+          <StyledImg src={profileImg}></StyledImg>
+          <h4 style={{ marginBottom: '20px' }}>{name}</h4>
+        </StyledDiv>
+        {isMobile && (
+          <>
+            {fold.isOpen && (
+              <StyledDescriptionP>{description}</StyledDescriptionP>
+            )}
+            <StyledButton onClick={click}>{fold.text}</StyledButton>
+          </>
+        )}
+      </StyledBlock>
       {isMobile || turn % 2 !== 0 || (
         <StyledDescriptionP>{description}</StyledDescriptionP>
       )}
-    </ProfileCard>
+    </Card>
   );
 };
 
