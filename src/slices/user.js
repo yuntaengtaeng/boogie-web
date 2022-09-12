@@ -4,6 +4,7 @@ const initialState = {
   email: '',
   nickName: '',
   accessToken: '',
+  profileImage: '',
   isAdmin: false,
 };
 
@@ -16,6 +17,7 @@ const userSlice = createSlice({
       state.nickname = action.payload.nickname;
       state.accessToken = action.payload.accessToken;
       state.isAdmin = action.payload.isAdmin;
+      state.profileImage = action.payload.profileImage || '';
     },
     initUser() {
       return {

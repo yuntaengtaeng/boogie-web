@@ -2,8 +2,12 @@ import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { BLACK } from '../../constants/color';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import userSlice from '../../slices/user';
+import useDeviceDetect from '../../hooks/useDeviceDetect';
+
+import Web from './Header/Web';
+import Mobile from './Header/Mobile';
 
 const StyledHeader = styled.header`
   width: 100%;
@@ -21,31 +25,17 @@ const StyledTitle = styled.h3`
   font-weight: bold;
 `;
 
-const StyledUl = styled.ul`
-  list-style: none;
-  display: flex;
-`;
-
-const StyledLi = styled.li`
-  margin-left: 2em;
-  font-size: 1rem;
-`;
-
-const Logout = styled(StyledLi)`
-  font-weight: 300;
-`;
-
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: ${BLACK};
 `;
 
 const Header = () => {
+  const { isMobile } = useDeviceDetect();
+
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  const { email, nickname, isAdmin } = useSelector((state) => state.user);
-  const isLoggiend = !!email;
 
   const logoutHandler = () => {
     localStorage.removeItem('refreshToken');
@@ -64,35 +54,11 @@ const Header = () => {
       <StyledTitle>
         <StyledLink to="/">졸업 작품 전시회</StyledLink>
       </StyledTitle>
-      <nav>
-        <StyledUl>
-          <StyledLi>
-            <StyledLink to="/jobposting">채용공고</StyledLink>
-          </StyledLi>
-          <StyledLi>
-            <StyledLink to="/community">커뮤니티</StyledLink>
-          </StyledLi>
-          {isAdmin && (
-            <StyledLi>
-              <StyledLink to="/admin/add">관리자 추가</StyledLink>
-            </StyledLi>
-          )}
-          {isLoggiend ? (
-            <>
-              <StyledLi>
-                <StyledLink to={`/profile/detail/${email}`}>
-                  {nickname} 님
-                </StyledLink>
-              </StyledLi>
-              <Logout onClick={logoutHandler}>로그아웃</Logout>
-            </>
-          ) : (
-            <StyledLi>
-              <StyledLink to="/login">로그인/회원가입</StyledLink>
-            </StyledLi>
-          )}
-        </StyledUl>
-      </nav>
+      {isMobile ? (
+        <Mobile onLogoutHandler={logoutHandler} />
+      ) : (
+        <Web onLogoutHandler={logoutHandler} />
+      )}
     </StyledHeader>
   );
 };
