@@ -23,6 +23,11 @@ const StyledBlock = styled(Block)`
 
 const StyledDropdown = styled(Dropdown)`
   width: 12vw;
+
+  @media all and (max-width: 479px) {
+    width: max-content;
+    padding-right: 1.6rem;
+  }
 `;
 
 const Section = styled.section`
