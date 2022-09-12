@@ -11,6 +11,10 @@ const StyledDiv = styled.div`
   ${({ tab, selectedTab }) => {
     return tab === selectedTab ? `box-shadow : 0 0.25rem ${PRIMARY};` : null;
   }};
+
+  @media all and (max-width: 479px) {
+    word-break: keep-all;
+  }
 `;
 
 const TitleTap = ({ index, selectedTab, onSelectedHandler, children }) => {

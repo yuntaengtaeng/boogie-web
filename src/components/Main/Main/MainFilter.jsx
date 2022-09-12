@@ -110,6 +110,7 @@ const MainFilter = ({ filterOption, onFilterOptionHandler }) => {
       <FilterDiv>
         <StyledSpan>
           <OutLineButton
+            style={{ width: 'max-content' }}
             onClick={() => {
               showModal();
             }}

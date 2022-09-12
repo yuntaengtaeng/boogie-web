@@ -14,6 +14,11 @@ import MainCardList from '../../components/Main/Main/MainCardList';
 const StyledSection = styled.section`
   padding: 6.25rem 9.375rem;
   height: fit-content;
+  @media all and (max-width: 479px) {
+    width: 80%;
+    padding: 0;
+    margin: 1rem auto;
+  }
 `;
 
 const StyledDiv = styled.div`

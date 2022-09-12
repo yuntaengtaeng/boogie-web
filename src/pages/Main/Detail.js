@@ -18,6 +18,12 @@ const StyledArticle = styled.article`
   display: flex;
   flex-direction: column;
   margin: 3.125rem 0px;
+
+  @media all and (max-width: 479px) {
+    width: 80%;
+    padding: 0;
+    margin: 1rem auto;
+  }
 `;
 
 const TabMenuParent = styled.div`
@@ -38,6 +44,13 @@ const AdminAuthority = styled.div`
 
   > button:first-child {
     margin-right: 1rem;
+  }
+`;
+
+const StyledSection = styled.section`
+  @media all and (max-width: 479px) {
+    display: flex;
+    justify-content: center;
   }
 `;
 
@@ -104,9 +117,9 @@ const Detail = () => {
           ))}
         </TabMenuParent>
 
-        <section>
+        <StyledSection>
           <DetailContents selectedIndex={selectedIndex}></DetailContents>
-        </section>
+        </StyledSection>
       </StyledArticle>
       <Recommend />
     </>

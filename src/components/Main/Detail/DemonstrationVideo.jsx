@@ -14,6 +14,16 @@ const Wrap = styled.div`
 const StyledIframe = styled.iframe`
   box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.19),
     0 0.375rem 0.375rem rgba(0, 0, 0, 0.23);
+  width: 720px;
+  height: 450px;
+  margin-bottom: 50px;
+
+  @media all and (max-width: 479px) {
+    box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.19),
+      0 0.375rem 0.375rem rgba(0, 0, 0, 0.23);
+    width: 90%;
+    height: fit-content;
+  }
 `;
 
 const DemonstrationVideo = () => {
@@ -45,7 +55,6 @@ const DemonstrationVideo = () => {
         videoUrl.map((v, i) => (
           <StyledIframe
             key={i}
-            style={{ width: '720px', height: '450px', marginBottom: '50px' }}
             allowFullScreen
             src={v}
             frameBorder="0"

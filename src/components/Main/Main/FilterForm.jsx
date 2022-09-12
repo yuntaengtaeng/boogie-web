@@ -9,14 +9,31 @@ import Input from '../../Ui/Input';
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  width: 37.5rem;
+  width: 50vw;
   max-height: 80vh;
-  overflow-y: scroll;
+
+  @media all and (max-width: 479px) {
+    width: 80vw;
+  }
+
+  .box {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .box::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
-const StyledSpan = styled.span`
+const StyledDiv = styled.div`
   display: inline-flex;
-  margin-bottom: 2rem;
+
+  @media all and (max-width: 479px) {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    margin-bottom: 8px;
+  }
 `;
 
 const FilterForm = ({
@@ -84,7 +101,7 @@ const FilterForm = ({
   return (
     <StyledForm onSubmit={onHandlerSubmit}>
       <Input
-        style={{ width: '250px', marginBottom: '80px' }}
+        style={{ width: '100%', marginBottom: '64px' }}
         type="text"
         placeholder="이름"
         value={name}
@@ -94,61 +111,67 @@ const FilterForm = ({
       ></Input>
       <SearchSelect
         style={{
-          width: '250px',
-          marginBottom: '80px',
+          width: '100%',
+          marginBottom: '56px',
         }}
         placeholder="플랫폼"
         options={plattformList}
         onSelectItemHandler={onPlatformsItemHandler}
       ></SearchSelect>
       {plattform && (
-        <StyledSpan>
+        <StyledDiv>
           {plattform.map((v) => (
-            <span style={{ marginRight: '8px' }} key={v.name}>
+            <div
+              style={{ marginRight: '8px', marginBottom: '8px' }}
+              key={v.name}
+            >
               <Chip onDeleteHandler={() => onPlatformsDeleteHandler(v)}>
                 {v.name}
               </Chip>
-            </span>
+            </div>
           ))}
-        </StyledSpan>
+        </StyledDiv>
       )}
       <SearchSelect
         style={{
-          width: '250px',
-          marginBottom: '80px',
+          width: '100%',
+          marginBottom: '56px',
         }}
         placeholder="기술"
         options={technologyList}
         onSelectItemHandler={onTechnologysItemHandler}
       ></SearchSelect>
       {technology && (
-        <StyledSpan>
+        <StyledDiv>
           {technology.map((v) => (
-            <span style={{ marginRight: '8px' }} key={v.name}>
+            <div
+              style={{ marginRight: '8px', marginBottom: '8px' }}
+              key={v.name}
+            >
               <Chip onDeleteHandler={() => onTechnologyDeleteHandler(v)}>
                 {v.name}
               </Chip>
-            </span>
+            </div>
           ))}
-        </StyledSpan>
+        </StyledDiv>
       )}
       <SearchSelect
         style={{
-          width: '250px',
-          marginBottom: '80px',
+          width: '100%',
+          marginBottom: '64px',
         }}
         placeholder="반"
         options={classList}
         onSelectItemHandler={onClassIdItemHandler}
       ></SearchSelect>
       {Object.keys(classId).length !== 0 && (
-        <StyledSpan>
-          <span style={{ marginRight: '8px' }}>
+        <StyledDiv>
+          <div style={{ marginRight: '8px', marginBottom: '8px' }}>
             <Chip onDeleteHandler={() => onClassIdDeleteHandler()}>
               {classId.name}
             </Chip>
-          </span>
-        </StyledSpan>
+          </div>
+        </StyledDiv>
       )}
       <Button type="submit">적용</Button>
     </StyledForm>
