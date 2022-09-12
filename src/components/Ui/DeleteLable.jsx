@@ -13,6 +13,7 @@ const StyledDiv = styled.div`
 const StyledCoverSpan = styled.span`
   background-color: ${LIGHT_GRAY};
   border-radius: 0.25rem;
+  cursor: pointer;
 `;
 
 const DeleteLavle = ({ children, onDeleteHandler }) => {
