@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -62,6 +62,11 @@ const Detail = () => {
   const { id } = useParams();
   const tapMenu = ['팀원소개', '프로젝트 설계', '프로젝트 발표 및 시연'];
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setSelectedIndex(0);
+  }, [id]);
 
   const deleteProject = async () => {
     dispatch(uiSlice.actions.showLoading());
