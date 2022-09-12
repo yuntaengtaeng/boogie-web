@@ -53,6 +53,9 @@ const StyledRightDiv = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: auto;
+  @media all and (max-width: 479px) {
+    margin: 0;
+  }
 `;
 
 const StyledP = styled.p`
