@@ -30,13 +30,21 @@ const Header = styled.div`
   justify-content: flex-end;
   width: 100%;
   margin-bottom: 2rem;
+  background-color: ${PRIMARY};
+  padding: 0.4rem 0;
 `;
 
 const Top = styled.div`
-  background-color: ${PRIMARY};
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1;
+  justify-content: space-between;
+`;
+
+const Sub = styled.h2`
+  font-size: 1.2rem;
+  font-weight: bold;
 `;
 
 const Bottom = styled.div`
@@ -75,16 +83,15 @@ const StyledLink = styled(Link)`
 
 const ProfileMenu = styled(Link)`
   text-decoration: none;
-  color: ${WHITE};
   display: flex;
+  color: ${BLACK};
   align-items: center;
   font-size: 1.4rem;
 `;
 
 const StyledButton = styled(Button)`
   margin: 2rem auto;
-  /* width: 100%; */
-  /* height: 3.5rem; */
+  height: 2.5rem;
   font-size: 1.3rem;
 `;
 
@@ -131,13 +138,15 @@ const Mobile = ({ onLogoutHandler }) => {
             <SideMenuWrap>
               <Top>
                 <Header>
-                  <VscClose size={48} color={WHITE} onClick={closeSideMenu} />
+                  <VscClose color={WHITE} size={42} onClick={closeSideMenu} />
                 </Header>
-                {isLoggiend && (
+                {isLoggiend ? (
                   <ProfileMenu to={`/profile/detail/${email}`}>
-                    <ProfileImage size={24} src={profileImage} />
+                    <ProfileImage size={26} src={profileImage} />
                     {nickname} 님
                   </ProfileMenu>
+                ) : (
+                  <Sub>아직 로그인을 안하셨나요?</Sub>
                 )}
                 <StyledButton
                   theme={BUTTON_THEME.PRIMARY}
