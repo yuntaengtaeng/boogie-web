@@ -33,6 +33,10 @@ const StyledForm = styled.form`
 const ButtonSpan = styled.span`
   display: flex;
   justify-content: center;
+
+  @media all and (max-width: 479px) {
+    margin-top: 0.5rem;
+  }
 `;
 
 const SubmitButton = styled(Button)`
@@ -68,6 +72,10 @@ const StyledBlock = styled(Block)`
 const StyledBlockLeft = styled.div`
   display: flex;
   align-items: center;
+
+  @media all and (max-width: 479px) {
+    margin-top: 0.5rem;
+  }
 
   div {
     display: flex;

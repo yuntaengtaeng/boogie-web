@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const StyledDiv = styled.ul`
   background-color: #f3f9fe;
-  font-size: 1rem;
+  font-size: 0.8rem;
   width: 100%;
   list-style-type: disc;
   list-style-position: inside;
@@ -11,6 +11,10 @@ const StyledDiv = styled.ul`
 
 const StyledLi = styled.li`
   padding: 1rem;
+
+  @media all and (max-width: 479px) {
+    padding: 0.2rem;
+  }
 `;
 
 const ExplanationBox = ({ arr }) => {

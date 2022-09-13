@@ -70,6 +70,7 @@ const AwardsInput = styled(Input)`
 const AddButton = styled(Button)`
   @media all and (max-width: 479px) {
     width: 18.75rem;
+    margin-top: 1rem;
   }
 `;
 

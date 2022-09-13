@@ -36,6 +36,11 @@ const Span = styled.span`
   display: inline-flex;
   align-items: center;
   margin-bottom: 1rem;
+
+  @media all and (max-width: 479px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const StyledCenterDiv = styled.div`
@@ -64,6 +69,7 @@ const StyledP = styled.p`
 
   @media all and (max-width: 479px) {
     font-size: 1rem;
+    margin-bottom: 0.5rem;
   }
 `;
 
