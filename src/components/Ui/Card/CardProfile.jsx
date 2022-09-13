@@ -21,22 +21,23 @@ const StyledDiv = styled.div`
 const StyledImg = styled.img`
   width: 140px;
   height: 180px;
-  margin-bottom: 16px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 
   @media all and (max-width: 479px) {
     width: 147px;
     height: 188px;
-    margin: 16px 20px;
+    margin: 1rem 1.25rem;
   }
 `;
 
 const StyledDescriptionP = styled.p`
   width: 500px;
-  line-height: 24px;
+  line-height: 1.5rem;
   word-break: keep-all;
   white-space: pre-line;
-  padding: 16px 16px;
-  margin: 0 16px;
+  padding: 1rem 1rem;
+  margin: 0 1rem;
   @media all and (max-width: 479px) {
     width: 11rem;
     padding: 0;
@@ -49,7 +50,7 @@ const StyledButton = styled.button`
   outline: 0;
   background-color: transparent;
   text-align: center;
-  margin: 12px 0;
+  margin: 0.75rem 0;
   font-size: 0.7rem;
 `;
 
@@ -69,14 +70,14 @@ const CardProfile = ({ profileImg, name, description, turn }) => {
     setFold(clone);
   };
   return (
-    <Card style={{ padding: '0px 24px', display: 'flex' }}>
+    <Card style={{ padding: '0 1.5rem', display: 'flex' }}>
       {isMobile || turn % 2 === 0 || (
         <StyledDescriptionP>{description}</StyledDescriptionP>
       )}
       <StyledBlock>
         <StyledDiv>
           <StyledImg src={profileImg}></StyledImg>
-          <h4 style={{ marginBottom: '20px' }}>{name}</h4>
+          <h4 style={{ marginBottom: '1.25rem' }}>{name}</h4>
         </StyledDiv>
         {isMobile && (
           <>
