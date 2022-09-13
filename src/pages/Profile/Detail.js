@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
+import ProfileCreationPage from '../../components/Profile/ProfileCreationPage';
 import NondisclosurePage from '../../components/Profile/NondisclosurePage';
 import ProfileInformation from '../../components/Profile/ProfileInformation';
 import ProfileIntroduction from '../../components/Profile/ProfileIntroduction';
@@ -110,6 +111,7 @@ const Detail = () => {
   const [profileData, setProfileData] = useState({});
   const [isProfileShownPermit, setIsProfileShownPermit] = useState(false);
   const [requestComplete, setRequestComplete] = useState(false);
+  const [hasProfile, setHasProfile] = useState(false);
 
   const renameKeys = (arr = []) => {
     const rename = arr.map(({ id, name }) => ({
@@ -131,7 +133,7 @@ const Detail = () => {
     setProfileData(profileInfo);
 
     const checkProfileShownPermit = (() => {
-      if (profileInfo.isNotStudent) {
+      if (profileInfo.isAdmin) {
         return true;
       } else if (profileInfo.isMe || profileInfo.isOpen) {
         return true;
@@ -143,28 +145,34 @@ const Detail = () => {
     setIsProfileShownPermit(checkProfileShownPermit);
   };
 
-  useEffect(() => {
-    const getProfileData = async () => {
-      dispatch(uiSlce.actions.showLoading());
-      try {
-        const {
-          data: { profileInfo },
-        } = await axios.get(`api/profile?id=${id}`, {
-          headers: {
-            authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
-          },
-        });
+  const getProfileData = async () => {
+    dispatch(uiSlce.actions.showLoading());
+    try {
+      const {
+        data: { profileInfo },
+      } = await axios.get(`api/profile?id=${id}`, {
+        headers: {
+          authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
+        },
+      });
 
-        setProfileDataState(profileInfo);
-      } catch (e) {
-        alert(e.message);
-      } finally {
-        setRequestComplete(true);
-        dispatch(uiSlce.actions.hideLoading());
+      setProfileDataState(profileInfo);
+      if (profileInfo.isAdmin) {
+        setHasProfile(profileInfo.isAdmin);
+      } else {
+        setHasProfile(!profileInfo.hasNotProfile);
       }
-    };
+    } catch (e) {
+      alert(e.message);
+    } finally {
+      setRequestComplete(true);
+      dispatch(uiSlce.actions.hideLoading());
+    }
+  };
+
+  useEffect(() => {
     getProfileData();
-  }, [accessToken, dispatch, id]);
+  }, []);
 
   const onProfileInfoHandler = (e) => {
     const clone = { ...profileData };
@@ -239,64 +247,73 @@ const Detail = () => {
   };
 
   const wrap = (() => {
-    if (!requestComplete) {
-      return null;
+    if (!hasProfile) {
+      return (
+        <ProfileCreationPage
+          setHasProfile={setHasProfile}
+          onCreatedCallbackFunc={getProfileData}
+        ></ProfileCreationPage>
+      );
     } else {
-      if (!isProfileShownPermit) {
-        return <NondisclosurePage></NondisclosurePage>;
+      if (!requestComplete) {
+        return null;
       } else {
-        return (
-          <StyledForm onSubmit={onHandlerSubmit}>
-            <ProfileInformation
-              info={profileData}
-              onProfileInfoHandler={onProfileInfoHandler}
-            ></ProfileInformation>
+        if (!isProfileShownPermit) {
+          return <NondisclosurePage></NondisclosurePage>;
+        } else {
+          return (
+            <StyledForm onSubmit={onHandlerSubmit}>
+              <ProfileInformation
+                info={profileData}
+                onProfileInfoHandler={onProfileInfoHandler}
+              ></ProfileInformation>
 
-            {!profileData.isNotStudent && (
-              <>
-                <ProfileIntroduction
-                  introduction={profileData.introduction}
-                  onIntroductionHandler={onIntroductionHandler}
-                  isMe={profileData.isMe}
-                ></ProfileIntroduction>
-                <AwardsAccolades
-                  awards={profileData.awards}
-                  onAwardsHandler={onAwardsHandler}
-                  isMe={profileData.isMe}
-                ></AwardsAccolades>
-                <LinkInformation
-                  link={profileData.links}
-                  onLinkInformationHandler={onLinkInformationHandler}
-                  isMe={profileData.isMe}
-                ></LinkInformation>
-                <StyledBlock>
-                  <StyledBlockLeft>
-                    <div>
-                      <progress
-                        id="progress"
-                        value={profileData.profileScore}
-                        min="0"
-                        max="100"
-                      ></progress>
-                      <span>{profileData.profileScore}%</span>
-                    </div>
-                    <p>💪 완성도가 높을 수록 회사에서 더 관심을 가져요!</p>
-                  </StyledBlockLeft>
-                  {profileData.isMe && (
-                    <ButtonSpan>
-                      <SubmitButton
-                        type="submit"
-                        disabled={Object.keys(profileData) === 0}
-                      >
-                        작성 완료
-                      </SubmitButton>
-                    </ButtonSpan>
-                  )}
-                </StyledBlock>
-              </>
-            )}
-          </StyledForm>
-        );
+              {!profileData.isAdmin && (
+                <>
+                  <ProfileIntroduction
+                    introduction={profileData.introduction}
+                    onIntroductionHandler={onIntroductionHandler}
+                    isMe={profileData.isMe}
+                  ></ProfileIntroduction>
+                  <AwardsAccolades
+                    awards={profileData.awards}
+                    onAwardsHandler={onAwardsHandler}
+                    isMe={profileData.isMe}
+                  ></AwardsAccolades>
+                  <LinkInformation
+                    link={profileData.links}
+                    onLinkInformationHandler={onLinkInformationHandler}
+                    isMe={profileData.isMe}
+                  ></LinkInformation>
+                  <StyledBlock>
+                    <StyledBlockLeft>
+                      <div>
+                        <progress
+                          id="progress"
+                          value={profileData.profileScore}
+                          min="0"
+                          max="100"
+                        ></progress>
+                        <span>{profileData.profileScore}%</span>
+                      </div>
+                      <p>💪 완성도가 높을 수록 회사에서 더 관심을 가져요!</p>
+                    </StyledBlockLeft>
+                    {profileData.isMe && (
+                      <ButtonSpan>
+                        <SubmitButton
+                          type="submit"
+                          disabled={Object.keys(profileData) === 0}
+                        >
+                          작성 완료
+                        </SubmitButton>
+                      </ButtonSpan>
+                    )}
+                  </StyledBlock>
+                </>
+              )}
+            </StyledForm>
+          );
+        }
       }
     }
   })();
