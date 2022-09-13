@@ -11,7 +11,7 @@ const StyledInput = styled.input`
   min-width: 0;
   padding: 0.25rem 0.75rem;
   color: rgba(0, 0, 0, 0.85);
-  font-size: 0.875rem;
+  font-size: 1rem;
   background-color: ${WHITE};
   border: 1px solid ${GRAY};
   border-radius: 2px;
