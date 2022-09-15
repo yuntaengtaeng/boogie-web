@@ -8,6 +8,7 @@ import JobPostingGroup from '../../components/Jobposting/Main/JobPostingGroup';
 import axios from 'axios';
 import uiSlce from '../../slices/ui';
 import { useDispatch } from 'react-redux';
+import VerticalSpace from '../../components/Ui/Layout/VerticalSpace';
 
 const Wrap = styled.section`
   width: 80%;
@@ -107,6 +108,7 @@ const JobPosting = () => {
         filterOptions={filterOptionsData}
         onDeleteHandler={onDeleteHandler}
       />
+      <VerticalSpace size="5rem" />
       <JobPostingGroup
         style={{ marginTop: '5rem' }}
         list={jobPostingDataList}

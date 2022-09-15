@@ -7,12 +7,7 @@ import { BLACK } from '../../../constants/color';
 import MainCardPreview from './MainCardPreview';
 import uiSlce from '../../../slices/ui';
 
-const StyledCardDiv = styled.div`
-  display: grid;
-  justify-items: center;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-Fill, minmax(18.75rem, 1fr));
-`;
+import GridCardPreview from '../../Ui/Layout/GridCardPreview';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -62,7 +57,7 @@ const MainCardList = ({ filterOption, year }) => {
     getMainCardInfo();
   }, [dispatch, filterOption, year]);
   return (
-    <StyledCardDiv>
+    <GridCardPreview>
       {cardInfo.map((v) => (
         <StyledLink
           to={`/main/detail/${v.id}`}
@@ -78,7 +73,7 @@ const MainCardList = ({ filterOption, year }) => {
           ></MainCardPreview>
         </StyledLink>
       ))}
-    </StyledCardDiv>
+    </GridCardPreview>
   );
 };
 

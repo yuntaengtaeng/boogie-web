@@ -1,22 +1,16 @@
 import React from 'react';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 import CardPreview from '../../Ui/Card/CardPreview';
 
-const Group = styled.div`
-  gap: 1rem;
-  display: grid;
-  justify-items: center;
-  grid-template-columns: repeat(auto-Fill, minmax(300px, 1fr));
-`;
+import GridCardPreview from '../../Ui/Layout/GridCardPreview';
 
-const JobPostingGroup = ({ list = [], style }) => {
+const JobPostingGroup = ({ list = [] }) => {
   const navigate = useNavigate();
 
   return (
     <div>
-      <Group style={style}>
+      <GridCardPreview>
         {list.map((item) => (
           <CardPreview
             onClick={() => {
@@ -29,7 +23,7 @@ const JobPostingGroup = ({ list = [], style }) => {
             viewCount={item.viewCount}
           />
         ))}
-      </Group>
+      </GridCardPreview>
     </div>
   );
 };
