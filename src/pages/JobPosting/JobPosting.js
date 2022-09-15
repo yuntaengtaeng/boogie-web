@@ -109,10 +109,7 @@ const JobPosting = () => {
         onDeleteHandler={onDeleteHandler}
       />
       <VerticalSpace size="5rem" />
-      <JobPostingGroup
-        style={{ marginTop: '5rem' }}
-        list={jobPostingDataList}
-      />
+      <JobPostingGroup list={jobPostingDataList} />
       {isShowingFilterModal && (
         <FilterModal
           onClose={hideFilterModal}
