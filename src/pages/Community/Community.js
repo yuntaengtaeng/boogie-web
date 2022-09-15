@@ -13,6 +13,7 @@ import Card from '../../components/Ui/Card/Card';
 import uiSlce from '../../slices/ui';
 
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import useGetCategory from '../../hooks/useGetCategory';
 
 const Section = styled.section`
   display: flex;
@@ -38,8 +39,10 @@ const Community = () => {
   const { isMobile } = useDeviceDetect();
   const dispatch = useDispatch();
 
+  const categoryData = useGetCategory('community');
+
   const [selectedCategory, setSelectedCategory] = useState(1);
-  const [categoryData, setCategoryData] = useState([]);
+
   const [bestPickData, setBestPickData] = useState([]);
   const [pageNumbers, setPageNumbers] = useState({});
   const [postDatas, setPostDatas] = useState([]);
@@ -67,27 +70,6 @@ const Community = () => {
 
   const onCategorySelectHandler = useCallback((id) => {
     setSelectedCategory(id);
-  }, []);
-
-  useEffect(() => {
-    const getCommunityCategory = async () => {
-      try {
-        const {
-          data: { communityList },
-        } = await axios.get('api/category/community');
-
-        setCategoryData(communityList);
-      } catch (error) {
-        if (error.response) {
-          alert(error.response.data.message);
-          return;
-        }
-
-        alert(error.message);
-      }
-    };
-
-    getCommunityCategory();
   }, []);
 
   const getPostItem = useCallback(async () => {

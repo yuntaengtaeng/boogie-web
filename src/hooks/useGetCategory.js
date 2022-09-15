@@ -33,8 +33,6 @@ const useGetCategory = (code) => {
     }
   }, [code]);
 
-  console.log(categorys);
-
   return categorys;
 };
 
