@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
-
-import axios from 'axios';
 
 import OutLineButton from '../../Ui/OutLineButton';
 import DeleteOutLineButton from '../../Ui/DeleteOutLineButton';
 import Modal from '../../Ui/Modal/Modal';
 import Header from '../../Ui/Modal/Header';
 import FilterForm from './FilterForm';
+
+import useGetCategory from '../../../hooks/useGetCategory';
+import { arrayToDropdownData } from '../../../Utills/common';
 
 const FilterDiv = styled.div`
   display: flex;
@@ -26,10 +27,10 @@ const FilterOptionDiv = styled.div`
 `;
 
 const MainFilter = ({ filterOption, onFilterOptionHandler }) => {
-  const [plattformList, setPlattformList] = useState([]);
-  const [technologyList, setTechnologyList] = useState([]);
-  const [classList, setClassList] = useState([]);
   const [isShowingModal, setIsShowingModal] = useState(false);
+  const plattformList = arrayToDropdownData(useGetCategory('plattform'));
+  const technologyList = arrayToDropdownData(useGetCategory('technology'));
+  const classList = arrayToDropdownData(useGetCategory('class'));
 
   const showModal = () => {
     setIsShowingModal(true);
@@ -38,33 +39,6 @@ const MainFilter = ({ filterOption, onFilterOptionHandler }) => {
   const hideModal = () => {
     setIsShowingModal(false);
   };
-
-  useEffect(() => {
-    const renameKeys = (arr) => {
-      const rename = arr.map(({ id, name }) => ({
-        value: id,
-        name,
-      }));
-      return rename;
-    };
-
-    const getList = async () => {
-      try {
-        const [plattform, technology, classId] = await Promise.all([
-          await axios.get('api/category/plattform'),
-          await axios.get('api/category/technology'),
-          await axios.get('api/category/class'),
-        ]);
-
-        setPlattformList([...renameKeys(plattform.data.plattformList)]);
-        setTechnologyList([...renameKeys(technology.data.technologyList)]);
-        setClassList([...renameKeys(classId.data.classList)]);
-      } catch (e) {
-        alert(e.message);
-      }
-    };
-    getList();
-  }, []);
 
   const deleteArrayItem = useCallback((arr, item) => {
     const filter = arr.filter((v) => v !== item);

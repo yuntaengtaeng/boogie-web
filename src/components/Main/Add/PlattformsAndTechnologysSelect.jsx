@@ -5,7 +5,9 @@ import Button from '../../Ui/Button';
 import Line from '../../Ui/Line';
 import SearchSelect from '../../Ui/SearchSelect';
 import Chip from '../../Ui/Chip';
-import axios from 'axios';
+
+import useGetCategory from '../../../hooks/useGetCategory';
+import { arrayToDropdownData } from '../../../Utills/common';
 
 const StyledForm = styled.form`
   display: flex;
@@ -33,39 +35,15 @@ const PlattformsAndTechnologysSelect = ({
 }) => {
   const [plattforms, setPlattforms] = useState(isData ? data.plattform : []);
   const [technologys, setTechnologys] = useState(isData ? data.technology : []);
-  const [plattformList, setPlattformList] = useState([]);
-  const [technologyList, setTechnologyList] = useState([]);
+
+  const plattformList = arrayToDropdownData(useGetCategory('plattform'));
+  const technologyList = arrayToDropdownData(useGetCategory('technology'));
 
   useEffect(() => {
     if (plattforms.length === 0 || technologys.length === 0) {
       stateEmptying('plattformsAndTechnologys');
     }
   }, [plattforms, stateEmptying, technologys]);
-
-  useEffect(() => {
-    const renameKeys = (arr) => {
-      const rename = arr.map(({ id, name }) => ({
-        value: id,
-        name,
-      }));
-      return rename;
-    };
-
-    const getList = async () => {
-      try {
-        const [plattform, technology] = await Promise.all([
-          await axios.get('api/category/plattform'),
-          await axios.get('api/category/technology'),
-        ]);
-
-        setPlattformList([...renameKeys(plattform.data.plattformList)]);
-        setTechnologyList([...renameKeys(technology.data.technologyList)]);
-      } catch (e) {
-        alert(e.message);
-      }
-    };
-    getList();
-  }, []);
 
   const onPlattformsItemHandler = (e) => {
     const find = plattforms.find((element) => element.value === e.value);
