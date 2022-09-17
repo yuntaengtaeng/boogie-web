@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import Modal from '../../Ui/Modal/Modal';
-import axios from 'axios';
 import SearchSelect from '../../Ui/SearchSelect';
 import Button, { BUTTON_THEME } from '../../Ui/Button';
 import Chip from '../../Ui/Chip';
@@ -9,6 +8,8 @@ import Chip from '../../Ui/Chip';
 import Header from '../../Ui/Modal/Header';
 import useGetCategory from '../../../hooks/useGetCategory';
 import { arrayToDropdownData } from '../../../Utills/common';
+
+import { useJobState, useJobDispatch } from './Context';
 
 const Container = styled.div`
   width: 50vw;
@@ -31,7 +32,14 @@ const ChipsArea = styled.div`
   }
 `;
 
-const FilterModal = ({ onClose, onSubmit, options }) => {
+const FilterModal = () => {
+  const { options } = useJobState();
+  const jobDispatch = useJobDispatch();
+
+  const closeModal = () => {
+    jobDispatch({ type: 'CLOSE' });
+  };
+
   const { position, region } = options;
 
   const positionCategorys = useGetCategory('job');
@@ -106,13 +114,18 @@ const FilterModal = ({ onClose, onSubmit, options }) => {
     [selectedRegion]
   );
 
-  const applyButtonPressed = useCallback(() => {
-    onSubmit({ position: selectedPosition, region: selectedRegion });
-  }, [onSubmit, selectedPosition, selectedRegion]);
+  const applyButtonPressed = () => {
+    jobDispatch({
+      type: 'OVERWRITE',
+      position: selectedPosition,
+      region: selectedRegion,
+    });
+    jobDispatch({ type: 'CLOSE' });
+  };
 
   return (
     <Modal>
-      <Header onClose={onClose} />
+      <Header onClose={closeModal} />
       <Container>
         <SearchSelect
           options={positionData}
