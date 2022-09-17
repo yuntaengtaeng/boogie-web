@@ -6,8 +6,6 @@ import { useDispatch } from 'react-redux';
 import userSlice from '../../slices/user';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 
-import { FaUserGraduate } from 'react-icons/fa';
-
 import Web from './Header/Web';
 import Mobile from './Header/Mobile';
 
@@ -26,6 +24,12 @@ const StyledHeader = styled.header`
   z-index: 5;
 `;
 
+const StyledImg = styled.img`
+  width: 1.6rem;
+  height: 1.6rem;
+  margin-right: 0.4rem;
+`;
+
 const StyledTitle = styled.h3`
   margin-right: auto;
   font-weight: bold;
@@ -36,10 +40,6 @@ const StyledLink = styled(Link)`
   color: ${BLACK};
   display: flex;
   align-items: center;
-
-  svg {
-    margin-right: 0.4rem;
-  }
 `;
 
 const Header = () => {
@@ -65,8 +65,11 @@ const Header = () => {
     <StyledHeader>
       <StyledTitle>
         <StyledLink to="/">
-          <FaUserGraduate size={16} />
-          졸업작품전
+          <StyledImg
+            alt="로고이미지"
+            src={process.env.PUBLIC_URL + '/asset/header/logo.png'}
+          />
+          소프트웨어공학과
         </StyledLink>
       </StyledTitle>
       {isMobile ? (
