@@ -6,6 +6,10 @@ import SearchSelect from '../../Ui/SearchSelect';
 import Chip from '../../Ui/Chip';
 import Input from '../../Ui/Input';
 
+import useGetCategory from '../../../hooks/useGetCategory';
+import { arrayToDropdownData } from '../../../Utills/common';
+import { useMainState, useMainDispatch } from './MainContext';
+
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -36,67 +40,74 @@ const StyledDiv = styled.div`
   }
 `;
 
-const FilterForm = ({
-  plattformList,
-  technologyList,
-  classList,
-  onFilterOptionHandler,
-  item,
-  hideModal,
-}) => {
-  const [name, setName] = useState(item.name || '');
-  const [plattform, setPlattform] = useState(item.plattform);
-  const [technology, setTechnology] = useState(item.technology);
-  const [classId, setClassId] = useState(item.classId);
+const FilterForm = () => {
+  const plattformList = arrayToDropdownData(useGetCategory('plattform'));
+  const technologyList = arrayToDropdownData(useGetCategory('technology'));
+  const classList = arrayToDropdownData(useGetCategory('class'));
+
+  const dispatch = useMainDispatch();
+  const { options } = useMainState();
+  const { name, plattform, technology, classId } = options;
+
+  const [selectedName, setSelectedName] = useState(name || '');
+  const [selectedPlattform, setSelectedPlattform] = useState(plattform);
+  const [selectedTechnology, setSelectedTechnology] = useState(technology);
+  const [selectedClassId, setSelectedClassId] = useState(classId);
 
   const onPlatformsItemHandler = (e) => {
-    const find = plattform.find((element) => element.name === e.name);
+    const find = selectedPlattform.find((element) => element.name === e.name);
     if (!find) {
-      const item = [...plattform, e];
-      setPlattform(item);
+      const item = [...selectedPlattform, e];
+      setSelectedPlattform(item);
     } else {
-      alert('중복입니다.');
+      return;
     }
   };
 
   const onTechnologysItemHandler = (e) => {
-    const find = technology.find((element) => element.value === e.value);
+    const find = selectedTechnology.find(
+      (element) => element.value === e.value
+    );
     if (!find) {
-      const item = [...technology, e];
-      setTechnology(item);
+      const item = [...selectedTechnology, e];
+      setSelectedTechnology(item);
     } else {
-      alert('중복입니다.');
+      return;
     }
   };
 
   const onClassIdItemHandler = (e) => {
-    setClassId(e);
+    setSelectedClassId(e);
   };
 
   const onPlatformsDeleteHandler = (e) => {
     const filter = plattform.filter((v) => v !== e);
-    setPlattform(filter);
+    setSelectedPlattform(filter);
   };
 
   const onTechnologyDeleteHandler = (e) => {
     const filter = technology.filter((v) => v !== e);
-    setTechnology(filter);
+    setSelectedTechnology(filter);
   };
 
   const onClassIdDeleteHandler = () => {
-    setClassId({});
+    setSelectedClassId({});
   };
 
   const onHandlerSubmit = (e) => {
     e.preventDefault();
 
-    onFilterOptionHandler({
-      name,
-      plattform,
-      technology,
-      classId,
+    dispatch({
+      type: 'OVERWRITE',
+      name: selectedName,
+      plattform: selectedPlattform,
+      technology: selectedTechnology,
+      classId: selectedClassId,
     });
-    hideModal();
+
+    dispatch({
+      type: 'CLOSE',
+    });
   };
   return (
     <StyledForm onSubmit={onHandlerSubmit}>
@@ -104,9 +115,9 @@ const FilterForm = ({
         style={{ width: '100%', marginBottom: '64px' }}
         type="text"
         placeholder="이름"
-        value={name}
+        value={selectedName}
         onChange={(e) => {
-          setName(e.target.value);
+          setSelectedName(e.target.value);
         }}
       ></Input>
       <SearchSelect
@@ -118,11 +129,11 @@ const FilterForm = ({
         options={plattformList}
         onSelectItemHandler={onPlatformsItemHandler}
       ></SearchSelect>
-      {plattform && (
+      {selectedPlattform && (
         <StyledDiv>
-          {plattform.map((v) => (
+          {selectedPlattform.map((v) => (
             <div
-              style={{ marginRight: '8px', marginBottom: '8px' }}
+              style={{ marginRight: '0.5rem', marginBottom: '1rem' }}
               key={v.name}
             >
               <Chip onDeleteHandler={() => onPlatformsDeleteHandler(v)}>
@@ -141,11 +152,11 @@ const FilterForm = ({
         options={technologyList}
         onSelectItemHandler={onTechnologysItemHandler}
       ></SearchSelect>
-      {technology && (
+      {selectedTechnology && (
         <StyledDiv>
-          {technology.map((v) => (
+          {selectedTechnology.map((v) => (
             <div
-              style={{ marginRight: '8px', marginBottom: '8px' }}
+              style={{ marginRight: '0.5rem', marginBottom: '1rem' }}
               key={v.name}
             >
               <Chip onDeleteHandler={() => onTechnologyDeleteHandler(v)}>
@@ -164,11 +175,11 @@ const FilterForm = ({
         options={classList}
         onSelectItemHandler={onClassIdItemHandler}
       ></SearchSelect>
-      {Object.keys(classId).length !== 0 && (
+      {Object.keys(selectedClassId).length !== 0 && (
         <StyledDiv>
-          <div style={{ marginRight: '8px', marginBottom: '8px' }}>
+          <div style={{ marginRight: '0.5rem', marginBottom: '1rem' }}>
             <Chip onDeleteHandler={() => onClassIdDeleteHandler()}>
-              {classId.name}
+              {selectedClassId.name}
             </Chip>
           </div>
         </StyledDiv>

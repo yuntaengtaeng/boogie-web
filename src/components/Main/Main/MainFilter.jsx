@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import OutLineButton from '../../Ui/OutLineButton';
@@ -7,8 +7,7 @@ import Modal from '../../Ui/Modal/Modal';
 import Header from '../../Ui/Modal/Header';
 import FilterForm from './FilterForm';
 
-import useGetCategory from '../../../hooks/useGetCategory';
-import { arrayToDropdownData } from '../../../Utills/common';
+import { useMainState, useMainDispatch } from './MainContext';
 
 const FilterDiv = styled.div`
   display: flex;
@@ -26,57 +25,37 @@ const FilterOptionDiv = styled.div`
   gap: 1rem;
 `;
 
-const MainFilter = ({ filterOption, onFilterOptionHandler }) => {
-  const [isShowingModal, setIsShowingModal] = useState(false);
-  const plattformList = arrayToDropdownData(useGetCategory('plattform'));
-  const technologyList = arrayToDropdownData(useGetCategory('technology'));
-  const classList = arrayToDropdownData(useGetCategory('class'));
+const MainFilter = () => {
+  const { isModalShowing, options } = useMainState();
+  const { name, plattform, technology, classId } = options;
+  const dispatch = useMainDispatch();
 
   const showModal = () => {
-    setIsShowingModal(true);
+    dispatch({
+      type: 'OPEN',
+    });
   };
-
-  const hideModal = () => {
-    setIsShowingModal(false);
-  };
-
-  const deleteArrayItem = useCallback((arr, item) => {
-    const filter = arr.filter((v) => v !== item);
-    return filter;
-  }, []);
 
   const filterSatisfied =
-    !!filterOption.name ||
-    filterOption.plattform.length !== 0 ||
-    filterOption.technology.length !== 0 ||
-    Object.keys(filterOption.classId).length !== 0;
+    !!name ||
+    plattform.length !== 0 ||
+    technology.length !== 0 ||
+    Object.keys(classId).length !== 0;
 
   const onDeleteClassNameHandler = () => {
-    const clone = { ...filterOption };
-    clone.classId = {};
-
-    onFilterOptionHandler(clone);
+    dispatch({ type: 'REMOVE_CLASSID' });
   };
 
   const onDeleteNameHandler = () => {
-    const clone = { ...filterOption };
-    clone.name = '';
-
-    onFilterOptionHandler(clone);
+    dispatch({ type: 'REMOVE_NAME' });
   };
 
-  const onDeletePlattformHandler = (v) => {
-    const clone = { ...filterOption };
-    clone.plattform = deleteArrayItem(clone.plattform, v);
-
-    onFilterOptionHandler(clone);
+  const onDeletePlattformHandler = (item) => {
+    dispatch({ type: 'REMOVE_PLATTFORM', item: item });
   };
 
-  const onDeleteTechnologyHandler = (v) => {
-    const clone = { ...filterOption };
-    clone.technology = deleteArrayItem(clone.technology, v);
-
-    onFilterOptionHandler(clone);
+  const onDeleteTechnologyHandler = (item) => {
+    dispatch({ type: 'REMOVE_TECHNOLOGY', item: item });
   };
 
   return (
@@ -94,26 +73,26 @@ const MainFilter = ({ filterOption, onFilterOptionHandler }) => {
         </StyledSpan>
         {filterSatisfied && (
           <FilterOptionDiv>
-            {Object.keys(filterOption.classId).length !== 0 && (
+            {Object.keys(classId).length !== 0 && (
               <DeleteOutLineButton
                 onDeleteHandler={() => {
                   onDeleteClassNameHandler();
                 }}
               >
-                {filterOption.classId.name}
+                {classId.name}
               </DeleteOutLineButton>
             )}
-            {filterOption.name && (
+            {name && (
               <DeleteOutLineButton
                 onDeleteHandler={() => {
                   onDeleteNameHandler();
                 }}
               >
-                {filterOption.name}
+                {name}
               </DeleteOutLineButton>
             )}
-            {filterOption.plattform.length !== 0 &&
-              filterOption.plattform.map((v) => (
+            {plattform.length !== 0 &&
+              plattform.map((v) => (
                 <DeleteOutLineButton
                   key={v.value}
                   onDeleteHandler={() => {
@@ -123,8 +102,8 @@ const MainFilter = ({ filterOption, onFilterOptionHandler }) => {
                   {v.name}
                 </DeleteOutLineButton>
               ))}
-            {filterOption.technology.length !== 0 &&
-              filterOption.technology.map((v) => (
+            {technology.length !== 0 &&
+              technology.map((v) => (
                 <DeleteOutLineButton
                   key={v.value}
                   onDeleteHandler={() => {
@@ -137,21 +116,10 @@ const MainFilter = ({ filterOption, onFilterOptionHandler }) => {
           </FilterOptionDiv>
         )}
       </FilterDiv>
-      {isShowingModal && (
+      {isModalShowing && (
         <Modal>
-          <Header
-            onClose={() => {
-              hideModal();
-            }}
-          ></Header>
-          <FilterForm
-            plattformList={plattformList}
-            technologyList={technologyList}
-            classList={classList}
-            onFilterOptionHandler={onFilterOptionHandler}
-            item={filterOption}
-            hideModal={hideModal}
-          ></FilterForm>
+          <Header></Header>
+          <FilterForm></FilterForm>
         </Modal>
       )}
     </>
