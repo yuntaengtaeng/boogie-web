@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { BLACK } from '../../../constants/color';
 import { useParams, useNavigate } from 'react-router-dom';
 import MainCardPreview from '../Main/MainCardPreview';
+import GridCardPreview from '../../Ui/Layout/GridCardPreview';
+import VerticalSpace from '../../Ui/Layout/VerticalSpace';
 import axios from 'axios';
 
 const Wrap = styled.div`
@@ -16,19 +16,6 @@ const Title = styled.h1`
   font-weight: bold;
   margin: 2.5rem 0rem;
   text-align: center;
-`;
-
-const StyledCardDiv = styled.div`
-  display: grid;
-  justify-items: center;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-Fill, minmax(18.75rem, 1fr));
-  margin-bottom: 8rem;
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: ${BLACK};
 `;
 
 const Recommend = () => {
@@ -64,7 +51,7 @@ const Recommend = () => {
       {!!recommendData.length && (
         <>
           <Title>이런 작품은 어때요?</Title>
-          <StyledCardDiv>
+          <GridCardPreview>
             {recommendData.map((data) => (
               <div onClick={moveDetail.bind(this, data.id)} key={data.id}>
                 <MainCardPreview
@@ -76,7 +63,8 @@ const Recommend = () => {
                 />
               </div>
             ))}
-          </StyledCardDiv>
+          </GridCardPreview>
+          <VerticalSpace size="8rem" />
         </>
       )}
     </Wrap>

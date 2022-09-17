@@ -7,28 +7,27 @@ import { BLACK } from '../../../constants/color';
 import MainCardPreview from './MainCardPreview';
 import uiSlce from '../../../slices/ui';
 
-const StyledCardDiv = styled.div`
-  display: grid;
-  justify-items: center;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-Fill, minmax(18.75rem, 1fr));
-`;
+import GridCardPreview from '../../Ui/Layout/GridCardPreview';
+
+import { useMainState } from './MainContext';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: ${BLACK};
 `;
 
-const MainCardList = ({ filterOption, year }) => {
+const MainCardList = () => {
   const dispatch = useDispatch();
+  const { options } = useMainState();
+  const { name, plattform, technology, classId, year } = options;
   const [cardInfo, setCardInfo] = useState([]);
 
   useEffect(() => {
     const getMainCardInfo = async () => {
-      const plattformQureys = filterOption.plattform.map(
+      const plattformQureys = plattform.map(
         ({ value }) => `plattform=${value}`
       );
-      const technologyQureys = filterOption.technology.map(
+      const technologyQureys = technology.map(
         ({ value }) => `technology=${value}`
       );
 
@@ -36,12 +35,12 @@ const MainCardList = ({ filterOption, year }) => {
 
       let URL = `api/senier-project/list?year=${year.getFullYear()}`;
 
-      if (!!filterOption.name) {
-        URL += `&name=${filterOption.name}`;
+      if (!!name) {
+        URL += `&name=${name}`;
       }
 
-      if (Object.keys(filterOption.classId).length !== 0) {
-        URL += `&classId=${filterOption.classId.value}`;
+      if (Object.keys(classId).length !== 0) {
+        URL += `&classId=${classId.value}`;
       }
 
       if (!!queries) {
@@ -60,9 +59,9 @@ const MainCardList = ({ filterOption, year }) => {
       }
     };
     getMainCardInfo();
-  }, [dispatch, filterOption, year]);
+  }, [classId, dispatch, name, options, plattform, technology, year]);
   return (
-    <StyledCardDiv>
+    <GridCardPreview>
       {cardInfo.map((v) => (
         <StyledLink
           to={`/main/detail/${v.id}`}
@@ -78,7 +77,7 @@ const MainCardList = ({ filterOption, year }) => {
           ></MainCardPreview>
         </StyledLink>
       ))}
-    </StyledCardDiv>
+    </GridCardPreview>
   );
 };
 

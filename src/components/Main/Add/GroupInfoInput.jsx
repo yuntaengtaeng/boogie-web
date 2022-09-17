@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
-import axios from 'axios';
 
 import styled from 'styled-components';
 import { GRAY } from '../../../constants/color';
@@ -10,6 +9,9 @@ import Input from '../../Ui/Input';
 import Button from '../../Ui/Button';
 import Line from '../../Ui/Line';
 import Dropdown from '../../Ui/Dropdown';
+
+import useGetCategory from '../../../hooks/useGetCategory';
+import { arrayToDropdownData } from '../../../Utills/common';
 
 const StyledForm = styled.form`
   display: flex;
@@ -36,33 +38,13 @@ const GroupInfoInput = ({
     isData ? new Date(new Date().setFullYear(data.year)) : new Date()
   );
   const [name, setGroutName] = useState(isData ? data.groupName : '');
-  const [classList, setClassList] = useState([]);
   const [classId, setClassId] = useState(isData ? data.classInfo.id : null);
   const satisfied = name === '' || classId === null || startDate === null;
 
   const currentDate = new Date();
   const maxYear = currentDate.getFullYear() + 1;
 
-  useEffect(() => {
-    const renameKeys = (arr) => {
-      const rename = arr.map(({ id, name }) => ({
-        value: id,
-        name,
-      }));
-      return rename;
-    };
-
-    const getList = async () => {
-      try {
-        const response = await axios.get('api/category/class');
-
-        setClassList([...renameKeys(response.data.classList)]);
-      } catch (e) {
-        alert(e.message);
-      }
-    };
-    getList();
-  }, []);
+  const classList = arrayToDropdownData(useGetCategory('class'));
 
   const onDateChange = (e) => {
     setStartDate(e);

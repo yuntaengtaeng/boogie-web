@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useReducer, useEffect } from 'react';
+import React, { useState, useCallback, useReducer } from 'react';
 import styled from 'styled-components';
 import Block from '../../components/Ui/Block';
 import Button, { BUTTON_THEME } from '../../components/Ui/Button';
@@ -9,7 +9,8 @@ import AddressSearch from '../../components/Jobposting/Add/AddressSearch';
 import { format } from 'date-fns';
 import FloatingButton from '../../components/Jobposting/Add/FloatingButton';
 import DetailInfo from '../../components/Jobposting/Add/DetailInfo';
-import axios from 'axios';
+import useGetCategory from '../../hooks/useGetCategory';
+import { arrayToDropdownData } from '../../Utills/common';
 
 const Container = styled.form`
   background-color: ${LIGHT_GRAY};
@@ -80,27 +81,9 @@ const Edit = ({ onSubmitHandler, storedValue, submitButtonText }) => {
   );
 
   const [isShowingAddressModal, setIsShowingAddressModal] = useState(false);
-  const [positionData, setPositionData] = useState([]);
 
-  useEffect(() => {
-    const getPositionData = async () => {
-      try {
-        const {
-          data: { jobCategoryList },
-        } = await axios.get('api/category/job');
-        const renameJobCategoryList = jobCategoryList.map(({ id, name }) => ({
-          value: id,
-          name,
-        }));
-
-        setPositionData(renameJobCategoryList);
-      } catch (error) {
-        alert('채용 포지션 목록을 불러오지 못 했습니다. 다시 시도해주세요.');
-      }
-    };
-
-    getPositionData();
-  }, []);
+  const positionCategorys = useGetCategory('job');
+  const positionData = arrayToDropdownData(positionCategorys);
 
   const addressSearchButtonPressed = useCallback(() => {
     setIsShowingAddressModal(true);

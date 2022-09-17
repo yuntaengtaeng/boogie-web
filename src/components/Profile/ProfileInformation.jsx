@@ -10,6 +10,9 @@ import SelectGroub from './SelectGroub';
 import ToogleButton from '../Ui/ToogleButton';
 import Line from '../Ui/Line';
 
+import { arrayToDropdownData } from '../../Utills/common';
+import useGetCategory from '../../hooks/useGetCategory';
+
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -99,33 +102,8 @@ const ProfileInformation = ({ info, onProfileInfoHandler }) => {
   const [isOn, setIsOn] = useState(isOpen);
   const [selectedJob, setSelectedJob] = useState(positions || []);
   const [selectedTchnl, setSelectedTchn] = useState(technologies || []);
-  const [positionList, setPositionList] = useState([]);
-  const [technologyList, setTechnologyList] = useState([]);
-
-  useEffect(() => {
-    const renameKeys = (arr) => {
-      const rename = arr.map(({ id, name }) => ({
-        value: id,
-        name,
-      }));
-      return rename;
-    };
-
-    const getList = async () => {
-      try {
-        const [job, technology] = await Promise.all([
-          await axios.get('api/category/job'),
-          await axios.get('api/category/technology'),
-        ]);
-
-        setPositionList([...renameKeys(job.data.jobCategoryList)]);
-        setTechnologyList([...renameKeys(technology.data.technologyList)]);
-      } catch (e) {
-        alert(e.message);
-      }
-    };
-    getList();
-  }, []);
+  const technologyList = arrayToDropdownData(useGetCategory('technology'));
+  const positionList = arrayToDropdownData(useGetCategory('job'));
 
   const onAddImageHandler = (date) => {
     setProfileImage(date);
@@ -189,7 +167,8 @@ const ProfileInformation = ({ info, onProfileInfoHandler }) => {
       selectedTchnl,
     };
     onProfileInfoHandler(item);
-  }, [selectedJob, selectedTchnl, profileImage]);
+  }, [onProfileInfoHandler, profileImage, selectedJob, selectedTchnl]);
+
   return (
     <StyledDiv>
       <StyledTitle>프로필</StyledTitle>

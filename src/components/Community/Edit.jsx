@@ -6,7 +6,8 @@ import Line from '../../components/Ui/Line';
 import Input from '../../components/Ui/Input';
 import Dropdown from '../../components/Ui/Dropdown';
 
-import axios from 'axios';
+import useGetCategory from '../../hooks/useGetCategory';
+import { arrayToDropdownData } from '../../Utills/common';
 
 import { LIGHT_GRAY, WHITE } from '../../constants/color';
 
@@ -53,7 +54,9 @@ const Textarea = styled.textarea`
 `;
 
 const Edit = ({ onSubmitHandler, storedValue, submitButtonText }) => {
-  const [categoryData, setCategoryData] = useState([]);
+  const communityCategorys = useGetCategory('community');
+  const categoryData = arrayToDropdownData(communityCategorys);
+
   const [postData, setPostData] = useState(
     storedValue || {
       categoryId: 1,
@@ -61,23 +64,6 @@ const Edit = ({ onSubmitHandler, storedValue, submitButtonText }) => {
       content: '',
     }
   );
-
-  useEffect(() => {
-    const getCommunityCategory = async () => {
-      const {
-        data: { communityList },
-      } = await axios.get('api/category/community');
-
-      const renameCategoryData = communityList.map(({ id, name }) => ({
-        name,
-        value: id,
-      }));
-
-      setCategoryData(renameCategoryData);
-    };
-
-    getCommunityCategory();
-  }, []);
 
   const onSubmit = useCallback(
     async (event) => {

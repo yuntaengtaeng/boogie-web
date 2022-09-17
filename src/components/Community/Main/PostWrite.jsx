@@ -55,7 +55,6 @@ const PostWrite = () => {
   const isLoggiend = !!email;
 
   const movePostWrite = useCallback(() => {
-    console.log(isLoggiend);
     if (!isLoggiend) {
       setIsShowingLoginModal(true);
       return;
