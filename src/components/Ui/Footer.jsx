@@ -106,7 +106,7 @@ const Footer = () => {
         ))}
       </Top>
       <TitleImg
-        src="http://seoilsw.kr/data/designImages/TITLE_logo2_1634370376.png"
+        src={`${process.env.PUBLIC_URL}/asset/footer/title.png`}
         alt="title"
       />
       <Detail>
