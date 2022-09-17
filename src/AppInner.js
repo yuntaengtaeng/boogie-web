@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import Header from './components/Ui/Header';
+import Footer from './components/Ui/Footer';
 
 import PrivateRoute from './components/Route/PrivateRoute';
 import AdminRoute from './components/Route/AdminRoute';
@@ -189,6 +190,7 @@ const AppInner = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
+      <Footer />
     </BrowserRouter>
   );
 };
