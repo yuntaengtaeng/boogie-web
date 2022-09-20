@@ -48,7 +48,7 @@ const AddProfileImage = ({ image, onAddImageHandler, isMe }) => {
 
   useEffect(() => {
     onAddImageHandler(userImage);
-  }, [onAddImageHandler, userImage]);
+  }, [userImage]);
 
   return (
     <StyledDiv>

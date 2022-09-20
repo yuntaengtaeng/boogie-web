@@ -167,7 +167,7 @@ const ProfileInformation = ({ info, onProfileInfoHandler }) => {
       selectedTchnl,
     };
     onProfileInfoHandler(item);
-  }, [onProfileInfoHandler, profileImage, selectedJob, selectedTchnl]);
+  }, [profileImage, selectedJob, selectedTchnl]);
 
   return (
     <StyledDiv>
