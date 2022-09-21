@@ -69,6 +69,10 @@ const TitleImg = styled.img`
 const MainText = styled.p`
   font-size: 0.9rem;
   margin-top: 1rem;
+
+  @media all and (max-width: 479px) {
+    font-size: 0.625rem;
+  }
 `;
 
 const TextWrap = styled.div`
