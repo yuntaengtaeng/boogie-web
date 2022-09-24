@@ -11,8 +11,6 @@ import YearManagement from '../components/Administrate/Contents/YearManagement';
 
 import TextButton from '../components/Ui/TextButton';
 
-import BasicTable, { TableBodyCell } from '../components/Ui/BasicTable';
-
 const Container = styled.div`
   display: flex;
   width: 90%;
@@ -28,19 +26,6 @@ const Content = styled.div`
   flex: 0.7;
   margin-left: 2rem;
 `;
-
-const dataSource = [
-  {
-    key: 'a+b',
-    a: '201803922',
-    b: '고윤태',
-  },
-  {
-    key: 'a+b2',
-    a: '201803922',
-    b: '지승한',
-  },
-];
 
 const MENUS = ['학번 이름 수정', '관리자 추가', '배너 관리', '연도 관리'];
 
@@ -68,7 +53,7 @@ const Administrate = () => {
         return <BannerManagement />;
 
       case '연도 관리':
-        return <BannerManagement />;
+        return <YearManagement />;
 
       default:
         return null;
