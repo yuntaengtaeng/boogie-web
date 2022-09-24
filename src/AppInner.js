@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense } from 'react';
+import React, { useEffect, Suspense, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -47,6 +47,8 @@ const NotFound = React.lazy(() => import('./pages/NotFound'));
 const AppInner = () => {
   const isLoading = useSelector((state) => state.ui.isLoading);
   const dispatch = useDispatch();
+
+  const [isReady, setIsReady] = useState(false);
 
   //api 요청 후 accessToekn이 유효하지 않다면 재발급 후 다시 요청, refreshToken이 유효하지 않다면 사용자에게 다시 로그인 요청
   useEffect(() => {
@@ -105,6 +107,7 @@ const AppInner = () => {
       const refreshToken = localStorage.getItem('refreshToken');
 
       if (!refreshToken) {
+        setIsReady(true);
         return;
       }
 
@@ -139,10 +142,9 @@ const AppInner = () => {
 
         //새로운 토큰 저장
         dispatch(userSlice.actions.setUser(data));
+        setIsReady(true);
       } catch (error) {
         localStorage.removeItem('refreshToken');
-      } finally {
-        console.log('finally');
       }
     };
 
@@ -153,43 +155,51 @@ const AppInner = () => {
     <BrowserRouter>
       {isLoading && <Loading />}
       <Header />
-      <Suspense fallback={<Loading />}>
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/main/detail/:id" element={<MainDetail />} />
-          <Route element={<AdminRoute />}>
-            <Route path="/main/add" element={<MainAdd />} />
-          </Route>
-          <Route element={<AdminRoute />}>
-            <Route path="/main/amend/:id" element={<MainAmend />} />
-          </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/join" element={<Join />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/community/detail/:id" element={<CommunityDetail />} />
-          <Route element={<PrivateRoute />}>
-            <Route path="/community/add" element={<CommunityAdd />} />
-          </Route>
-          <Route element={<PrivateRoute />}>
-            <Route path="/community/amend/:id" element={<CommunityAmend />} />
-          </Route>
-          <Route path="/jobposting" element={<JobPosting />} />
-          <Route path="/jobposting/detail/:id" element={<JobPostingDetail />} />
-          <Route element={<PrivateRoute />}>
-            <Route path="/jobposting/add" element={<JobPostingAdd />} />
-          </Route>
-          <Route element={<PrivateRoute />}>
-            <Route path="/jobposting/amend/:id" element={<JobPostingAmend />} />
-          </Route>
-          <Route path="/profile/detail/:id" element={<ProfileDetail />} />
-          <Route element={<AdminRoute />}>
-            <Route path="/admin/add" element={<AddAdmin />} />
-          </Route>
-          <Route path="/noaccess" element={<NoAccess />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
+      {isReady && (
+        <Suspense fallback={<Loading />}>
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/main/detail/:id" element={<MainDetail />} />
+            <Route element={<AdminRoute />}>
+              <Route path="/main/add" element={<MainAdd />} />
+            </Route>
+            <Route element={<AdminRoute />}>
+              <Route path="/main/amend/:id" element={<MainAmend />} />
+            </Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="/join" element={<Join />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/community/detail/:id" element={<CommunityDetail />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/community/add" element={<CommunityAdd />} />
+            </Route>
+            <Route element={<PrivateRoute />}>
+              <Route path="/community/amend/:id" element={<CommunityAmend />} />
+            </Route>
+            <Route path="/jobposting" element={<JobPosting />} />
+            <Route
+              path="/jobposting/detail/:id"
+              element={<JobPostingDetail />}
+            />
+            <Route element={<PrivateRoute />}>
+              <Route path="/jobposting/add" element={<JobPostingAdd />} />
+            </Route>
+            <Route element={<PrivateRoute />}>
+              <Route
+                path="/jobposting/amend/:id"
+                element={<JobPostingAmend />}
+              />
+            </Route>
+            <Route path="/profile/detail/:id" element={<ProfileDetail />} />
+            <Route element={<AdminRoute />}>
+              <Route path="/admin/add" element={<AddAdmin />} />
+            </Route>
+            <Route path="/noaccess" element={<NoAccess />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      )}
       <Footer />
     </BrowserRouter>
   );
