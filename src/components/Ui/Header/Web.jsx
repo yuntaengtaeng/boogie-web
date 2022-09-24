@@ -47,7 +47,7 @@ const Web = ({ onLogoutHandler }) => {
         </StyledLi>
         {isAdmin && (
           <StyledLi>
-            <StyledLink to="/admin/add">관리자 추가</StyledLink>
+            <StyledLink to="/administrate">페이지 관리</StyledLink>
           </StyledLi>
         )}
         {isLoggiend ? (

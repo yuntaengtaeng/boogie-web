@@ -40,7 +40,7 @@ const JobPostingAmend = React.lazy(() => import('./pages/JobPosting/Amend'));
 
 const ProfileDetail = React.lazy(() => import('./pages/Profile/Detail'));
 
-const AddAdmin = React.lazy(() => import('./pages/Admin/Add'));
+const Administrate = React.lazy(() => import('./pages/Administrate'));
 
 const NoAccess = React.lazy(() => import('./pages/NoAccess'));
 
@@ -202,7 +202,7 @@ const AppInner = () => {
               </Route>
               <Route path="/profile/detail/:id" element={<ProfileDetail />} />
               <Route element={<AdminRoute />}>
-                <Route path="/admin/add" element={<AddAdmin />} />
+                <Route path="/administrate" element={<Administrate />} />
               </Route>
               <Route path="/noaccess" element={<NoAccess />} />
               <Route path="*" element={<NotFound />} />
