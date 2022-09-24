@@ -4,6 +4,7 @@ import CategoryButton from './CategoryButton';
 import styled from 'styled-components';
 
 import useDeviceDetect from '../../../hooks/useDeviceDetect';
+import TextButton from '../../Ui/TextButton';
 
 const StyledH2 = styled.h2`
   font-size: 0.9rem;
@@ -17,14 +18,14 @@ const CategoryList = ({ categorys, selectedId, onClick }) => {
     <>
       {!isMobile && <StyledH2>카테고리</StyledH2>}
       {categorys.map((category) => (
-        <CategoryButton
+        <TextButton
           key={category.id}
           onClick={onClick}
           isSelected={selectedId === category.id}
           id={category.id}
         >
           {category.name}
-        </CategoryButton>
+        </TextButton>
       ))}
     </>
   );
