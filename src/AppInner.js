@@ -11,6 +11,8 @@ import AdminRoute from './components/Route/AdminRoute';
 
 import Loading from './components/Ui/Loading';
 
+import BaseLayout from './components/Ui/Layout/BaseLayout';
+
 import { useSelector, useDispatch } from 'react-redux';
 import userSlice from './slices/user';
 
@@ -155,51 +157,59 @@ const AppInner = () => {
     <BrowserRouter>
       {isLoading && <Loading />}
       <Header />
-      {isReady && (
-        <Suspense fallback={<Loading />}>
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/main/detail/:id" element={<MainDetail />} />
-            <Route element={<AdminRoute />}>
-              <Route path="/main/add" element={<MainAdd />} />
-            </Route>
-            <Route element={<AdminRoute />}>
-              <Route path="/main/amend/:id" element={<MainAmend />} />
-            </Route>
-            <Route path="/login" element={<Login />} />
-            <Route path="/join" element={<Join />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/community" element={<Community />} />
-            <Route path="/community/detail/:id" element={<CommunityDetail />} />
-            <Route element={<PrivateRoute />}>
-              <Route path="/community/add" element={<CommunityAdd />} />
-            </Route>
-            <Route element={<PrivateRoute />}>
-              <Route path="/community/amend/:id" element={<CommunityAmend />} />
-            </Route>
-            <Route path="/jobposting" element={<JobPosting />} />
-            <Route
-              path="/jobposting/detail/:id"
-              element={<JobPostingDetail />}
-            />
-            <Route element={<PrivateRoute />}>
-              <Route path="/jobposting/add" element={<JobPostingAdd />} />
-            </Route>
-            <Route element={<PrivateRoute />}>
+      <BaseLayout>
+        {isReady && (
+          <Suspense fallback={<Loading />}>
+            <Routes>
+              <Route path="/" element={<Main />} />
+              <Route path="/main/detail/:id" element={<MainDetail />} />
+              <Route element={<AdminRoute />}>
+                <Route path="/main/add" element={<MainAdd />} />
+              </Route>
+              <Route element={<AdminRoute />}>
+                <Route path="/main/amend/:id" element={<MainAmend />} />
+              </Route>
+              <Route path="/login" element={<Login />} />
+              <Route path="/join" element={<Join />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/community" element={<Community />} />
               <Route
-                path="/jobposting/amend/:id"
-                element={<JobPostingAmend />}
+                path="/community/detail/:id"
+                element={<CommunityDetail />}
               />
-            </Route>
-            <Route path="/profile/detail/:id" element={<ProfileDetail />} />
-            <Route element={<AdminRoute />}>
-              <Route path="/admin/add" element={<AddAdmin />} />
-            </Route>
-            <Route path="/noaccess" element={<NoAccess />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-      )}
+              <Route element={<PrivateRoute />}>
+                <Route path="/community/add" element={<CommunityAdd />} />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                <Route
+                  path="/community/amend/:id"
+                  element={<CommunityAmend />}
+                />
+              </Route>
+              <Route path="/jobposting" element={<JobPosting />} />
+              <Route
+                path="/jobposting/detail/:id"
+                element={<JobPostingDetail />}
+              />
+              <Route element={<PrivateRoute />}>
+                <Route path="/jobposting/add" element={<JobPostingAdd />} />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                <Route
+                  path="/jobposting/amend/:id"
+                  element={<JobPostingAmend />}
+                />
+              </Route>
+              <Route path="/profile/detail/:id" element={<ProfileDetail />} />
+              <Route element={<AdminRoute />}>
+                <Route path="/admin/add" element={<AddAdmin />} />
+              </Route>
+              <Route path="/noaccess" element={<NoAccess />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        )}
+      </BaseLayout>
       <Footer />
     </BrowserRouter>
   );
