@@ -8,6 +8,7 @@ const RESPONSE_RESULT_MAP = {
   technology: 'technologyList',
   community: 'communityList',
   class: 'classList',
+  year: 'yearList',
 };
 
 const useGetCategory = (code) => {
