@@ -1,10 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
 
 import styled from 'styled-components';
-import { WHITE, GRAY } from '../../../constants/color';
+import { WHITE } from '../../../constants/color';
 
 import Button from '../../Ui/Button';
 import MainHeader from './MainHeader';
@@ -12,7 +11,7 @@ import MainFilter from './MainFilter';
 import MainCardList from './MainCardList';
 import SelectYear from '../../Ui/SelectYear';
 
-import { useMainState, useMainDispatch } from './MainContext';
+import { useMainDispatch } from './MainContext';
 
 const StyledSection = styled.section`
   padding: 6.25rem 9.375rem;
