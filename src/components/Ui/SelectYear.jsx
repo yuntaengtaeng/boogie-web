@@ -1,27 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import Dropdown from './Dropdown';
+import useGetCategory from '../../hooks/useGetCategory';
+import styled from 'styled-components';
+import { GRAY } from '../../constants/color';
 
-const SelectYear = ({ startingYear, lastYear, defaultYear, ...props }) => {
+const StyledDropdown = styled(Dropdown)`
+  width: 6rem;
+  height: 1.875rem;
+  margin: 1.25rem 0;
+  padding: 0;
+  padding-left: 0.75rem;
+  border: 1px solid ${GRAY};
+`;
+
+const SelectYear = ({ ...props }) => {
   const [options, setOptions] = useState([]);
-  const index = lastYear - startingYear + 1;
+
+  const getYearList = useGetCategory('year');
 
   useEffect(() => {
-    for (let i = 0; i < index; i++) {
-      const clone = options;
-      const item = {
-        name: startingYear + i,
-        value: startingYear + i,
-      };
-      clone.push(item);
-      setOptions(clone);
-    }
-  }, [index, options, startingYear]);
+    const changeFormat = (arr) => {
+      const item = arr.map((v) => ({
+        name: v,
+        value: v,
+      }));
+      return item;
+    };
 
-  console.log(options);
+    setOptions(changeFormat(getYearList));
+  }, [getYearList]);
 
   return (
     <div>
-      <Dropdown options={options} {...props}></Dropdown>
+      <StyledDropdown
+        options={options}
+        defaultValue={props?.defaultValue || new Date().getFullYear()}
+        placeholder={props?.defaultValue || new Date().getFullYear()}
+        {...props}
+      ></StyledDropdown>
     </div>
   );
 };
