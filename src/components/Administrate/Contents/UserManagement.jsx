@@ -1,7 +1,14 @@
 import React from 'react';
 
+import Context from '../UserManagement/Context';
+import Inner from '../UserManagement/Inner';
+
 const UserManagement = () => {
-  return <div>UserManagement</div>;
+  return (
+    <Context>
+      <Inner />
+    </Context>
+  );
 };
 
 export default UserManagement;
