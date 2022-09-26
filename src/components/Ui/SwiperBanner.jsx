@@ -17,6 +17,7 @@ const Wrap = styled.div`
 const StyledImg = styled.img`
   border-radius: 1rem;
   opacity: 0.8;
+  float: right;
 
   @media all and (max-width: 479px) {
     width: 100%;
