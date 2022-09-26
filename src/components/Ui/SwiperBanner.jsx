@@ -16,14 +16,9 @@ const Wrap = styled.div`
 
 const StyledImg = styled.img`
   border-radius: 1rem;
-  opacity: 0.8;
-  float: right;
-
-  @media all and (max-width: 479px) {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 `;
 
 const SwiperBanner = ({ src }) => {
@@ -43,6 +38,7 @@ const SwiperBanner = ({ src }) => {
       <Swiper
         modules={[Pagination, Autoplay, A11y]}
         slidesPerView={1}
+        spaceBetween={50}
         pagination={{ clickable: true }}
         scrollbar={{ draggable: true }}
         autoplay={{ delay: 2500 }}
