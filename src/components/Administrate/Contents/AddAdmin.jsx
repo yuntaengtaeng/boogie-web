@@ -7,6 +7,8 @@ import Form from '../AddAdmin/Form';
 import AdminTable from '../AddAdmin/AdminTable';
 import axios from 'axios';
 
+import { addKeyList } from '../../../Utills/common';
+
 const Wrap = styled.div`
   display: flex;
 `;
@@ -24,13 +26,6 @@ const AddAdmin = () => {
   const { accessToken } = useSelector((state) => state.user);
   const [list, setList] = useState([]);
 
-  const addKeyList = (list) => {
-    return list.map((data) => ({
-      ...data,
-      key: data.id,
-    }));
-  };
-
   const getAdminList = async () => {
     try {
       const {
@@ -41,7 +36,7 @@ const AddAdmin = () => {
         },
       });
 
-      const addKeyAdminList = addKeyList(adminList);
+      const addKeyAdminList = addKeyList(adminList, 'id');
 
       setList(addKeyAdminList);
     } catch (error) {
@@ -74,7 +69,7 @@ const AddAdmin = () => {
         },
       });
 
-      const addKeyAdminList = addKeyList(adminList);
+      const addKeyAdminList = addKeyList(adminList, 'id');
       setList(addKeyAdminList);
     } catch (error) {
       if (error.response) {
