@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import SwiperBanner from '../../Ui/SwiperBanner';
+import axios from 'axios';
 
 const StyledHeader = styled.header`
   display: flex;
@@ -35,18 +37,22 @@ const StyledP = styled.p`
   }
 `;
 
-const StyledImg = styled.img`
-  border-radius: 1rem;
-  opacity: 0.8;
-
-  @media all and (max-width: 479px) {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
-`;
-
 const MainHeader = () => {
+  const [bannerImgs, setBannerImgs] = useState([]);
+
+  useEffect(() => {
+    const getImgUrl = async () => {
+      try {
+        const imgList = await axios.get(`api/banner`);
+        setBannerImgs(imgList.data.bannerImageList);
+      } catch (e) {
+        alert(e.message);
+      }
+    };
+
+    getImgUrl();
+  }, []);
+
   return (
     <StyledHeader>
       <StyledDiv>
@@ -55,10 +61,7 @@ const MainHeader = () => {
         <StyledStrong>찾는 가장 쉬운 방법</StyledStrong>
         <StyledP>작품을 구경해보세요.</StyledP>
       </StyledDiv>
-      <StyledImg
-        alt="메인이미지"
-        src={process.env.PUBLIC_URL + '/asset/main/main.png'}
-      />
+      <SwiperBanner src={bannerImgs}></SwiperBanner>
     </StyledHeader>
   );
 };
