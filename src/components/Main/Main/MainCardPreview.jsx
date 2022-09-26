@@ -9,7 +9,7 @@ const IMAGE_MAX_LENGTH = 3;
 
 const StyledTechnologyStackDiv = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-around;
   margin-top: 20px;
 `;
