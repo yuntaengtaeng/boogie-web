@@ -11,7 +11,7 @@ import MainFilter from './MainFilter';
 import MainCardList from './MainCardList';
 import SelectYear from '../../Ui/SelectYear';
 
-import { useMainDispatch } from './MainContext';
+import { useMainState, useMainDispatch } from './MainContext';
 
 const StyledSection = styled.section`
   padding: 6.25rem 9.375rem;
@@ -34,6 +34,7 @@ const StyledSpan = styled.span`
 
 const Inner = () => {
   const { isAdmin } = useSelector((state) => state.user);
+  const { options } = useMainState();
   const dispatch = useMainDispatch();
 
   const onChangeDate = (date) => {
@@ -46,6 +47,7 @@ const Inner = () => {
       <MainHeader></MainHeader>
       <StyledDiv>
         <SelectYear
+          year={options.year}
           onChange={(event) => onChangeDate(event.target.value)}
         ></SelectYear>
         <StyledSpan>
