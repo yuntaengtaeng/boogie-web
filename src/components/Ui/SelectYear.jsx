@@ -34,8 +34,7 @@ const SelectYear = ({ ...props }) => {
     <div>
       <StyledDropdown
         options={options}
-        defaultValue={props?.defaultValue || new Date().getFullYear()}
-        placeholder={props?.defaultValue || new Date().getFullYear()}
+        value={props?.year || new Date().getFullYear()}
         {...props}
       ></StyledDropdown>
     </div>
