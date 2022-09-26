@@ -4,12 +4,12 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import uiSlce from '../../../slices/ui';
+import Button from '../../Ui/Button';
 import OutLineButton from '../../Ui/OutLineButton';
-import { Document, Page, pdfjs } from 'react-pdf';
 import { VscFilePdf } from 'react-icons/vsc';
 import useDeviceDetect from '../../../hooks/useDeviceDetect';
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+import MobilePdfViewer from './MobilePdfViewer';
+import PdfViewer from './PdfViewer';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -29,25 +29,6 @@ const StyledArticle = styled.article`
   display: inline-flex;
   margin-bottom: 3.125rem;
   align-items: center;
-`;
-
-const StyledPdfDiv = styled.div`
-  margin: 0 3.125rem;
-  box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.19),
-    0 6px 6px rgba(0, 0, 0, 0.23);
-
-  @media all and (max-width: 479px) {
-    margin: 0 0.6rem;
-  }
-
-  ${({ isMobile }) =>
-    isMobile &&
-    `
-      .react-pdf__Page__canvas{
-        width:50vw !important;
-        height: 100% !important;
-      }
-    `}
 `;
 
 const DownloadButton = styled(OutLineButton)`
@@ -70,6 +51,7 @@ const ProjectDesign = () => {
   const [totalPages, setTotalPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [projectDesign, setProjectDesign] = useState('');
+  const [isShowingMobilePdf, setIsShowingMobilePdf] = useState(false);
 
   useEffect(() => {
     const getDesignUrl = async () => {
@@ -108,36 +90,64 @@ const ProjectDesign = () => {
   return (
     <>
       {!!projectDesign && (
-        <StyledDiv>
-          <StyledArticle>
-            <OutLineButton
-              onClick={() => previousPage()}
-              disabled={pageNumber === 1}
-            >
-              &lt;
-            </OutLineButton>
-            <StyledPdfDiv isMobile={isMobile}>
-              <Document
-                file={projectDesign}
-                onLoadSuccess={onDocumentLoadSuccess}
+        <>
+          {isMobile ? (
+            <>
+              <Button
+                onClick={() => {
+                  setIsShowingMobilePdf(true);
+                }}
               >
-                <Page pageNumber={pageNumber} />
-              </Document>
-            </StyledPdfDiv>
-            <OutLineButton
-              onClick={() => nextPage()}
-              disabled={pageNumber === totalPages}
-            >
-              &gt;
-            </OutLineButton>
-          </StyledArticle>
-          <DownLoadTag href={projectDesign} download>
-            <DownloadButton>
-              <VscFilePdf size={16} />
-              PDF 다운로드
-            </DownloadButton>
-          </DownLoadTag>
-        </StyledDiv>
+                PDF보기
+              </Button>
+              {isShowingMobilePdf && (
+                <MobilePdfViewer
+                  onClose={() => {
+                    setIsShowingMobilePdf(false);
+                  }}
+                  previousPage={previousPage}
+                  nextPage={nextPage}
+                >
+                  <PdfViewer
+                    isMobile={isMobile}
+                    projectDesign={projectDesign}
+                    onDocumentLoadSuccess={onDocumentLoadSuccess}
+                    pageNumber={pageNumber}
+                  ></PdfViewer>
+                </MobilePdfViewer>
+              )}
+            </>
+          ) : (
+            <StyledDiv>
+              <StyledArticle>
+                <OutLineButton
+                  onClick={() => previousPage()}
+                  disabled={pageNumber === 1}
+                >
+                  &lt;
+                </OutLineButton>
+                <PdfViewer
+                  isMobile={isMobile}
+                  projectDesign={projectDesign}
+                  onDocumentLoadSuccess={onDocumentLoadSuccess}
+                  pageNumber={pageNumber}
+                ></PdfViewer>
+                <OutLineButton
+                  onClick={() => nextPage()}
+                  disabled={pageNumber === totalPages}
+                >
+                  &gt;
+                </OutLineButton>
+              </StyledArticle>
+              <DownLoadTag href={projectDesign} download>
+                <DownloadButton>
+                  <VscFilePdf size={16} />
+                  PDF 다운로드
+                </DownloadButton>
+              </DownLoadTag>
+            </StyledDiv>
+          )}
+        </>
       )}
     </>
   );
