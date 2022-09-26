@@ -7,7 +7,7 @@ const init = {
     plattform: [],
     technology: [],
     classId: {},
-    year: new Date(),
+    year: new Date().getFullYear(),
   },
 };
 

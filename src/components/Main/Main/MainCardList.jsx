@@ -33,7 +33,7 @@ const MainCardList = () => {
 
       const queries = [...plattformQureys, ...technologyQureys].join('&');
 
-      let URL = `api/senier-project/list?year=${year.getFullYear()}`;
+      let URL = `api/senier-project/list?year=${year}`;
 
       if (!!name) {
         URL += `&name=${name}`;
