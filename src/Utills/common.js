@@ -5,3 +5,10 @@ export const arrayToDropdownData = (arr) => {
     value: id,
   }));
 };
+
+export const addKeyList = (list, keyName) => {
+  return list.map((data) => ({
+    ...data,
+    key: data[keyName],
+  }));
+};
