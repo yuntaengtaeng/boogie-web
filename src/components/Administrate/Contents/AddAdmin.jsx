@@ -62,7 +62,7 @@ const AddAdmin = () => {
   const delteHandler = async (id) => {
     try {
       const {
-        Data: { adminList },
+        data: { adminList },
       } = await axios.delete(`api/management/admin/${id}`, {
         headers: {
           authorization: `${process.env.REACT_APP_JWT_KEY} ${accessToken}`,
