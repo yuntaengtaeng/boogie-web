@@ -26,7 +26,7 @@ const Title = () => {
         setGroupName(response.data.groupName);
         setYearName(response.data.year);
       } catch (e) {
-        alert(e.message);
+        alert(e.response.message);
       }
     };
     getGroupName();

@@ -40,7 +40,7 @@ const DemonstrationVideo = () => {
         );
         setVideoUrl(announced.data.link);
       } catch (e) {
-        alert(e.message);
+        alert(e.response.message);
       } finally {
         dispatch(uiSlce.actions.hideLoading());
       }

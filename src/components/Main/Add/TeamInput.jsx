@@ -181,7 +181,7 @@ const TeamInput = ({
         }
       );
     } catch (e) {
-      alert(e.message);
+      alert(e.response.message);
     } finally {
       dispatch(uiSlice.actions.hideLoading());
     }

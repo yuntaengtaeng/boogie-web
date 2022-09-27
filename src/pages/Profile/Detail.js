@@ -163,7 +163,7 @@ const Detail = () => {
         setHasProfile(!profileInfo.hasNotProfile);
       }
     } catch (e) {
-      alert(e.message);
+      alert(e.response.message);
     } finally {
       setRequestComplete(true);
       dispatch(uiSlce.actions.hideLoading());
@@ -240,7 +240,7 @@ const Detail = () => {
 
       setProfileDataState(profileInfo);
     } catch (e) {
-      alert(e.message);
+      alert(e.response.message);
     } finally {
       dispatch(uiSlce.actions.hideLoading());
     }

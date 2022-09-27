@@ -53,7 +53,7 @@ const MainCardList = () => {
         const mainCardInfo = await axios.get(URL);
         setCardInfo(mainCardInfo.data.senierProjectList);
       } catch (e) {
-        alert(e.message);
+        alert(e.response.message);
       } finally {
         dispatch(uiSlce.actions.hideLoading());
       }

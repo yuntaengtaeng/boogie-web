@@ -144,7 +144,7 @@ const ProfileInformation = ({ info, onProfileInfoHandler }) => {
       });
       setIsOn(response.data.isOpen);
     } catch (e) {
-      alert(e.message);
+      alert(e.response.message);
     } finally {
       dispatch(uiSlice.actions.hideLoading());
     }

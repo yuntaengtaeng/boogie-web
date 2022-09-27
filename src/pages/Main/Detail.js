@@ -80,7 +80,7 @@ const Detail = () => {
 
       navigate(-1);
     } catch (e) {
-      alert(e.message);
+      alert(e.response.message);
     } finally {
       dispatch(uiSlice.actions.hideLoading());
     }

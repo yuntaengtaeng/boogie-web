@@ -125,7 +125,7 @@ const ProfileCreationPage = ({ setHasProfile }) => {
 
       setHasProfile(response.data.isPost);
     } catch (e) {
-      alert(e.message);
+      alert(e.response.message);
     } finally {
       hideModal();
     }

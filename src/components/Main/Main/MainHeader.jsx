@@ -46,7 +46,7 @@ const MainHeader = () => {
         const imgList = await axios.get(`api/banner`);
         setBannerImgs(imgList.data.bannerImageList);
       } catch (e) {
-        alert(e.message);
+        alert(e.response.message);
       }
     };
 

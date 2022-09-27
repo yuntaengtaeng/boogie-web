@@ -46,7 +46,7 @@ const Amend = () => {
 
         setProjectData(clone);
       } catch (e) {
-        alert(e.message);
+        alert(e.response.message);
       }
     };
     getProjectInfo();
@@ -67,7 +67,7 @@ const Amend = () => {
 
       navigate(-1);
     } catch (e) {
-      alert(e.message);
+      alert(e.response.message);
     } finally {
       dispatch(uiSlice.actions.hideLoading());
     }

@@ -62,7 +62,7 @@ const ProjectDesign = () => {
         );
         setProjectDesign(design.data.projectDesign);
       } catch (e) {
-        alert(e.message);
+        alert(e.response.message);
       } finally {
         dispatch(uiSlce.actions.hideLoading());
       }

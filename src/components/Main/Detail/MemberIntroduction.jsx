@@ -40,7 +40,7 @@ const MemberIntroduction = () => {
         );
         setMemberList(member.data.senierProjectMemberList);
       } catch (e) {
-        alert(e.message);
+        alert(e.response.message);
       } finally {
         dispatch(uiSlce.actions.hideLoading());
       }
