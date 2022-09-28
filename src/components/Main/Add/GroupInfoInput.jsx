@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import DatePicker from 'react-datepicker';
 
 import styled from 'styled-components';
 import { GRAY } from '../../../constants/color';
@@ -9,6 +8,7 @@ import Input from '../../Ui/Input';
 import Button from '../../Ui/Button';
 import Line from '../../Ui/Line';
 import Dropdown from '../../Ui/Dropdown';
+import SelectYear from '../../Ui/SelectYear';
 
 import useGetCategory from '../../../hooks/useGetCategory';
 import { arrayToDropdownData } from '../../../Utills/common';
@@ -19,9 +19,9 @@ const StyledForm = styled.form`
   margin: 3.125rem 0;
 `;
 
-const StyleDatePicker = styled(DatePicker)`
-  width: 14.75rem;
-  height: 1.875rem;
+const StyleSelectYear = styled(SelectYear)`
+  width: 15.5rem;
+  height: 2rem;
   margin: 1rem 0;
   padding: 0;
   padding-left: 0.75rem;
@@ -35,14 +35,11 @@ const GroupInfoInput = ({
   isData,
 }) => {
   const [startDate, setStartDate] = useState(
-    isData ? new Date(new Date().setFullYear(data.year)) : new Date()
+    isData ? data.year : new Date().getFullYear()
   );
   const [name, setGroutName] = useState(isData ? data.groupName : '');
   const [classId, setClassId] = useState(isData ? data.classInfo.id : null);
   const satisfied = name === '' || classId === null || startDate === null;
-
-  const currentDate = new Date();
-  const maxYear = currentDate.getFullYear() + 1;
 
   const classList = arrayToDropdownData(useGetCategory('class'));
 
@@ -59,7 +56,7 @@ const GroupInfoInput = ({
 
     onGroupInfoHandler({
       groupName: name,
-      year: startDate.getFullYear(),
+      year: startDate,
       classId: classId,
     });
   };
@@ -82,12 +79,9 @@ const GroupInfoInput = ({
             setGroutName(e.target.value);
           }}
         />
-        <StyleDatePicker
-          selected={startDate}
-          onChange={(e) => onDateChange(e)}
-          showYearPicker
-          dateFormat="yyyy"
-          maxDate={new Date(`01-01-${maxYear}`)}
+        <StyleSelectYear
+          year={startDate}
+          onChange={(event) => onDateChange(event.target.value)}
         />
         <Dropdown
           value={classId || ''}
