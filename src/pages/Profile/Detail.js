@@ -112,6 +112,15 @@ const Detail = () => {
   const [isProfileShownPermit, setIsProfileShownPermit] = useState(false);
   const [requestComplete, setRequestComplete] = useState(false);
   const [hasProfile, setHasProfile] = useState(false);
+  const [isShowingModal, setIsShowingModal] = useState(false);
+
+  const showModal = () => {
+    setIsShowingModal(true);
+  };
+
+  const hideModal = () => {
+    setIsShowingModal(false);
+  };
 
   const renameKeys = (arr = []) => {
     const rename = arr.map(({ id, name }) => ({
@@ -172,7 +181,7 @@ const Detail = () => {
 
   useEffect(() => {
     getProfileData();
-  }, []);
+  }, [isShowingModal]);
 
   const onProfileInfoHandler = (e) => {
     const clone = { ...profileData };
@@ -265,6 +274,9 @@ const Detail = () => {
             <StyledForm onSubmit={onHandlerSubmit}>
               <ProfileInformation
                 info={profileData}
+                showModal={showModal}
+                hideModal={hideModal}
+                isShowingModal={isShowingModal}
                 onProfileInfoHandler={onProfileInfoHandler}
               ></ProfileInformation>
 

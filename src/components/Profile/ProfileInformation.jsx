@@ -9,15 +9,26 @@ import AddProfileImage from './AddProfileImage';
 import SelectGroub from './SelectGroub';
 import ToogleButton from '../Ui/ToogleButton';
 import Line from '../Ui/Line';
+import Button from '../Ui/Button';
 
 import { arrayToDropdownData } from '../../Utills/common';
 import useGetCategory from '../../hooks/useGetCategory';
+import ChangeNickNameModal from './ChangeNickNameModal';
 
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   @media all and (max-width: 479px) {
     width: 80vw;
+  }
+`;
+
+const NickNameDiv = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  margin: 2rem 0;
+  @media all and (max-width: 479px) {
+    flex-wrap: wrap;
   }
 `;
 
@@ -77,14 +88,21 @@ const StyledP = styled.p`
 `;
 
 const InfoBlock = styled.div`
+  display: inline-flex;
   @media all and (max-width: 479px) {
-    display: inline-flex;
+    display: flex;
     justify-content: space-around;
     margin-bottom: 2rem;
   }
 `;
 
-const ProfileInformation = ({ info, onProfileInfoHandler }) => {
+const ProfileInformation = ({
+  showModal,
+  hideModal,
+  isShowingModal,
+  info,
+  onProfileInfoHandler,
+}) => {
   const dispatch = useDispatch();
 
   const {
@@ -180,7 +198,18 @@ const ProfileInformation = ({ info, onProfileInfoHandler }) => {
             isMe={isMe}
           ></AddProfileImage>
           <StyledCenterDiv>
-            <StyledP style={{ margin: '2rem 0' }}>{nickname}</StyledP>
+            <NickNameDiv>
+              <StyledP>{nickname}</StyledP>
+              {isMe && (
+                <Button
+                  onClick={() => {
+                    showModal();
+                  }}
+                >
+                  닉네임 변경
+                </Button>
+              )}
+            </NickNameDiv>
             <StyledP>{id}</StyledP>
           </StyledCenterDiv>
         </InfoBlock>
@@ -223,6 +252,9 @@ const ProfileInformation = ({ info, onProfileInfoHandler }) => {
         </StyledRightDiv>
       </StyledSpan>
       <Line styled={{ margin: '1rem 0' }} />
+      {isShowingModal && (
+        <ChangeNickNameModal hideModal={hideModal}></ChangeNickNameModal>
+      )}
     </StyledDiv>
   );
 };
