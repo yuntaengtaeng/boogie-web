@@ -21,7 +21,7 @@ const BannerList = ({ list, onDeleteHandler }) => {
       {list.map((v, i) => {
         return (
           <Tooltip
-            tooltipStyle={{ marginLeft: '50rem', marginTop: '25rem' }}
+            tooltipStyle={{ marginLeft: '50rem', marginTop: '10rem' }}
             style={{ marginTop: '1rem' }}
             key={v.fileName}
             message={<StyledImg src={v.image}></StyledImg>}
