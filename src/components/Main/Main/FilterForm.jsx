@@ -184,7 +184,9 @@ const FilterForm = () => {
           </div>
         </StyledDiv>
       )}
-      <Button type="submit">적용</Button>
+      <Button style={{ marginTop: '5rem' }} type="submit">
+        적용
+      </Button>
     </StyledForm>
   );
 };
